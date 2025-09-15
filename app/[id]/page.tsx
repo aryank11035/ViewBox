@@ -10,10 +10,10 @@ type Params = {
     const { id } = await params;
     const {imdb_id} = await getMovieById(id)
     const showData = await getMovieByImdbId(imdb_id)
-    console.log(showData)
+  
     return (
     <>
-      <section className="max-w-[1800px] min-h-screen mx-auto border-l border-r  border-white/10  pt-20">
+      <section className="max-w-[1800px] min-h-screen mx-auto border-l border-r  border-white/10  pt-20 bg-[#111111] z-10 relative">
         <img src={showData.primaryImage.url} />
        
       </section>

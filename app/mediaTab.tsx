@@ -3,13 +3,13 @@ import { getShowData } from "./ts/getData";
 
 export default async function MediaTab(){
     const movies = await getShowData() 
-    
+    console.log(movies)
     return (
         
 
                 
                 <div className="mx-auto grid gap-5 mt-15 
-                    grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 place-items-center jus">
+                    grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 place-items-center ">
                     {movies.results.map((movie: any) => (
                     <Link href={`/${movie.id}`}  key={movie.id} className="block w-full"> 
                         <div 
@@ -21,7 +21,7 @@ export default async function MediaTab(){
                         </div>
                         <div className="group relative w-full h-full rounded-xs overflow-hidden shadow-xs 
                                         duration-300 transform
-                                        hover:translate-x-10 hover:-translate-y-18 hover:z-10">
+                                        hover:translate-x-8 hover:-translate-y-14 hover:z-10">
                             {/* Background Image */}
                             <img
                             src={movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : '/placeholder-movie.jpg'}
