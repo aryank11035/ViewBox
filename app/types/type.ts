@@ -5,3 +5,6 @@ export type MovieCard = {
     overview : string,
     releaseDate : string
 }
+
+
+

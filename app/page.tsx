@@ -9,7 +9,7 @@ export default async function Home() {
     
   const movies = await getShowData()
   const tv = await getShowData('tv')
-  
+
   return (
 
       <>

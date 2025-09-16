@@ -28,7 +28,7 @@ const SwiperComponent =({movies} : {movies:any}) => {
                     >
                     {movies.map((movie: any) => (
                         <SwiperSlide key={movie.id} className='w-fit '>
-                            <Link href={`/${movie.id}`}  key={movie.id} className="block max-w-[300px]  mx-auto" > 
+                            <Link href={`/${movie.mediaType}/${movie.id}`}  key={movie.id} className="block max-w-[300px]  mx-auto" > 
                                 <div className="relative w-full aspect-[2/3]  cursor-pointer mt-15 mb-10">
                                     <div className="absolute inset-0 rounded-xs border border-white/10 flex items-end">
                                         <h1 className="text-2xl pl-5 pb-5 font-bold text-white/20">+ Add to Watchlist</h1>
