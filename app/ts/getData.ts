@@ -17,7 +17,10 @@ export async function getShowData(mediaType : 'movie' | 'tv' =  'movie'){
       return []
     }
     const data = await res.json()
-    return data
+    return data.results.map((item : any) => ({
+      ...item,
+      mediaType : mediaType,
+    }))
   }catch(err){
     console.error(err)
     return []
@@ -28,7 +31,7 @@ export async function getShowData(mediaType : 'movie' | 'tv' =  'movie'){
 
 
 
-export async function getMovieById(id: number) {
+export async function getMovieById(id: number,mediaType: 'movie' | 'tv' =  'movie') {
 
   try {
     const res = await fetch(`https://api.themoviedb.org/3/movie/${id}`, options);

@@ -1,9 +1,14 @@
 
 import Link from "next/link";
 import MediaTab from "./mediaTab";
+import { getShowData } from "./ts/getData";
+
+
 
 export default async function Home() {
     
+  const movies = await getShowData()
+  const tv = await getShowData('tv')
   
   return (
 
@@ -19,33 +24,42 @@ export default async function Home() {
         </section>
         <section className="max-w-[1800px] min-h-screen mx-auto border-l border-r  border-white/10 px-5 py-10 bg-[#111111] relative  ">
      
-            <div className="flex flex-col w-full gap-5 md:flex-row md:w-fit">
-
-                <div className="relative w-full md:w-fit h-fit">
-                  <div className="hidden md:block
-                      absolute inset-0 
-                      border border-[rgba(255,255,255,0.2)]
-                      bg-[repeating-linear-gradient(45deg,rgba(255,255,255,0.1)_0,rgba(255,255,255,0.1)_1px,transparent_0,transparent_50%)]
-                      bg-[size:10px_10px] 
-                      bg-fixed">
-                  </div>
-                  <button className="cursor-pointer relative transform border md:text-left text-xl md:text-4xl font-bold font-sans px-4 py-3 bg-white text-[#111111] text-center w-full md:w-fit translate-x-3 -translate-y-3 hover:z-10 transition-all duration-300 hover:translate-x-0 hover:translate-y-0  active:translate-x-0 active:-translate-y-0 active:bg-transparent active:text-white active:border-[rgba(0,0,0,0.2)]">
-                    Popular Movies
-                  </button>
-                </div>
-                <div className="relative w-full md:w-fit h-fit">
-                  <div className="absolute inset-0 
-                      border border-[rgba(255,255,255,0.2)]
-                      bg-[repeating-linear-gradient(45deg,rgba(255,255,255,0.1)_0,rgba(255,255,255,0.1)_1px,transparent_0,transparent_50%)]
-                      bg-[size:10px_10px] 
-                      bg-fixed">
-                  </div>
-                  <button className="cursor-pointer relative transform border md:text-left text-xl md:text-4xl font-bold font-sans px-4 py-3 bg-white text-[#111111] text-center w-full md:w-fit translate-x-3 -translate-y-3 hover:z-10 transition-all duration-300 hover:translate-x-0 hover:translate-y-0 active:translate-x-0 active:-translate-y-0 active:bg-transparent active:text-white active:border-[rgba(0,0,0,0.2)]">
-                    Popular Tv Shows
-                  </button>
-                </div>
+         
+            <div className="w-full h-fit">
+              <div className="relative w-full md:w-fit h-fit md:ml-7">
+                    <div className="hidden md:block
+                        absolute inset-0 
+                        border border-[rgba(255,255,255,0.2)
+                        bg-[repeating-linear-gradient(45deg,rgba(255,255,255,0.1)_0,rgba(255,255,255,0.1)_1px,transparent_0,transparent_50%)]
+                        bg-[size:10px_10px] 
+                        bg-fixed">
+                    </div>
+                    <div className="cursor-pointer relative transform border md:text-left text-2xl md:text-4xl font-bold font-sans px-4 py-3 bg-white text-[#111111] text-center w-full md:w-fit md:translate-x-3 md:-translate-y-3 hover:z-10 transition-all duration-300 hover:translate-x-0 hover:translate-y-0  active:translate-x-0 active:-translate-y-0 active:bg-transparent active:text-white active:border-[rgba(0,0,0,0.2)]">
+                      Popular Movies
+                    </div>
+              </div>
+              <MediaTab movies={movies} />
+                <h1 className="block md:hidden text-white/20 font-medium text-2xl text-center mb-10">{`Swipe >>` }</h1>
             </div>
-            <MediaTab />
+            <div className="w-full h-fit">
+              <div className="relative w-full md:w-fit h-fit md:ml-7">
+                    <div className="hidden md:block
+                        absolute inset-0 
+                        border border-[rgba(255,255,255,0.2)]
+                        bg-[repeating-linear-gradient(45deg,rgba(255,255,255,0.1)_0,rgba(255,255,255,0.1)_1px,transparent_0,transparent_50%)]
+                        bg-[size:10px_10px] 
+                        bg-fixed">
+                    </div>
+                    <div className="cursor-pointer relative transform border md:text-left text-2xl md:text-4xl font-bold font-sans px-4 py-3 bg-white text-[#111111] text-center w-full md:w-fit md:translate-x-3 md:-translate-y-3 hover:z-10 transition-all duration-300 hover:translate-x-0 hover:translate-y-0  active:translate-x-0 active:-translate-y-0 active:bg-transparent active:text-white active:border-[rgba(0,0,0,0.2)]">
+                      Popular Tv Shows
+                    </div>
+              </div>
+              <MediaTab  movies={tv} />
+              <h1 className="block md:hidden text-white/20 font-medium text-2xl text-center mb-10">{`Swipe >>` }</h1>
+              
+            </div>
+        
+
         </section>
       </>
    
