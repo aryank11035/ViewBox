@@ -19,17 +19,17 @@ export default async function Home() {
           <div className=" mx-auto w-fit min-h-screen text-3xl md:text-5xl font-bold font-sans text-center flex items-center flex-col justify-center">
             <h1>Track the Films You have Watched.</h1>
             <h1>Save those you want to see.</h1>
-            <button className="text-xl border border-green-600 bg-green-600 px-3 py-2 mt-10 rounded-xs md:text-2xl md:px-6 md:py-4 hover:bg-[#111111] hover:text-white hover:border-white/10 duration-300 hover:scale-95">Get Started!-it's free</button>
+            <button className="text-xl shadow-xl shadow-black/50 border border-green-600 bg-green-600 px-3 py-2 mt-10 rounded-xs md:text-2xl md:px-6 md:py-4 hover:bg-[#111111] hover:text-white hover:border-white/10 duration-300 hover:scale-95">Get Started!-it's free</button>
           </div>
         </section>
         <section className="max-w-[1800px] min-h-screen mx-auto border-l border-r  border-white/10 px-5 py-10 bg-[#111111] relative  ">
      
          
             <div className="w-full h-fit">
-              <div className="relative w-full md:w-fit h-fit md:ml-7">
+              <div className="relative w-full md:w-fit h-fit md:ml-7  shadow-xl shadow-black/50">
                     <div className="hidden md:block
                         absolute inset-0 
-                        border border-[rgba(255,255,255,0.2)
+                        border border-[rgba(255,255,255,0.2)]
                         bg-[repeating-linear-gradient(45deg,rgba(255,255,255,0.1)_0,rgba(255,255,255,0.1)_1px,transparent_0,transparent_50%)]
                         bg-[size:10px_10px] 
                         bg-fixed">
@@ -42,7 +42,7 @@ export default async function Home() {
                 <h1 className="block md:hidden text-white/20 font-medium text-2xl text-center mb-10">{`Swipe >>` }</h1>
             </div>
             <div className="w-full h-fit">
-              <div className="relative w-full md:w-fit h-fit md:ml-7">
+              <div className="relative w-full md:w-fit h-fit md:ml-7 shadow-xl shadow-black/50">
                     <div className="hidden md:block
                         absolute inset-0 
                         border border-[rgba(255,255,255,0.2)]

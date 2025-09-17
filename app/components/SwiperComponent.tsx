@@ -22,13 +22,15 @@ const SwiperComponent =({movies} : {movies:any}) => {
                     breakpoints={{
                         320: { slidesPerView: 1 },   // Small phones
                         640: { slidesPerView: 2 },   // Bigger phones
-                        1024: { slidesPerView: 4 },  // Tablets & laptops
-                        1280: { slidesPerView: 5 },  // Large desktops
+                        1024: { slidesPerView: 3 },  // Tablets & laptops
+                        1200 : {slidesPerView : 4},
+                        1500: { slidesPerView: 5 },  // Large desktops
+                        
                     }}
                     >
                     {movies.map((movie: any) => (
                         <SwiperSlide key={movie.id} className='w-fit '>
-                            <Link href={`/${movie.mediaType}/${movie.id}`}  key={movie.id} className="block max-w-[300px]  mx-auto" > 
+                            <Link href={`/${movie.mediaType}/${movie.id}`}  key={movie.id} className="block max-w-[300px]  mx-auto shadow-xl shadow-black/30" > 
                                 <div className="relative w-full aspect-[2/3]  cursor-pointer mt-15 mb-10">
                                     <div className="absolute inset-0 rounded-xs border border-white/10 flex items-end">
                                         <h1 className="text-2xl pl-5 pb-5 font-bold text-white/20">+ Add to Watchlist</h1>

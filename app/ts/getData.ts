@@ -48,18 +48,20 @@ export async function getMovieById(id: number,mediaType: 'movie' | 'tv' =  'movi
 }
 
 
-// export async function getMovieByImdbId(mediaType : 'movie' | 'tvSeries' = 'movie') {
-
-//   try {
-//     const res = await fetch(`https://api.imdbapi.dev/titles`);
-//     if (!res.ok) {
-//       console.error("Error retrieving movie data");
-//       return null;
-//     }
-//     const data = await res.json();
-//     return data.titles.filter((item : any) => item.type === mediaType);
-//   } catch (err) {
-//     console.error(err);
-//     return null;
-//   }
-// }
+export async function getSearchData(query : string,mediaType : 'movie' | 'tv' | 'multi'= 'multi'){
+  try {
+    const res = await fetch(`https://api.themoviedb.org/3/search/${mediaType}?query=${encodeURIComponent(query)}`,options)
+    if(!res.ok){
+      console.error('Error Fetching Data')
+      return {message : 'There typed no Movies'}
+    }
+    const data = await res.json()
+    return data.results.map((item : any) => ({
+      ...item,
+      mediaType : mediaType,
+    }))
+  } catch(err){
+    console.error(err)
+    return null
+  }
+}
