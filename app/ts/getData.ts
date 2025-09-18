@@ -48,19 +48,37 @@ export async function getMovieById(id: number,mediaType: 'movie' | 'tv' =  'movi
 }
 
 
-export async function getSearchData(query : string,mediaType : 'movie' | 'tv' | 'multi'= 'multi'){
+export async function getSearchData(query : string,mediatype : string ){
   try {
-    const res = await fetch(`https://api.themoviedb.org/3/search/${mediaType}?query=${encodeURIComponent(query)}`,options)
+    const res = await fetch(`https://api.themoviedb.org/3/search/${mediatype}?query=${encodeURIComponent(query)}`,options)
     if(!res.ok){
       console.error('Error Fetching Data')
-      return {message : 'There typed no Movies'}
+      return {message : 'No results found'}
     }
     const data = await res.json()
+    
+   
     return data.results.map((item : any) => ({
       ...item,
-      mediaType : mediaType,
+      mediatype : mediatype
     }))
   } catch(err){
+    console.error(err)
+    return null
+  }
+}
+
+export async function getTrendingData(){
+  try{
+    const res = await fetch('https://api.themoviedb.org/3/trending/all/week',options)
+    if(!res.ok){
+      console.log('Error Fetching Data')
+      return {message : 'No trending movies or tv shows'}
+    }
+    const data = await res.json()
+
+    return data.results
+  }catch(err){
     console.error(err)
     return null
   }

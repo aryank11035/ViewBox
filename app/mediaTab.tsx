@@ -9,10 +9,10 @@ import 'swiper/css/navigation';
 import { Pagination, Navigation } from 'swiper/modules';
 import SwiperComponent from "./components/SwiperComponent";
 
-export default async function MediaTab({movies} : {movies : any}){
+export default async function MediaTab({mediaData} : {mediaData :  any}){
 
     
     return (
-        <SwiperComponent movies = {movies} /> 
+        <SwiperComponent mediaData = {mediaData} /> 
     )
 }
