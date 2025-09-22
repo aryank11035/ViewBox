@@ -6,8 +6,8 @@ export default function MediaCard({mediaData, query} : {mediaData : any[] , quer
 
     return(
         <>
-            {mediaData.map((item) => (
-                <Link href={`/${item.mediatype ? item.mediatype : item.media_type}/${item.id}`}  key={item.id}> 
+            {mediaData.map((item : any) => (
+                <Link href={`/${item.mediaType ? item.mediaType : item.media_type}/${item.id}`}  key={item.id}> 
                     <div className="relative w-full aspect-[2/3]  cursor-pointer  shadow-xl shadow-black/30 mx-auto">
                         <div className="absolute inset-0 rounded-xs border border-white/10 flex items-end">
                             <h1 className="text-xl pl-5 pb-5 font-bold text-white/20">+ Add to Watchlist</h1>

@@ -7,6 +7,8 @@ const options = {
     Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_READ_ACCESS_TOKEN}`,
   },
 };
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
+
 
 export async function getShowData(mediaType : 'movie' | 'tv' =  'movie'){
 
@@ -40,7 +42,8 @@ export async function getMovieById(id: number,mediaType: 'movie' | 'tv' =  'movi
       return null;
     }
     const data = await res.json();
-    return data;
+   
+    return {...data,mediaType : mediaType};
   } catch (err) {
     console.error(err);
     return null;
@@ -48,9 +51,9 @@ export async function getMovieById(id: number,mediaType: 'movie' | 'tv' =  'movi
 }
 
 
-export async function getSearchData(query : string,mediatype : string ){
+export async function getSearchData(query : string,mediaType : string ){
   try {
-    const res = await fetch(`https://api.themoviedb.org/3/search/${mediatype}?query=${encodeURIComponent(query)}`,options)
+    const res = await fetch(`https://api.themoviedb.org/3/search/${mediaType}?query=${encodeURIComponent(query)}`,options)
     if(!res.ok){
       console.error('Error Fetching Data')
       return {message : 'No results found'}
@@ -60,7 +63,7 @@ export async function getSearchData(query : string,mediatype : string ){
    
     return data.results.map((item : any) => ({
       ...item,
-      mediatype : mediatype
+      mediaType : mediaType
     }))
   } catch(err){
     console.error(err)
@@ -76,7 +79,7 @@ export async function getTrendingData(){
       return {message : 'No trending movies or tv shows'}
     }
     const data = await res.json()
-
+    
     return data.results
   }catch(err){
     console.error(err)

@@ -31,7 +31,7 @@ const SwiperComponent =({mediaData} : {mediaData:any}) => {
                     >
                     {mediaData.map((media: any) => (
                         <SwiperSlide key={media.id} className='w-fit '>
-                            <Link href={`/${media.mediaType}/${media.id}`}  key={media.id} className="block max-w-[300px]  mx-auto shadow-xl shadow-black/30"   > 
+                            <Link href={`/${media.mediaType ? media.mediaType : media.media_type}/${media.id}`}  key={media.id} className="block max-w-[300px]  mx-auto shadow-xl shadow-black/30"   > 
                                 <div className="relative w-full aspect-[2/3]  cursor-pointer mt-15 mb-10">
                                     <div className="absolute inset-0 rounded-xs border border-white/10 flex items-end">
                                         <h1 className="text-2xl pl-5 pb-5 font-bold text-white/20">+ Add to Watchlist</h1>

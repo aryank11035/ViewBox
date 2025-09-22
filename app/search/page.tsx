@@ -7,11 +7,11 @@ import SearchBar from "../components/SearchBar";
 
 
 
-export default async function Page(props : {searchParams : Promise<{search ?: string , mediatype : string}>}){
+export default async function Page(props : {searchParams : Promise<{search ?: string , mediaType : string}>}){
 
     const searchParams = await props.searchParams
     const query =  searchParams?.search || '';
-    const mediatype = searchParams?.mediatype || 'movie';
+    const mediatype = searchParams?.mediaType || 'movie';
     const trendingData = await getTrendingData()
     const data = query ? await getSearchData(query,mediatype) : null
    

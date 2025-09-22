@@ -12,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
+  
       <html>
         <body className="bg-[#111111]  text-white min-h-screen">
           <header className="w-full h-20  flex items-center justify-center text-white fixed z-20 border-b border-b-white/10  backdrop-blur-xl">
@@ -46,6 +46,6 @@ export default function RootLayout({
           </footer>
         </body>
       </html>
-    </>
+  
   );
 }
