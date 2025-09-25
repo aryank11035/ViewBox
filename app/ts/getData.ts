@@ -43,7 +43,29 @@ export async function getMovieById(id: number,mediaType: 'movie' | 'tv' =  'movi
     }
     const data = await res.json();
    
-    return {...data,mediaType : mediaType};
+    return {
+      id: data.id,
+      title: data.title || data.name, 
+      backdrop_path: data.backdrop_path,
+      poster_path: data.poster_path,
+      tagline: data.tagline,
+      homepage: data.homepage,
+      adult: data.adult,
+      original_language: data.original_language,
+      vote_average: data.vote_average,
+      runtime: data.runtime || data.episode_run_time?.[0] || 0,
+      release_date: data.release_date || data.first_air_date,
+      original_title: data.original_title,
+      overview: data.overview,
+      genres: data.genres.map((g: any) => ({ id: g.id, name: g.name })),
+      production_companies: data.production_companies.map((c: any) => ({
+        id: c.id,
+        name: c.name,
+        logo_path: c.logo_path,
+        origin_country: c.origin_country,
+      })),
+      mediaType: mediaType
+    };
   } catch (err) {
     console.error(err);
     return null;

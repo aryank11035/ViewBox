@@ -2,13 +2,17 @@
 import { Timer,Star,Languages,Clapperboard } from "lucide-react"
 import { useEffect, useState } from "react"
 
+
+
+  
+
 export default function MediaPage({mediaData ,id , mediaType,isInWatchList} : {mediaData : any,id : number,mediaType : 'movie' | 'tv',isInWatchList : boolean}){
 
 
     const [addedToWatchlist , SetAddedToWatchlist] = useState(isInWatchList)
     const [loading,setLoading] = useState(false)
   
-
+    
     async function postMovie() {
         if(addedToWatchlist) return 
         try {
@@ -68,7 +72,9 @@ export default function MediaPage({mediaData ,id , mediaType,isInWatchList} : {m
                                     alt={mediaData.title}
                                     className="w-full h-full object-cover rounded-sm flex-2 shadow-2xl shadow-black/50 "
                                 />
-                                <h1 className="text-white/30 italic text-center mt-2">{`"${mediaData.tagline}"`}</h1>
+                                {
+                                    mediaData.tagline && <h1 className="text-white/30 italic text-center mt-2">{`"${mediaData.tagline}"`}</h1>
+                                }
                             </a>
                         ) :  (
                             <div className="w-full h-full backdrop-blur-3xl bg-[#111111] shadow-2xl shadow-black/50 text-white/10 flex items-center justify-center font-bold text-2xl">
@@ -114,7 +120,8 @@ export default function MediaPage({mediaData ,id , mediaType,isInWatchList} : {m
                             </div> : ''}
                         </div>
                         <div className="w-full  font-bold px-2 ">
-                            <h1 className="text-4xl md:text-6xl">{mediaData.title ? mediaData.title : mediaData.original_name}<span className="text-xl ml-2 md:text-2xl text-white/50 text-center ">{`(${mediaData.release_date ? mediaData.release_date.split("-")[0] : mediaData.first_air_date.split('-')[0]})`}</span></h1>
+                            <h1 className="text-4xl md:text-6xl">{mediaData.title ? mediaData.title : mediaData.original_name}
+                                <span className="text-xl ml-2 md:text-2xl text-white/50 text-center ">{`${mediaData.release_date ? mediaData.release_date.split('-')[0] : mediaData.first_air_date ? mediaData.first_air_date.split('-')[0]: '' }`}</span></h1>
                             <div className="mt-5 flex  gap-4 mb-5">
                                 {
                                     mediaData.genres.map((genre : any) => (
@@ -183,21 +190,22 @@ export default function MediaPage({mediaData ,id , mediaType,isInWatchList} : {m
                                 </div>
                                 {
                                     addedToWatchlist &&  (
-                                        <div className="relative w-full lg:w-fit h-fit mt-2 ">
-                                            <div className="hidden md:block
-                                                            absolute inset-0 
-                                                            border border-[rgba(255,255,255,0.2)]
-                                                            bg-[repeating-linear-gradient(45deg,rgba(255,255,255,0.1)_0,rgba(255,255,255,0.1)_1px,transparent_0,transparent_50%)]
-                                                            bg-[size:10px_10px] 
-                                                            bg-fixed">
+                                        <>
+                                            <div className="relative w-full lg:w-fit h-fit mt-2 ">
+                                                <div className="hidden md:block
+                                                                absolute inset-0 
+                                                                border border-[rgba(255,255,255,0.2)]
+                                                                bg-[repeating-linear-gradient(45deg,rgba(255,255,255,0.1)_0,rgba(255,255,255,0.1)_1px,transparent_0,transparent_50%)]
+                                                                bg-[size:10px_10px] 
+                                                                bg-fixed">
+                                                </div>
+                                                <button onClick={() => SetAddedToWatchlist(watchlist => false)} className="cursor-pointer relative transform  md:text-left md:text-xl text-xl font-bold font-sans px-6 py-2 border border-red-500 bg-red-500 text-red-900 text-center w-full lg:w-fit md:translate-x-2 md:-translate-y-2 hover:z-10 transition-all duration-300 hover:translate-x-0 hover:translate-y-0  active:translate-x-0 active:-translate-y-0 active:bg-transparent active:text-white active:border-[rgba(0,0,0,0.2)]">
+                                                    <p className="text-center " >
+                                                        Remove 
+                                                    </p>
+                                                </button>
                                             </div>
-                                            <button onClick={() => SetAddedToWatchlist(watchlist => false)} className="cursor-pointer relative transform  md:text-left md:text-xl text-xl font-bold font-sans px-6 py-2 border border-red-500 bg-red-500 text-red-900 text-center w-full lg:w-fit md:translate-x-2 md:-translate-y-2 hover:z-10 transition-all duration-300 hover:translate-x-0 hover:translate-y-0  active:translate-x-0 active:-translate-y-0 active:bg-transparent active:text-white active:border-[rgba(0,0,0,0.2)]">
-                                                <p className="text-center " >
-                                                    Remove 
-                                                </p>
-                                            </button>
-                                        </div>
-
+                                        </>
                                     )
                                 }
                             </div>          
