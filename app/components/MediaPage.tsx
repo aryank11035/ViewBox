@@ -33,6 +33,30 @@ export default function MediaPage({mediaData ,id , mediaType,isInWatchList} : {m
             setLoading(false)
         }
     }
+
+    async function deleteMovie(){
+        try {
+            const res = await fetch('/api/media_data', {
+                method : 'DELETE',
+                headers : {
+                    'Content-type' : 'application/json'
+                },
+                body : JSON.stringify({id : mediaData.id})
+            })
+
+            const data = await res.json()
+
+            if(data.sucess){
+                SetAddedToWatchlist(false)
+                console.log('Movie removed Sucessfully')
+            }else{
+                console.error(data.error)
+            }
+        }catch(error){
+            console.error('Failed to remove the movie',error)
+        }
+    }
+
     return (
         <section className="max-w-[1800px]  min-h-screen mx-auto  border-l border-r border-white/10 relative     backdrop-blur-3xl pt-20 ">
             <div className = 'w-full relative md:pt-0 pt-10 md:px-0 px-2'>    
@@ -199,7 +223,7 @@ export default function MediaPage({mediaData ,id , mediaType,isInWatchList} : {m
                                                                 bg-[size:10px_10px] 
                                                                 bg-fixed">
                                                 </div>
-                                                <button onClick={() => SetAddedToWatchlist(watchlist => false)} className="cursor-pointer relative transform  md:text-left md:text-xl text-xl font-bold font-sans px-6 py-2 border border-red-500 bg-red-500 text-red-900 text-center w-full lg:w-fit md:translate-x-2 md:-translate-y-2 hover:z-10 transition-all duration-300 hover:translate-x-0 hover:translate-y-0  active:translate-x-0 active:-translate-y-0 active:bg-transparent active:text-white active:border-[rgba(0,0,0,0.2)]">
+                                                <button onClick={() => deleteMovie()} className="cursor-pointer relative transform  md:text-left md:text-xl text-xl font-bold font-sans px-6 py-2 border border-red-500 bg-red-500 text-red-900 text-center w-full lg:w-fit md:translate-x-2 md:-translate-y-2 hover:z-10 transition-all duration-300 hover:translate-x-0 hover:translate-y-0  active:translate-x-0 active:-translate-y-0 active:bg-transparent active:text-white active:border-[rgba(0,0,0,0.2)]">
                                                     <p className="text-center " >
                                                         Remove 
                                                     </p>

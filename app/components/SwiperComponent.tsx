@@ -7,9 +7,11 @@ import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 
 import {Pagination,Navigation} from 'swiper/modules'
+import { useEffect, useState } from 'react'
 
-const SwiperComponent =({mediaData} : {mediaData:any}) => {
-        
+const SwiperComponent =  ({mediaData} : {mediaData:any}) => {
+       
+
         return(
             <>
 

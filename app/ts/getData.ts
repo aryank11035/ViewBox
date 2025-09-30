@@ -108,3 +108,18 @@ export async function getTrendingData(){
     return null
   }
 }
+
+
+export async function getUsername (){
+    try {
+      const res = await fetch('http://localhost:3000/api/user')
+      if(!res.ok){
+          throw new Error ('Error getting username')
+      }
+
+      const {username} = await res.json()
+      return username
+  } catch (error) {
+      console.error('Error')
+  }
+}
