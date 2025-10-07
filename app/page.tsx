@@ -8,8 +8,8 @@ export default async function Page() {
     
   const movies = await getShowData()
   const tv = await getShowData('tv')
-  const yourMedia = await fetch(`http://localhost:3000/api/media_data`).then(r => r.json())
-  const count = await Movie.countDocuments()
+  // const yourMedia = await fetch(`http://localhost:3000/api/media_data`).then(r => r.json())
+  // const count = await Movie.countDocuments()
   
  
   return (
@@ -27,7 +27,7 @@ export default async function Page() {
         </section>
 
         <section className="max-w-[1800px] min-h-screen mx-auto border-l border-r  border-white/10 px-5 py-10 bg-[#111111] relative  ">
-          <WatchListSection media={yourMedia} count={count}/>
+          {/* <WatchListSection media={yourMedia} count={count}/> */}
           <MediaSection movies={movies} tv={tv} />
         </section>
       </>

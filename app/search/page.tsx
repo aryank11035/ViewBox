@@ -1,6 +1,6 @@
 
 
-import { getSearchData, getTrendingData } from "../ts/getData";
+import { getSearchData, getTrendingData } from "../lib/getData";
 import MediaCard from "../components/MediaCard";
 import SearchBar from "../components/SearchBar";
 

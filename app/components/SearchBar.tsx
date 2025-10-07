@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from "react";    
-import { getShowData } from "../ts/getData";
+import { getShowData } from "../lib/getData";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDebounce } from 'use-debounce'
 import { Search } from 'lucide-react'
