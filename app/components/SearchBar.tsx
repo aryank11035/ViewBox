@@ -32,10 +32,10 @@ export default  function SearchBar ( ){
                     <h1 className="xl:text-5xl  text-3xl text-center">Discover Your next Favourtie</h1>
                     <p className="max-w-[500px] text-center font-light text-white/50 xl:text-2xl text-xl">Search through thousands for movies and tv Shows.</p>
                     <div className="w-[80%] h-fit  backdrop-blur-2xl flex md:flex-row flex-col border-white/10 border p-2 gap-2 rounded-xs">
-                        <div className=" font-light flex-1 text-center flex items-center justify-center border-white/10 border rounded-xs py-2">
-                            <select name="mediaType" id="mediaType" value={mediatype} onChange={(e) => setMediaType(e.target.value as 'movie' | "tv" )} className=" w-full h-full text-center outline-0 bg-[#111111]">
-                                <option value='movie' className=" text-white">Movie</option>
-                                <option value='tv'>Tv Shows</option>
+                        <div className=" font-light flex-1 text-center flex items-center justify-center border-white/10 border rounded-xs py-2 cursor-pointer">
+                            <select name="mediaType" id="mediaType" value={mediatype} onChange={(e) => setMediaType(e.target.value as "movie" | "tv" )} className=" w-full h-full text-center cursor-pointer outline-0 bg-[#111111]">
+                                <option value='movie' className=" text-white cursor-pointer">Movie</option>
+                                <option value='tv' className="cursor-pointer">Tv Shows</option>
                             </select>    
                         </div>
                         <div  className="flex flex-3 border-white/10 border font-light text-[0.9rem] outline-white/20 rounded-xs">

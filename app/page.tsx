@@ -1,3 +1,5 @@
+import { auth } from "@/auth";
+import { getMovie } from "./actions/getMovie";
 import {Movie} from "./db/database";
 import MediaSection from "./MediaSection";
 import {  getShowData } from "./ts/getData";
@@ -6,11 +8,12 @@ import WatchListSection from "./WatchListSection";
 
 export default async function Page() {
     
+  const session = await auth()
   const movies = await getShowData()
   const tv = await getShowData('tv')
-  // const yourMedia = await fetch(`http://localhost:3000/api/media_data`).then(r => r.json())
-  // const count = await Movie.countDocuments()
+  const yourMedia = await getMovie(session)
   
+ 
  
   return (
 
@@ -27,7 +30,7 @@ export default async function Page() {
         </section>
 
         <section className="max-w-[1800px] min-h-screen mx-auto border-l border-r  border-white/10 px-5 py-10 bg-[#111111] relative  ">
-          {/* <WatchListSection media={yourMedia} count={count}/> */}
+          <WatchListSection media={yourMedia} />
           <MediaSection movies={movies} tv={tv} />
         </section>
       </>

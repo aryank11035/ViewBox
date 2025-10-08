@@ -1,6 +1,12 @@
+import { auth } from "@/auth";
 import { LoginForm } from "@/components/auth/loginFrom";
+import { redirect } from "next/navigation";
 
-export default function LoginPage(){
+export default async function LoginPage(){
+
+    const session = await auth()
+    if(session) return redirect('/user')
+
     return (
         <>
             <section className="max-w-[1800px] min-h-screen mx-auto  border-l border-r border-white/10 relative bg-[#111111] pt-20 flex">

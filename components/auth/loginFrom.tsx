@@ -17,7 +17,8 @@ import { LoginSchema } from '@/schema/zod'
 
 interface ResponseProps {
     error ?: string,
-    message ?: string
+    message ?: string,
+    success ?: boolean
 }
 
 export const LoginForm = () => {
@@ -43,6 +44,14 @@ export const LoginForm = () => {
         if (!res.ok) return setResponse({ error: 'couldnt get response' });
 
         const body = await res.json();
+        
+
+        if(body.success) {
+            setTimeout(() => {
+                router.push('/user')
+            },3000)
+        }
+
         setResponse(body);
 
         
@@ -84,7 +93,7 @@ export const LoginForm = () => {
                             name= 'password'
                             render={({field}) => (
                                 <FormItem>
-                                    <FormLabel>Email</FormLabel>
+                                    <FormLabel>password</FormLabel>
                                     <FormControl>
                                         <Input
                                             {...field}

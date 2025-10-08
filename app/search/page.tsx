@@ -1,17 +1,17 @@
 
 
 import { getSearchData, getTrendingData } from "../lib/getData";
-import MediaCard from "../components/MediaCard";
 import SearchBar from "../components/SearchBar";
+import MediaCard from "../components/MediaCard";
 
 
 
 
-export default async function Page(props : {searchParams : Promise<{search ?: string , mediaType : string}>}){
+export default async function SearchPage(props : {searchParams : Promise<{search ?: string , mediatype : string}>}){
 
     const searchParams = await props.searchParams
     const query =  searchParams?.search || '';
-    const mediatype = searchParams?.mediaType || 'movie';
+    const mediatype = (searchParams?.mediatype || 'movie').toLowerCase();
     const trendingData = await getTrendingData()
     const data = query ? await getSearchData(query,mediatype) : null
    
@@ -42,11 +42,6 @@ export default async function Page(props : {searchParams : Promise<{search ?: st
                                         <div className="mx-auto grid gap-10 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-1 px-2 pb-20">
                                             <MediaCard mediaData={data ? data : trendingData} query={query} />
                                         </div>     
-                                            {/* ) : (
-                                                <div className="w-full text-2xl md:text-4xl text-center text-white/50">
-                                                    <p>No results found {`:(`}</p>
-                                                </div>
-                                            ) */}
                                         
                                     </div>
                                 </div>
@@ -55,3 +50,8 @@ export default async function Page(props : {searchParams : Promise<{search ?: st
         </>
     )
 }   
+{/* ) : (
+    <div className="w-full text-2xl md:text-4xl text-center text-white/50">
+        <p>No results found {`:(`}</p>
+    </div>
+) */}

@@ -1,7 +1,7 @@
 'use client'
 import Link from "next/link";
 import { Search,CircleUser } from "lucide-react";
-export  function Header({username} : {username : String}){
+export  function Header({username} : {username : String | null}){
 
      
     

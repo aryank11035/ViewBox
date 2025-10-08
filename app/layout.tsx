@@ -2,10 +2,13 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "./components/Header";
-import { getUsername } from "./lib/getData";
+
 import { Space_Grotesk } from "next/font/google";
 
 import { cn } from "@/lib/utils";
+import { auth } from "@/auth";
+import { getSession } from "@/data/user";
+import { User } from "@/schema/type";
 
 
 const font = Space_Grotesk({
@@ -22,7 +25,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-    //const username = await getUsername()
+    const user : any | null = await getSession()
 
   return (
   
@@ -31,7 +34,7 @@ export default async function RootLayout({
           "bg-[#111111]  text-white min-h-screen",
           font.className
           )}>
-         <Header username={''}/>
+         <Header username={user?.name}/>
         <main className="w-full relative  ">
         <div className="hidden md:block 
                      

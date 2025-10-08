@@ -1,7 +1,7 @@
 
 
 import MediaTab from "./mediaTab"
-export default function WatchListSection({media , count} : {media :any , count : number}){
+export default function WatchListSection({media} : {media :any }){
 
     
 

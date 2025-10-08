@@ -1,12 +1,16 @@
 'use client'
+import { Movie } from "@/schema/type"
 import { Timer,Star,Languages,Clapperboard } from "lucide-react"
 import { useEffect, useState } from "react"
+import { addMovie } from "../actions/addMovie"
+import { deleteMovie } from "../actions/deleteMovie"
+import { error } from "console"
 
 
 
   
 
-export default function MediaPage({mediaData ,id , mediaType,isInWatchList} : {mediaData : any,id : number,mediaType : 'movie' | 'tv',isInWatchList : boolean}){
+export default function MediaPage({mediaData ,id , mediaType,isInWatchList} : {mediaData : Movie ,id : number,mediaType : 'movie' | 'tv',isInWatchList : boolean}){
 
 
     const [addedToWatchlist , SetAddedToWatchlist] = useState(isInWatchList)
@@ -17,15 +21,7 @@ export default function MediaPage({mediaData ,id , mediaType,isInWatchList} : {m
         if(addedToWatchlist) return 
         try {
             setLoading(true)
-            const res = await fetch(`/api/media_data`, {
-                method : 'POST',
-                headers : {
-                    'Content-type' : 'application/json'
-                },
-                body : JSON.stringify(mediaData)
-            })
-
-            if(!res.ok) throw new Error("failed to add to watchlist")
+            await addMovie(mediaData)
             SetAddedToWatchlist(true)
         } catch (error) {
             console.error('Error adding to watchlist',error)   
@@ -34,24 +30,19 @@ export default function MediaPage({mediaData ,id , mediaType,isInWatchList} : {m
         }
     }
 
-    async function deleteMovie(){
-        try {
-            const res = await fetch('/api/media_data', {
-                method : 'DELETE',
-                headers : {
-                    'Content-type' : 'application/json'
-                },
-                body : JSON.stringify({id : mediaData.id})
-            })
+    async function removeMovie(){
+        try { 
+            const data = await deleteMovie(mediaData.id) 
+            
 
-            const data = await res.json()
-
-            if(data.sucess){
+            if(data?.success){
                 SetAddedToWatchlist(false)
                 console.log('Movie removed Sucessfully')
             }else{
-                console.error(data.error)
+                console.log('Failed to delete movie')
             }
+
+            
         }catch(error){
             console.error('Failed to remove the movie',error)
         }
@@ -223,7 +214,10 @@ export default function MediaPage({mediaData ,id , mediaType,isInWatchList} : {m
                                                                 bg-[size:10px_10px] 
                                                                 bg-fixed">
                                                 </div>
-                                                <button onClick={() => deleteMovie()} className="cursor-pointer relative transform  md:text-left md:text-xl text-xl font-bold font-sans px-6 py-2 border border-red-500 bg-red-500 text-red-900 text-center w-full lg:w-fit md:translate-x-2 md:-translate-y-2 hover:z-10 transition-all duration-300 hover:translate-x-0 hover:translate-y-0  active:translate-x-0 active:-translate-y-0 active:bg-transparent active:text-white active:border-[rgba(0,0,0,0.2)]">
+                                                <button onClick={(e) =>{
+                                                    e.preventDefault()
+                                                    removeMovie()
+                                                     }} className="cursor-pointer relative transform  md:text-left md:text-xl text-xl font-bold font-sans px-6 py-2 border border-red-500 bg-red-500 text-red-900 text-center w-full lg:w-fit md:translate-x-2 md:-translate-y-2 hover:z-10 transition-all duration-300 hover:translate-x-0 hover:translate-y-0  active:translate-x-0 active:-translate-y-0 active:bg-transparent active:text-white active:border-[rgba(0,0,0,0.2)]">
                                                     <p className="text-center " >
                                                         Remove 
                                                     </p>

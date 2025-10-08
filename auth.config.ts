@@ -4,6 +4,7 @@ import { getUserByEmail } from "./data/user"
 import { LoginSchema } from "./schema/zod"
 import { ZodError } from "zod"
 import bcrypt from "bcryptjs"
+import { User } from "./schema/type"
 
 export default {
     providers: [
@@ -20,7 +21,7 @@ export default {
               type: "password",
             },
           },
-           authorize : async (credentials) : Promise<any | null>=> {
+           authorize : async (credentials) : Promise<any | null >=> {
             try{
               const { email , password} = await LoginSchema.parseAsync(credentials)
               
@@ -32,8 +33,8 @@ export default {
                 password,
                 user.password
               )
-    
-              if(passwordsMatch) return {...user,id:user._id.toString()}
+              console.log(user)
+              if(passwordsMatch) return{...user,id:user._id.toString()}
     
               return null
             }catch(error){

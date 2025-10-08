@@ -1,7 +1,14 @@
+import { auth } from "@/auth";
 import { RegisterFrom } from "@/components/auth/registerFrom";
+import { redirect } from "next/navigation";
 
-export default function RegisterPage(){
+export default async function RegisterPage(){
     
+
+    const session = await auth()
+
+    if(session?.user) return redirect('/user')
+
     return (
         <>
             <section className="max-w-[1800px] min-h-screen mx-auto  border-l border-r border-white/10 relative bg-[#111111] pt-20 flex">

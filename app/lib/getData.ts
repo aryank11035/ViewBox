@@ -1,3 +1,4 @@
+import { Movie } from "@/schema/type";
 import { headers } from "next/headers"
 
 const options = {
@@ -33,7 +34,7 @@ export async function getShowData(mediaType : 'movie' | 'tv' =  'movie'){
 
 
 
-export async function getMovieById(id: number,mediaType: 'movie' | 'tv' =  'movie') {
+export async function getMovieById(id: number,mediaType: 'movie' | 'tv' =  'movie')  {
 
   try {
     const res = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}`, options);
@@ -68,7 +69,6 @@ export async function getMovieById(id: number,mediaType: 'movie' | 'tv' =  'movi
     };
   } catch (err) {
     console.error(err);
-    return null;
   }
 }
 
@@ -109,17 +109,3 @@ export async function getTrendingData(){
   }
 }
 
-
-export async function getUsername (){
-    try {
-      const res = await fetch('http://localhost:3000/api/user')
-      if(!res.ok){
-          throw new Error ('Error getting username')
-      }
-
-      const {username} = await res.json()
-      return username
-  } catch (error) {
-      console.error('Error')
-  }
-}
