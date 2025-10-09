@@ -25,19 +25,20 @@ const SwiperComponent =  ({mediaData} : {mediaData: Movie[]}) => {
                     draggable = {true}
                     loop={true}
                     modules={[ Navigation]}
-                    className="w-full cursor-grab "
+                    className="max-w-[1700px] cursor-grab mask-l-from-95%  mask-r-from-95% "
+                    spaceBetween={30} 
                     breakpoints={{
                         320: { slidesPerView: 1 },   // Small phones
                         640: { slidesPerView: 2 },   // Bigger phones
                         1024: { slidesPerView: 3 },  // Tablets & laptops
                         1200 : {slidesPerView : 4},
-                        1500: { slidesPerView: 5 },  // Large desktops
+                        1500: { slidesPerView: 6 },  // Large desktops
                         
                     }}
                     >
                     {mediaData.map((media: any) => (
                         <SwiperSlide key={media.id} className='w-fit '>
-                            <div className='block max-w-[300px]  mx-auto shadow-xl shadow-black/30'>
+                            <div className='block max-w-[300px]  mx-auto shadow-xl shadow-black/30 '>
                                 <MediaCard mediaData={media}/> 
                             </div>
                         </SwiperSlide>
