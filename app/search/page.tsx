@@ -1,8 +1,9 @@
 
 
-import { getSearchData, getTrendingData } from "../lib/getData";
-import SearchBar from "../components/SearchBar";
-import MediaCard from "../components/MediaCard";
+import { getSearchData, getTrendingData } from "../../lib/helpers";
+import SearchBar from "../../components/search/searchBar";
+import MediaCard from "../../components/mediaCard";
+import { Movie } from "@/schema/type";
 
 
 
@@ -12,9 +13,9 @@ export default async function SearchPage(props : {searchParams : Promise<{search
     const searchParams = await props.searchParams
     const query =  searchParams?.search || '';
     const mediatype = (searchParams?.mediatype || 'movie').toLowerCase();
-    const trendingData = await getTrendingData()
-    const data = query ? await getSearchData(query,mediatype) : null
-   
+    const trendingData = await getTrendingData() ?? []
+    const data = query ? await getSearchData(query,mediatype) : null 
+    
     return(
         <>  
             <section className="max-w-[1800px] pt-20 mx-auto bg-[#111111] backdrop-blur-2xl  border-l border-r border-white/10 text-xl font-bold px-2  min-h-screen">
@@ -39,8 +40,10 @@ export default async function SearchPage(props : {searchParams : Promise<{search
                                         }
    
                                         <p className="text-2xl font-medium mb-10 pl-2 text-white/60">Movie results : <span className="text-white">{ data ?  data.length : trendingData.length }</span></p>
-                                        <div className="mx-auto grid gap-10 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-1 px-2 pb-20">
-                                            <MediaCard mediaData={data ? data : trendingData} query={query} />
+                                        <div className="mx-auto grid gap-10 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-3 grid-cols-1 px-2 pb-20 ">
+                                            {(data ?? trendingData).map((movie: Movie) => (
+                                                <MediaCard key={movie.id} mediaData={movie} />
+                                            ))}
                                         </div>     
                                         
                                     </div>

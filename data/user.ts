@@ -2,7 +2,6 @@
 import { ObjectId } from "mongodb";
 import { auth } from "@/auth";
 import client from "@/lib/db";
-import { User } from "next-auth";
 
 export const getUserByEmail = async (email: string) => {
   try {

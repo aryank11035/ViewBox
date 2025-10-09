@@ -1,10 +1,9 @@
 import { getMovie } from "@/app/actions/getMovie"
-import MediaPage from "@/app/components/MediaPage"
-import {  getMovieById } from "@/app/lib/getData"
+import MediaPage from "@/components/media/MediaPage"
+import {  getMovieById } from "@/lib/helpers"
 import { auth } from "@/auth"
-import { Movie } from "@/schema/type"
-import Link from "next/link"
 import { notFound } from "next/navigation"
+import { Movie, Session } from "@/schema/type"
 
 type Params = {
     params : {
@@ -15,20 +14,18 @@ type Params = {
 
 export default async function ShowMedia({params} : Params) {
     const { mediaType,id } = await params
-    const session = await auth()
-    const mediaData = await getMovieById(id,mediaType)
-
+    const session = await auth() as Session | null
+    const mediaData = await getMovieById(id,mediaType) as Movie
+ 
     
-    const addedMediaData = await getMovie(session) || []
-    const isInWatchlist = addedMediaData.some((item : any) => item.id  == id) 
+    const addedMediaData = await getMovie(session)  as Movie[]
+    const isInWatchlist = addedMediaData.some((item : Movie) => item.id  == id) 
 
    if(!mediaData) {
         notFound()
    } 
     return (
-     
-        <MediaPage mediaData={mediaData} id={id} mediaType={mediaType} isInWatchList={isInWatchlist}/>
-        
+        <MediaPage mediaData={mediaData} id={id} mediaType={mediaType} session={session} isInWatchList={isInWatchlist}/> 
     )
 }
 

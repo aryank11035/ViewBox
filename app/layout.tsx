@@ -1,23 +1,16 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+
 import "./globals.css";
-import { Header } from "./components/Header";
-
+import { Header } from "@/components/header/mainHeader";
 import { Space_Grotesk } from "next/font/google";
-
 import { cn } from "@/lib/utils";
-import { auth } from "@/auth";
 import { getSession } from "@/data/user";
-import { User } from "@/schema/type";
-
+import { auth } from "@/auth";
+import { Session } from "@/schema/type";
 
 const font = Space_Grotesk({
     subsets : ['latin'],
     weight : ['600']
 })
-
-
-
 
 export default async function RootLayout({
   children,
@@ -25,16 +18,16 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-    const user : any | null = await getSession()
+  const session = (await auth()) as Session | null
 
   return (
   
       <html>
         <body className={cn(
-          "bg-[#111111]  text-white min-h-screen",
+          "bg-[#111111]  text-white min-h-screen selection:bg-white selection:text-[#111111]",
           font.className
           )}>
-         <Header username={user?.name}/>
+         <Header session={session}/>
         <main className="w-full relative  ">
         <div className="hidden md:block 
                      

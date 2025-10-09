@@ -1,11 +1,12 @@
-
-import MediaTab from './mediaTab'
-export default function MediaSection({movies, tv } : {movies : any , tv : any} ){
+'use client'
+import SwiperComponent from '@/components/Swiper/SwiperComponent'
+import { Movie } from '@/schema/type'
+export default function MediaSection({movies, tv } : {movies : Movie[] , tv : Movie[]} ){
 
     return(
         <>
             
-            <div className="w-full h-fit">
+            <div className="w-full h-fit mb-10">
                 <div className="relative w-full md:w-fit h-fit md:ml-7  shadow-xl shadow-black/50">
                     <div className="hidden md:block
                         absolute inset-0 
@@ -18,7 +19,7 @@ export default function MediaSection({movies, tv } : {movies : any , tv : any} )
                         Popular Movies
                     </div>
                 </div>
-                <MediaTab mediaData={movies} />
+                <SwiperComponent mediaData={movies} />
                 <h1 className="block md:hidden text-white/20 font-medium text-2xl text-center mb-10">{`Swipe >>` }</h1>
             </div>
             <div className="w-full h-fit">
@@ -34,7 +35,7 @@ export default function MediaSection({movies, tv } : {movies : any , tv : any} )
                         Popular Tv Shows
                     </div>
                 </div>
-                <MediaTab  mediaData={tv} />
+                <SwiperComponent  mediaData={tv} />
                 <h1 className="block md:hidden text-white/20 font-medium text-2xl text-center mb-10">{`Swipe >>` }</h1>
                 
             </div>

@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from "react";    
-import { getShowData } from "../lib/getData";
+import { getShowData } from "../../lib/helpers";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDebounce } from 'use-debounce'
 import { Search } from 'lucide-react'
@@ -28,7 +28,7 @@ export default  function SearchBar ( ){
     return(
         <>
            
-                <div className='max-w-[800px]  flex items-center justify-center mx-auto flex-col gap-4 md:mt-60  mt-30'>
+                <div className='max-w-[800px]  flex items-center justify-center mx-auto flex-col gap-4 md:mt-60  mt-30 '>
                     <h1 className="xl:text-5xl  text-3xl text-center">Discover Your next Favourtie</h1>
                     <p className="max-w-[500px] text-center font-light text-white/50 xl:text-2xl text-xl">Search through thousands for movies and tv Shows.</p>
                     <div className="w-[80%] h-fit  backdrop-blur-2xl flex md:flex-row flex-col border-white/10 border p-2 gap-2 rounded-xs">

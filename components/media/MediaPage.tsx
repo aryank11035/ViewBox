@@ -1,24 +1,36 @@
 'use client'
-import { Movie } from "@/schema/type"
+import { Movie, Session } from "@/schema/type"
 import { Timer,Star,Languages,Clapperboard } from "lucide-react"
-import { useEffect, useState } from "react"
-import { addMovie } from "../actions/addMovie"
-import { deleteMovie } from "../actions/deleteMovie"
-import { error } from "console"
-
-
-
-  
-
-export default function MediaPage({mediaData ,id , mediaType,isInWatchList} : {mediaData : Movie ,id : number,mediaType : 'movie' | 'tv',isInWatchList : boolean}){
+import { useState } from "react"
+import { addMovie } from "../../app/actions/addMovie"
+import { deleteMovie } from "../../app/actions/deleteMovie"
+import { Toaster } from "../ui/sonner"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+export default function MediaPage({mediaData ,id , mediaType , session , isInWatchList} : {mediaData : Movie ,id : number,mediaType : 'movie' | 'tv', session : Session | null , isInWatchList : boolean}){
 
 
     const [addedToWatchlist , SetAddedToWatchlist] = useState(isInWatchList)
     const [loading,setLoading] = useState(false)
+    const [message , setMessage] = useState(false)
+    const router = useRouter()
+
   
     
     async function postMovie() {
+        if(!session){
+            toast('User Must be Logged In', {
+                action: {
+                  label: 'Log In',
+                  onClick: () => router.push('/auth/login')
+                },
+              })
+            SetAddedToWatchlist(false)
+            return
+        }
+
         if(addedToWatchlist) return 
+
         try {
             setLoading(true)
             await addMovie(mediaData)
@@ -49,8 +61,20 @@ export default function MediaPage({mediaData ,id , mediaType,isInWatchList} : {m
     }
 
     return (
-        <section className="max-w-[1800px]  min-h-screen mx-auto  border-l border-r border-white/10 relative     backdrop-blur-3xl pt-20 ">
-            <div className = 'w-full relative md:pt-0 pt-10 md:px-0 px-2'>    
+        <section className="max-w-[1800px]  h-fit mx-auto  border-l border-r border-white/10 relative  backdrop-blur-3xl pt-20  ">
+            <div className = 'w-full relative md:pt-0 pt-10 md:px-0 px-2'>
+                <Toaster 
+                    offset={{ bottom :"100px", right: "16px", left: "16px" }} 
+                    mobileOffset={{ bottom: '100px' }} 
+                    position="bottom-center" 
+                    expand={true} 
+                    toastOptions={{
+                        classNames : {
+                            toast : '!bg-[#242323] !backdrop-blur-xl !rounded-none !shadow-2xl !border-none !text-[#5c5c5c]',
+                            actionButton : '!bg-green-600 !rounded-none '
+                        }
+                    }}
+                />
                 <div className="inset-0 w-full h-[250px] relative hidden md:block ">
                        
                         {mediaData.backdrop_path ? (
@@ -180,7 +204,7 @@ export default function MediaPage({mediaData ,id , mediaType,isInWatchList} : {m
                                 </p>
                             </div>
 
-                           <div className="flex flex-col md:flex-row gap-4 mt-5">
+                           <div className="flex flex-col md:flex-row gap-4 mt-5 mb-10">
                            
                             
                                 <div className="relative w-full lg:w-fit h-fit mt-2 ">
@@ -217,7 +241,7 @@ export default function MediaPage({mediaData ,id , mediaType,isInWatchList} : {m
                                                 <button onClick={(e) =>{
                                                     e.preventDefault()
                                                     removeMovie()
-                                                     }} className="cursor-pointer relative transform  md:text-left md:text-xl text-xl font-bold font-sans px-6 py-2 border border-red-500 bg-red-500 text-red-900 text-center w-full lg:w-fit md:translate-x-2 md:-translate-y-2 hover:z-10 transition-all duration-300 hover:translate-x-0 hover:translate-y-0  active:translate-x-0 active:-translate-y-0 active:bg-transparent active:text-white active:border-[rgba(0,0,0,0.2)]">
+                                                     }} className=" cursor-pointer relative transform  md:text-left md:text-xl text-xl font-bold font-sans px-6 py-2 border border-red-500 bg-red-500 text-red-900 text-center w-full lg:w-fit md:translate-x-2 md:-translate-y-2 hover:z-10 transition-all duration-300 hover:translate-x-0 hover:translate-y-0  active:translate-x-0 active:-translate-y-0 active:bg-transparent active:text-white active:border-[rgba(0,0,0,0.2)]">
                                                     <p className="text-center " >
                                                         Remove 
                                                     </p>

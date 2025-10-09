@@ -1,9 +1,15 @@
+'use client'
 
+import { Movie } from "@/schema/type"
 
-import MediaTab from "./mediaTab"
-export default function WatchListSection({media} : {media :any }){
+import SwiperComponent from "@/components/Swiper/SwiperComponent"
+import { useEffect, useState } from "react"
+export default function WatchListSection({media} : {media : Movie[] }){
 
-    
+    const [show , setShowData] = useState <Movie[]>(media) 
+    useEffect(() => {
+        setShowData(media)
+    },[media])
 
     return (
         <>
@@ -20,7 +26,7 @@ export default function WatchListSection({media} : {media :any }){
                                 Your Watchlist
                             </div>
                         </div>
-                        <MediaTab mediaData={media} />
+                        <SwiperComponent mediaData={show} />
                         <h1 className="block md:hidden text-white/20 font-medium text-2xl text-center mb-10">{`Swipe >>` }</h1>
                     </div>)}</>
     )

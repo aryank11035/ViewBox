@@ -1,4 +1,6 @@
-import { headers } from "next/headers"
+'use server'
+
+import { Movie } from "@/schema/type";
 
 const options = {
   method: 'GET',
@@ -7,6 +9,7 @@ const options = {
     Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_READ_ACCESS_TOKEN}`,
   },
 };
+
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
 
 
@@ -22,7 +25,7 @@ export async function getShowData(mediaType : 'movie' | 'tv' =  'movie'){
     return data.results.map((item : any) => ({
       ...item,
       mediaType : mediaType,
-    }))
+    })) as Movie []
   }catch(err){
     console.error(err)
     return []
@@ -33,7 +36,7 @@ export async function getShowData(mediaType : 'movie' | 'tv' =  'movie'){
 
 
 
-export async function getMovieById(id: number,mediaType: 'movie' | 'tv' =  'movie') {
+export async function getMovieById(id: number,mediaType: 'movie' | 'tv' =  'movie')  {
 
   try {
     const res = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}`, options);
@@ -65,10 +68,9 @@ export async function getMovieById(id: number,mediaType: 'movie' | 'tv' =  'movi
         origin_country: c.origin_country,
       })),
       mediaType: mediaType
-    };
+    }; 
   } catch (err) {
     console.error(err);
-    return null;
   }
 }
 
@@ -86,7 +88,7 @@ export async function getSearchData(query : string,mediaType : string ){
     return data.results.map((item : any) => ({
       ...item,
       mediaType : mediaType
-    }))
+    })) 
   } catch(err){
     console.error(err)
     return null
@@ -102,11 +104,26 @@ export async function getTrendingData(){
     }
     const data = await res.json()
     
-    return data.results
+    return data.results 
   }catch(err){
     console.error(err)
     return null
   }
 }
 
+export async function getImages(){
+  try{
+    const res = await fetch('https://api.themoviedb.org/3/trending/all/week',options)
+    if(!res.ok){
+      console.log('Error Fetching Data')
+      return {message : 'No trending movies or tv shows'}
+    }
+    const data = await res.json()
+    const imagesArray = data.results.map((item: any) => item.poster_path);
+    return imagesArray
+  }catch(err){
+    console.error(err)
+    return null
+  }
+}
 

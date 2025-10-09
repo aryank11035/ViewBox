@@ -1,9 +1,10 @@
 'use server'
 
-import { auth } from "@/auth"
 import client from "@/lib/db"
+import { Movie } from "@/schema/type"
 import { ObjectId } from "mongodb"
-import { Movie } from "../db/database"
+
+
 
 
 export async function getMovie(session : any ){
@@ -30,10 +31,11 @@ export async function getMovie(session : any ){
                 ...movie,
                 _id : movie._id.toString()
             
-        }));
+        })) as Movie[]
 
     }catch(err){
         console.error('Error fecthing User Data')
+        return []
     }
 
     
