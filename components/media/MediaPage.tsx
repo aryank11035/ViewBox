@@ -61,7 +61,7 @@ export default function MediaPage({mediaData ,id , mediaType , session , isInWat
     }
 
     return (
-        <section className="max-w-[1800px]  h-fit mx-auto  border-l border-r border-white/10 relative  backdrop-blur-3xl pt-20  ">
+        <section className="max-w-full  h-fit mx-auto  border-l border-r border-white/10 relative  backdrop-blur-3xl pt-20  ">
             <div className = 'w-full relative md:pt-0 pt-10 md:px-0 px-2'>
                 <Toaster 
                     offset={{ bottom :"100px", right: "16px", left: "16px" }} 

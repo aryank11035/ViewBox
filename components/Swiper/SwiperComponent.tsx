@@ -6,7 +6,7 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 
-import {Navigation} from 'swiper/modules'
+import {Navigation, Pagination} from 'swiper/modules'
 import { Movie } from '@/schema/type'
 import MediaCard from '@/components/mediaCard'
 
@@ -24,8 +24,9 @@ const SwiperComponent =  ({mediaData} : {mediaData: Movie[]}) => {
                    
                     draggable = {true}
                     loop={true}
-                    modules={[ Navigation]}
+                    modules={[ Navigation , Pagination]}
                     className="max-w-[1700px] cursor-grab mask-l-from-95%  mask-r-from-95% "
+
                     spaceBetween={30} 
                     breakpoints={{
                         320: { slidesPerView: 1 },   // Small phones

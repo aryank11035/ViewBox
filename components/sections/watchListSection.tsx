@@ -14,7 +14,7 @@ export default function WatchListSection({media} : {media : Movie[] }){
     return (
         <>
                     { media.length > 0 &&  (<div className="w-full h-fit">
-                        <div className="relative w-full md:w-fit h-fit md:ml-7  shadow-xl shadow-black/50">
+                        <div className="relative w-full md:w-fit h-fit md:ml-7  shadow-xl shadow-black/50 ">
                             <div className="hidden md:block
                                 absolute inset-0 
                                 border border-[rgba(255,255,255,0.2)]
@@ -26,7 +26,9 @@ export default function WatchListSection({media} : {media : Movie[] }){
                                 Your Watchlist
                             </div>
                         </div>
-                        <SwiperComponent mediaData={show} />
+                        <div className="mb-10">
+                            <SwiperComponent mediaData={show} />
+                        </div>
                         <h1 className="block md:hidden text-white/20 font-medium text-2xl text-center mb-10">{`Swipe >>` }</h1>
                     </div>)}</>
     )

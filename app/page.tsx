@@ -16,13 +16,13 @@ export default async function Page() {
   const tv = await getShowData('tv') as Movie[]
   const yourMedia =( await getMovie(session)) as Movie[]
   const images = await getImages()
-  console.log(images)
+  
  
   return (
 
       <>
 
-        <section className="max-w-[1800px] min-h-screen mx-auto  border-l border-r border-white/10 relative bg-[#111111] ">
+        <section className="w-full min-h-screen mx-auto  border-l border-r border-white/10 relative bg-[#111111] ">
             <div className="absolute mask-b-from-50% mask-b-to-100%">
               <PosterMarqueeStandalone images={await getImages()}/>
               
@@ -41,7 +41,7 @@ export default async function Page() {
               }
             </div>
         </section>
-        <section className="max-w-[1800px] min-h-screen mx-auto border-l border-r  border-white/10 px-5 py-10 bg-[#111111] relative">
+        <section className="w-full min-h-screen mx-auto border-l border-r  border-white/10 px-5 py-10 bg-[#111111] relative">
           <WatchListSection media={yourMedia} />
           <MediaSection movies={movies} tv={tv} />
         </section>

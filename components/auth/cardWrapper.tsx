@@ -23,7 +23,7 @@ export const CardWrapper = ({
     showSocial
 } : CardWrapperProps) => {
     return (
-        <Card className=" backdrop-blur-2xl text-white border-1 border-[rgba(255,255,255,0.1)] rounded-none lg:translate-x-2 lg:-translate-y-2 bg-transparent">
+        <Card className=" backdrop-blur-2xl text-white border-1 border-[rgba(255,255,255,0.1)]  lg:translate-x-2 lg:-translate-y-2 bg-transparent rounded-xs">
             <CardHeader>
                 <Header label={headerLabel}/>
             </CardHeader>

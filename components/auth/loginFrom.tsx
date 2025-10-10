@@ -81,7 +81,7 @@ export const LoginForm = () => {
                                             {...field}
                                             type='email'
                                             placeholder='jhon.doe@example.com'
-                                            className="border-1 border-[rgba(255,255,255,0.2)] rounded-none lg:h-12"
+                                            className="border-1 border-[rgba(255,255,255,0.2)] rounded-xs lg:h-12"
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -99,7 +99,7 @@ export const LoginForm = () => {
                                             {...field}
                                             type='password'
                                             placeholder='123456'
-                                            className="border-1 border-[rgba(255,255,255,0.2)] rounded-none lg:h-12"
+                                            className="border-1 border-[rgba(255,255,255,0.2)] rounded-xs lg:h-12"
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -111,7 +111,7 @@ export const LoginForm = () => {
                     <FormSucess message={response?.message}/>
                     <Button
                         type="submit"
-                        className='w-full  bg-green-600 rounded-none text-white h-12 hover:bg-green-200 hover:scale-98 hover:text-green-600 duration-300 cursor-pointer'
+                        className='w-full  bg-green-600 rounded-xs text-white h-12 hover:bg-green-200 hover:scale-98 hover:text-green-600 duration-300 cursor-pointer'
                     >
                         Log in
                     </Button>
