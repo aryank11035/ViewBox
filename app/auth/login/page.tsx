@@ -9,7 +9,7 @@ export default async function LoginPage(){
 
     return (
         <>
-            <section className="max-w-[1800px] min-h-screen mx-auto  border-l border-r border-white/10 relative bg-[#111111] pt-20 flex">
+            <section className="max-w-[1800px] min-h-screen mx-auto relative bg-[#111111] pt-20 flex">
                             <div className=" flex flex-2 min-h-screen mx-auto items-center px-2 ">
                                 <div className="relative w-full md:w-1/2 mx-auto  ">
                                     <div className="hidden md:block

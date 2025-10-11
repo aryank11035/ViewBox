@@ -18,7 +18,7 @@ export default async function SearchPage(props : {searchParams : Promise<{search
     
     return(
         <>  
-            <section className="max-w-[1800px] pt-20 mx-auto bg-[#111111] backdrop-blur-2xl  border-l border-r border-white/10 text-xl font-bold px-2  min-h-screen">
+            <section className="max-w-[1700px] pt-20 mx-auto bg-[#111111] backdrop-blur-2xl text-xl font-bold px-2  min-h-screen border-l border-r border-white/10">
 
                 <div className="w-full">
                     <SearchBar />

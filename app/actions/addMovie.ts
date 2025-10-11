@@ -4,7 +4,7 @@ import client from "@/lib/db"
 import { Movie } from "@/schema/type"
 import { ObjectId } from "mongodb"
 
-export async function addMovie(mediaData : Movie){
+export async function addMovie(mediaData : any){
     try {
         const body = mediaData
         const session = await auth()

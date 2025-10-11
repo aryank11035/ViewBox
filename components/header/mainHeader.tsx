@@ -7,7 +7,6 @@ import { Session } from "@/schema/type";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 
-
 export  function Header({session} : {session : Session | null}){
     const [headerName,setHeaderName] = useState<string | undefined>(session?.user?.name)
     const router = useRouter()
@@ -21,7 +20,7 @@ export  function Header({session} : {session : Session | null}){
         
           <nav className="w-[1700px] h-full border-l border-r border-white/10 flex justify-between items-center px-6 md:px-10 backdrop-blur-xl">
             <Link href='/'>
-              <h1 className="text-2xl lg:text-4xl font-bold cursor-pointer">ViewBox</h1>
+              <h1 className="text-2xl lg:text-4xl font-bold cursor-pointer tracking-wider">ViewBox</h1>
             </Link>
             <div className="flex  gap-5 md:gap-10 items-center justify-center">
               {
@@ -37,7 +36,7 @@ export  function Header({session} : {session : Session | null}){
                   <Link href='/search'><Search strokeWidth={1} size={32}/></Link>
                   <Link href="/user" className="hidden md:block">
                     <CircleUser strokeWidth={1} size={32}/>
-                  </Link>
+                  </Link> 
               </div>
             </div>
           </nav>  

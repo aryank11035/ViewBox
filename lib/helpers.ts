@@ -127,3 +127,39 @@ export async function getImages(){
   }
 }
 
+
+export async function getMovieVideoById(mediaType: 'movie' | 'tv' =  'movie',id: number)  {
+
+  try {
+    const res = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}/videos   `, options);
+    if (!res.ok) {
+      console.error("Error retrieving movie data");
+      return null;
+    }
+    const data = await res.json();
+    return data.results.filter((item : any) => (item.type === 'Trailer' || item.type === 'Clip') && item.site === 'YouTube')
+    }catch(err){
+      console.error(err)
+      return null
+    }
+}
+
+
+
+export async function getWheretoWatchById(mediaType: 'movie' | 'tv' =  'movie',id : number)  {
+
+  try {
+    const res = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}/watch/providers   `, options);
+    if (!res.ok) {
+      console.error("Error retrieving movie data");
+      return null;
+    }
+    const data = await res.json();
+    return data.results.IN
+    }catch(err){
+      console.error(err)
+      return null
+    }
+}
+
+

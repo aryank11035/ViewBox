@@ -21,7 +21,7 @@ export interface ProductionCompany {
 export type MediaType = 'movie' | 'tv';
 
 export interface Movie {
-  _id : string  
+  _id :  string 
   id : number 
   title : string 
   name ?: string

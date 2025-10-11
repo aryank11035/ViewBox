@@ -7,8 +7,9 @@ import { getSession } from "@/data/user";
 import { auth } from "@/auth";
 import { Session } from "@/schema/type";
 import { Footer } from "@/components/footer/mainFooter";
+import { IBM_Plex_Mono } from "next/font/google";
 
-const font = Space_Grotesk({
+const font = IBM_Plex_Mono({
     subsets : ['latin'],
     weight : ['300', '400', '500', '600', '700']
 })
@@ -25,11 +26,11 @@ export default async function RootLayout({
   
       <html>
         <body className={cn(
-          "bg-[#111111]  text-white min-h-screen selection:bg-white selection:text-green-600",
+          "bg-[#111111]  text-white min-h-screen selection:bg-white selection:text-green-600 tracking-normal  ",
           font.className
           )}>
          <Header session={session}/>
-        <main className="max-w-[1700px] relative  min-h-screen mx-auto">
+        <main className="w-full relative  min-h-screen mx-auto">
         {/* <div className="hidden md:block 
                       border-l
                       border-r
