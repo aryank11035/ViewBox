@@ -90,7 +90,7 @@ export default function MediaPage({mediaData ,id , mediaType , session , isInWat
                         }
                     }}
             />
-            <div className="flex flex-col-reverse lg:flex-row-reverse max-w-[1500px] mx-auto lg:gap-15 gap-5 mt-10">
+            <div className="flex flex-col-reverse lg:flex-row-reverse max-w-[1500px] mx-auto lg:gap-15 gap-5 my-10">
                 
                 <motion.div 
                     className="space-y-3 flex-2"
@@ -107,18 +107,20 @@ export default function MediaPage({mediaData ,id , mediaType , session , isInWat
                         <p className="text-white/40 text-sm md:text-base leading-snug">{mediaData.overview}</p>
                     </div>
 
-                    <div className=" space-x-3 space-y-3 flex">
-                        <Button  
-                            onClick={(e) => {
-                                        postMovie()
-                                        e.preventDefault()
-                                        }} 
-                            variant={addedToWatchlist ? 'custom_one_2': 'custom_one'} size='custom_one'
-                        >
-                            <ListPlus/>{loading? 'Adding..' :  addedToWatchlist ? 'Added' : ' Add to Watchlist'}
-                                                               
-                        </Button>
-                       
+                    <div className=" space-x-3  flex h-fi mb-8">
+                        <div>
+                            <Button  
+                                onClick={(e) => {
+                                            postMovie()
+                                            e.preventDefault()
+                                            }} 
+                                variant={addedToWatchlist ? 'custom_one_2': 'custom_one'} size='custom_one'
+                            >
+                                <ListPlus/>{loading? 'Adding..' :  addedToWatchlist ? 'Added' : ' Add to Watchlist'}
+                                                                
+                            </Button>
+                        
+                        </div>
                         {   
                             addedToWatchlist &&  (
                                 <motion.div
@@ -147,7 +149,7 @@ export default function MediaPage({mediaData ,id , mediaType , session , isInWat
                        
                     </div>
 
-                    <div className="w-full aspect-video  bg-black/3 0 rounded-xs mt-4">
+                    <div className="w-full aspect-video  bg-black/3 0 rounded-xs ">
                         {videoKey ? (
                             <YouTube 
                                 videoId={videoKey} 
