@@ -17,9 +17,9 @@ export default async function ShowMedia({params} : Params) {
     const session = await auth() as Session | null
     const mediaData = await getMovieById(id,mediaType) as Movie
     const mediaVideoData = await getMovieVideoById(mediaType,id) || []
-    const videoKey = mediaVideoData[0].key || false
+    const videoKey =mediaVideoData[0]?.key ||   false
     const whereToWatch = await getWheretoWatchById(mediaType,id)
-
+    console.log(whereToWatch)
     const addedMediaData = await getMovie(session)  as Movie[]
     const isInWatchlist = addedMediaData.some((item : Movie) => item.id  == id) 
 
@@ -27,7 +27,7 @@ export default async function ShowMedia({params} : Params) {
         notFound()
    } 
     return (
-        <MediaPage mediaData={mediaData} id={id} mediaType={mediaType} session={session} isInWatchList={isInWatchlist} videoKey={videoKey}/> 
+        <MediaPage mediaData={mediaData} id={id} mediaType={mediaType} session={session} isInWatchList={isInWatchlist} videoKey={videoKey} whereToWatch={whereToWatch}/> 
     )
 }
 

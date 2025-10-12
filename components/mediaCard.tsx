@@ -8,14 +8,17 @@ import { useState } from "react";
 import { motion, scale } from "motion/react";
 export default function MediaCard({mediaData,} : {mediaData : Movie } ){
   
-   const [isHover, setIsHover] = useState(false);
+    const [isHover, setIsHover] = useState(false);
+    const [ onView, setOnView ] = useState(false)
 
-    return(
-        <>
+
+    return( 
+        <>  
+
             
                 <Link href={`/${mediaData.mediaType ? mediaData.mediaType : mediaData.media_type}/${mediaData.id}`}  key={mediaData.id} > 
                     <motion.div 
-                        className="relative w-72    aspect-[2/3] cursor-pointer  shadow-xl shadow-black/30 mx-auto"
+                        className="relative w-72  aspect-[2/3] cursor-pointer  shadow-xl shadow-black/30 mx-auto"
                         whileHover={{scale: 1.05}}
                         transition={{
                             type : "spring",
@@ -26,8 +29,8 @@ export default function MediaCard({mediaData,} : {mediaData : Movie } ){
                         {/* <div className="absolute inset-0 rounded-xs border border-white/10 flex items-end">
                             <h1 className="text-xl pl-5 pb-5 font-bold text-white/20">+ Add to Watchlist</h1>
                             </div> */}
-                        <div className="group relative w-full h-full rounded-xs overflow-hidden shadow-xs 
-                                        bg-[#111111]
+                        <div className="group relative w-full h-full rounded-[0.20rem] overflow-hidden shadow-xs 
+                                        bg-black/50
                                         duration-300 transform"
                                             onMouseEnter={() => setIsHover(true)}
                                             onMouseLeave={() => setIsHover(false)}

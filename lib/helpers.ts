@@ -163,3 +163,19 @@ export async function getWheretoWatchById(mediaType: 'movie' | 'tv' =  'movie',i
 }
 
 
+
+
+// export async function getWheretoWatchById(mediaType: 'movie' | 'tv' =  'movie',id : number) {
+//   try {
+//     const res = await fetch(`https://api.watchmode.com/v1/title/${mediaType}-${id}/sources/?apiKey=${process.env.WATCH_MODE_API_KEY}`)
+//     if (!res.ok) {
+//       console.error("Error retrieving movie data");
+//       return null;
+//     }
+//     const data = await res.json();
+//     return data.filter((item : any) => item.region === 'IN')
+//   } catch (err) {
+//     console.error(err)
+//     return []
+//   }
+// }
