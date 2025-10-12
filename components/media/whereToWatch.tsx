@@ -15,8 +15,8 @@ export function WhereToWatch({whereToWatch} : {whereToWatch : any}){
                         <h1>Stream</h1>
                         <div className="flex gap-2 flex-wrap"> 
                             {
-                                whereToWatch.flatrate.map((item : any) => (
-                                    <WhereToWatchIcons iconData = {item} key={item.id}/>
+                                whereToWatch.flatrate.map((item : any , index : number) => (
+                                    <WhereToWatchIcons iconData = {item} key={index}/>
                                 ))
                             }
                         </div>
@@ -29,8 +29,8 @@ export function WhereToWatch({whereToWatch} : {whereToWatch : any}){
                         <h1>Rent</h1>
                         <div className="flex gap-2 flex-wrap"> 
                             {
-                                whereToWatch.rent.map((item : any) => (
-                                    <WhereToWatchIcons iconData = {item} key={item.id}/>
+                                whereToWatch.rent.map((item : any , index : number) => (
+                                    <WhereToWatchIcons iconData = {item} key={index}/>
                                 ))
                             }
                         </div>
@@ -43,8 +43,8 @@ export function WhereToWatch({whereToWatch} : {whereToWatch : any}){
                         <h1>Buy</h1>
                         <div className="flex gap-2 flex-wrap"> 
                             {
-                                whereToWatch.buy.map((item : any) => (
-                                    <WhereToWatchIcons iconData = {item}key={item.id} />
+                                whereToWatch.buy.map((item : any,index : number) => (
+                                    <WhereToWatchIcons iconData = {item}key={index} />
                                 ))
                             }
                         </div>

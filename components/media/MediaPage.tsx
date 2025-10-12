@@ -209,7 +209,7 @@ export default function MediaPage({mediaData ,id , mediaType , session , isInWat
                                 </h1>
                                 <div className=" flex items-end w-fit h-fit">
                                     <motion.span
-                                        className=" text-xs rounded-full bg-white/20 h-fit w-fit p-1 px-2 mb-1.5 cursor-pointer hover:bg-green-600 duration-600"
+                                        className=" text-xs rounded-full bg-white/20 h-fit w-fit p-1 px-2 mb-1.5 cursor-pointer hover:bg-green-600 duration-300"
                                         onMouseEnter={() => setInfoMessage(true)}
                                         onMouseLeave={() => setInfoMessage(false)}
                                     >
@@ -233,7 +233,7 @@ export default function MediaPage({mediaData ,id , mediaType , session , isInWat
                                         }}
                                         transition={{
                                             delay : 0.5,
-                                            duration : 0.6,
+                                            duration : 0.3,
                                             ease: [0, 0.71, 0.2, 1.01],
                                         }}
                                     >
