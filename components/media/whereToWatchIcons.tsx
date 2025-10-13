@@ -3,13 +3,20 @@
 import { motion } from "framer-motion"
 import { useState } from "react"
 
-export function WhereToWatchIcons({iconData} : {iconData : any}){
+export function WhereToWatchIcons({iconData , mediaName} : {iconData : any , mediaName : string}){
 
     const [isHover,setIsHover] = useState(false)
+    const where_to_watch_name = `www.${iconData.provider_name.replace(/[^a-zA-Z0-9]/g, '')}.com`
+    
+    
+
+    const where_to_watch_link =  iconData.provider_name.includes('YouTube') ? `www.youtube.com/results?search_query=${mediaName}` : iconData.provider_name.includes('Google Play') ? `play.google.com/store/search?q=${mediaName}&c=movies` : iconData.provider_name.includes('Apple') ? 'tv.apple.com': iconData.provider_name.includes('Amazon') ? 'primevideo.com' : iconData.provider_name.includes('VI movies and tv') ? `moviesandtv.myvi.in` :  where_to_watch_name
 
     return(
         
         <motion.a 
+            href={`https://${where_to_watch_link.toLowerCase()}`}
+            target = "_blank"
             className="bg-white/20 w-fit h-fit flex gap-2 items-center p-2 rounded-xs cursor-pointer hover:text-black/80 hover:bg-white duration-300"
             onMouseEnter = {() => setIsHover(true)}
             onMouseLeave = {() => setIsHover(false)}
@@ -29,7 +36,7 @@ export function WhereToWatchIcons({iconData} : {iconData : any}){
                     animate = { isHover ? 'hovered' : 'normal' }
                     variants={{
                         normal : { opacity : 1 ,  translateX : 0 , translateY : -2 },
-                        hovered : { opacity : 1 ,  translateX : 3 , translateY : -5},
+                        hovered : { opacity : 1 ,  translateX : 3 , translateY : -5},   
                     }}
                     transition={{                                        
                         duration : 0.3,
@@ -46,4 +53,4 @@ export function WhereToWatchIcons({iconData} : {iconData : any}){
             </motion.div>
         </motion.a>
     )
-}   
+}       

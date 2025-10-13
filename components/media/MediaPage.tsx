@@ -35,8 +35,7 @@ export default function MediaPage({mediaData ,id , mediaType , session , isInWat
     const [isMobile, setIsMobile] = useState(false);
     const router = useRouter()
   
-
-    
+    const mediaName = mediaData.title ? mediaData.title : mediaData.original_name as string
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth < 640);
         handleResize();
@@ -259,8 +258,8 @@ export default function MediaPage({mediaData ,id , mediaType , session , isInWat
                                     </div>
                                 )
                             } */}
-                               
-                                <WhereToWatch whereToWatch={whereToWatch}/>
+                            
+                                <WhereToWatch whereToWatch={whereToWatch} mediaName={mediaName}/>
                         </div>
                     </motion.div>   
 

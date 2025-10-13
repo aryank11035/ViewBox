@@ -137,7 +137,7 @@ export async function getMovieVideoById(mediaType: 'movie' | 'tv' =  'movie',id:
       return null;
     }
     const data = await res.json();
-    return data.results.filter((item : any) => (item.type === 'Trailer' || item.type === 'Clip') && item.site === 'YouTube')
+    return data.results.filter((item : any) => (item.type.includes('Trailer') || item.type.includes('Clip')) && item.site.includes('YouTube'))
     }catch(err){
       console.error(err)
       return null
@@ -155,7 +155,30 @@ export async function getWheretoWatchById(mediaType: 'movie' | 'tv' =  'movie',i
       return null;
     }
     const data = await res.json();
-    return data.results.IN
+    const whereToWatchSourceIN = data.results.IN
+
+    // if(whereToWatchSourceIN) return null
+    console.log(data.results.IN)
+    const formattedData : Record<string , any> = {}
+
+    if(whereToWatchSourceIN?.flatrate) formattedData.flatrate = whereToWatchSourceIN.flatrate
+    if(whereToWatchSourceIN?.rent) formattedData.rent = whereToWatchSourceIN.rent
+    if(whereToWatchSourceIN?.buy) formattedData.but = whereToWatchSourceIN.buy
+
+
+    if(!formattedData.rent && !formattedData.buy && !formattedData.flatrate){
+      formattedData.clips = [
+        {
+          logo_path: '/pTnn5JwWr4p3pG8H6VrpiQo7Vs0.jpg',
+          provider_id: 192,
+          provider_name: 'YouTube',
+          display_priority: 10
+        }
+      ]
+    }
+
+    return formattedData
+
     }catch(err){
       console.error(err)
       return null
