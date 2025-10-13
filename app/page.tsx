@@ -37,7 +37,7 @@ export default async function Page() {
         </section>
         <div className="w-full border-t border-b border-white/10 h-20">
               <div className="max-w-[1700px] border-l border-r border-white/10 mx-auto h-full flex  md:justify-start justify-center items-end px-2 ">
-                <h1 className="text-2xl md:text-4xl font-semibold text-white/20 tracking-widest">{`Popular Movies...`}</h1>
+                <h1 className="text-2xl md:text-4xl font-semibold text-white/10 tracking-widest">{`Popular Movies...`}</h1>
               </div> 
         </div>
         <section className="w-full mx-auto  bg-black/30  border-l border-r border-white/10 relative">
@@ -54,14 +54,12 @@ export default async function Page() {
         </section>
         <div className="w-full border-t border-b border-white/10 h-20">
               <div className="max-w-[1700px] border-l border-r border-white/10 mx-auto h-full flex md:justify-start justify-center items-end px-2">
-                <h1 className="text-2xl md:text-4xl font-semibold text-white/20 tracking-widest">{`Popular Shows...`}</h1>
+                <h1 className="text-2xl md:text-4xl font-semibold text-white/10 tracking-widest">{`Popular Shows...`}</h1>
               </div> 
         </div>
         <section className="w-full mx-auto  bg-black/30  border-l border-r border-white/10 ">
              
           <UpdatedSection mediaData={tv} />
-              
-          
         </section>
       </>
    

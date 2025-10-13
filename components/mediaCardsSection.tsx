@@ -1,6 +1,6 @@
 'use client'
 import { Star } from "lucide-react"
-import { motion } from "motion/react"
+
 import { ProgressiveBlur } from "./motion-primitives/progressive-blur"
 import { useState } from "react";
 import Link from "next/link";

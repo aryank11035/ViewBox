@@ -79,7 +79,11 @@ export default function MediaCard({mediaData,} : {mediaData : Movie } ){
                                 <div className="absolute bottom-0 p-4  space-y-2 w-full ">
                                     <h1 className="text-xl font-bold">{mediaData.title || mediaData.name}</h1>
                                     <div className='flex gap-2  items-center'>
-                                        <Star size={20} strokeWidth={1}/>
+                                         <img 
+                                            src="/logo-imdb.svg" 
+                                            alt="IMDb Logo" 
+                                            className="w-10  h-auto" 
+                                        />
                                         <h1 className="text-xl font-light">{mediaData.vote_average ? `${mediaData.vote_average.toFixed(1)}/10`  : 'NA'}</h1>
                                     </div>
                                 </div>

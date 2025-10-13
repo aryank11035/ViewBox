@@ -83,12 +83,12 @@ export async function getSearchData(query : string,mediaType : string ){
       return {message : 'No results found'}
     }
     const data = await res.json()
-    
-   
-    return data.results.map((item : any) => ({
+    const mappedData = data.results.map((item : any) => ({
       ...item,
       mediaType : mediaType
-    })) 
+    }))
+    const filteredData = mappedData.filter((item : any) => item.poster_path && item.backdrop_path && item.vote_average !== 0  && item.runtime !== 0)  
+    return filteredData
   } catch(err){
     console.error(err)
     return null
@@ -104,7 +104,7 @@ export async function getTrendingData(){
     }
     const data = await res.json()
     
-    return data.results 
+    return data.results
   }catch(err){
     console.error(err)
     return null
@@ -137,6 +137,7 @@ export async function getMovieVideoById(mediaType: 'movie' | 'tv' =  'movie',id:
       return null;
     }
     const data = await res.json();
+ 
     return data.results.filter((item : any) => (item.type.includes('Trailer') || item.type.includes('Clip')) && item.site.includes('YouTube'))
     }catch(err){
       console.error(err)
@@ -158,7 +159,7 @@ export async function getWheretoWatchById(mediaType: 'movie' | 'tv' =  'movie',i
     const whereToWatchSourceIN = data.results.IN
 
     // if(whereToWatchSourceIN) return null
-    console.log(data.results.IN)
+    
     const formattedData : Record<string , any> = {}
 
     if(whereToWatchSourceIN?.flatrate) formattedData.flatrate = whereToWatchSourceIN.flatrate
@@ -186,6 +187,24 @@ export async function getWheretoWatchById(mediaType: 'movie' | 'tv' =  'movie',i
 }
 
 
+
+export async function getRelatedMedia(mediaType: 'movie' | 'tv' =  'movie',id: number)  {
+
+  try {
+    const res = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}/similar`, options);
+    if (!res.ok) {
+      console.error("Error retrieving movie data");
+      return null;
+    }
+    const data = await res.json();
+    const filteredData = data.results.filter((item : any) => item.poster_path && item.backdrop_path && item.runtime !== 0)
+    const shuffled = filteredData.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0,6).map((item : any) => ({...item , mediaType : mediaType}))
+    }catch(err){
+      console.error(err)
+      return null
+    }
+}
 
 
 // export async function getWheretoWatchById(mediaType: 'movie' | 'tv' =  'movie',id : number) {

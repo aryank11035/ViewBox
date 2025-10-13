@@ -3,16 +3,18 @@
 import { InfiniteSlider } from "../motion-primitives/infinite-slider"
 import { SliderMediaCardSection } from "../mediaCardsSection"
 import { ProgressiveBlur } from "../motion-primitives/progressive-blur"
-
+import {  motion } from "framer-motion"
+import { useState } from "react"
 export default function UpdatedSection({mediaData } : {mediaData : any }){
-
-    const dataFilter = mediaData.map((media: any) => ( 
-        <h1>HEllo {media.title}</h1>
-    ))
-
+    const [activeDirection, setActiveDirection] = useState<"x" | "y" | null>(
+        null
+    )
+   
     return (
             <>
-                <div className="relative overflow-hidden">
+                <motion.div 
+                    className="relative overflow-hidden "
+                >
 
                     <InfiniteSlider 
                         speed={50}
@@ -32,7 +34,7 @@ export default function UpdatedSection({mediaData } : {mediaData : any }){
                         direction='right'
                         blurIntensity={0.2}
                     /> */}
-                </div>
+                </motion.div>
             </>
 
 )   

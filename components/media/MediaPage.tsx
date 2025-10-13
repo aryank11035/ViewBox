@@ -18,6 +18,8 @@ import { Toaster } from "../ui/sonner"
 import { Info } from 'lucide-react'; 
 import { AnimatePresence, hover, motion } from "framer-motion"
 import { WhereToWatch } from "./whereToWatch"
+import MediaCard from "../mediaCard"
+import { RelatedMedia } from "./relatedMediaCard"
 const font = Libre_Franklin({
     subsets : ['latin'],
     weight : ['800']
@@ -25,7 +27,7 @@ const font = Libre_Franklin({
 
 
 
-export default function MediaPage({mediaData ,id , mediaType , session , isInWatchList , videoKey , whereToWatch} : {mediaData : Movie ,id : number,mediaType : 'movie' | 'tv', session : Session | null , isInWatchList : boolean , videoKey : string , whereToWatch : any}){
+export default function MediaPage({mediaData ,id , mediaType , session , isInWatchList , videoKey , whereToWatch , relatedMovies , trendingData} : {mediaData : Movie ,id : number,mediaType : 'movie' | 'tv', session : Session | null , isInWatchList : boolean , videoKey : string , whereToWatch : any, relatedMovies : any , trendingData : any}){
 
 
     const [addedToWatchlist , SetAddedToWatchlist] = useState(isInWatchList)
@@ -33,6 +35,7 @@ export default function MediaPage({mediaData ,id , mediaType , session , isInWat
     const [infoMessage , setInfoMessage] = useState(false)
     const [message,setMessage] = useState(false)
     const [isMobile, setIsMobile] = useState(false);
+    const [onHover,setOnHover] = useState(false)
     const router = useRouter()
   
     const mediaName = mediaData.title ? mediaData.title : mediaData.original_name as string
@@ -89,19 +92,8 @@ export default function MediaPage({mediaData ,id , mediaType , session , isInWat
 
     return (
         <>
-        {/* <div >
-
-        </div>
-                <motion.div
-                    className="absolute inset-0 z-10 pt-20"
-                    >
-                        <motion.div className="inset-0 bg-blue-100 z-10">
-
-                        </motion.div>
-                </motion.div> */}
         <section className="pt-20 ">
-
-            <div className="h-fit mx-auto relative  backdrop-blur-3xl  max-w-[1700px] border-l border-r border-white/10 min-h-screen px-6 flex bg-black/30">
+            <div className="h-fit mx-auto relative  backdrop-blur-3xl  max-w-[1700px] border-l border-r border-white/10 min-h-screen px-6 md:py-15 py-10 bg-black/30">
                 <Toaster 
                         offset={{ bottom :"100px", right: "16px", left: "16px" }} 
                         mobileOffset={{ bottom: '100px' }} 
@@ -114,7 +106,7 @@ export default function MediaPage({mediaData ,id , mediaType , session , isInWat
                             }
                         }}
                 />
-                <div className="flex flex-col-reverse lg:flex-row-reverse max-w-[1500px] mx-auto lg:gap-15 gap-5 my-10 relative">
+                <div className="flex flex-col-reverse lg:flex-row-reverse max-w-[1500px] mx-auto lg:gap-15 gap-5 relative">
 
                     <motion.div 
                         className="space-y-3 flex-2"
@@ -152,7 +144,8 @@ export default function MediaPage({mediaData ,id , mediaType , session , isInWat
                             {   
                                 addedToWatchlist &&  (
                                     <motion.div
-                                        initial={{opacity : 0 , translateX : -6}}
+
+                                        initial={{opacity : 0 , translateX : -6 }}
                                         animate={{ opacity: 1, translateX : 0 }}
                                         transition={{   
                                             duration: 0.8,
@@ -274,10 +267,10 @@ export default function MediaPage({mediaData ,id , mediaType , session , isInWat
                         }}
                     >
                         <div className="lg:hidden flex gap-3 flex-col mb-2">
-                            <h1 className="text-4xl md:text-5xl font-bold text-wrap">{mediaData.title ? mediaData.title : mediaData.original_name}
-                                <span className="text-white/30 text-xl ml-2 font-medium">
+                            <h1 className="text-4xl md:text-5xl font-bold text-wrap flex flex-wrap">{mediaData.title ? mediaData.title : mediaData.original_name}
+                                <span className="text-white/30 text-xl ml-2 font-medium ">
                                         {`[${mediaData.mediaType === 'tv' ? 'Series' : 'Movie'}]`}
-                                    </span>
+                                </span>
                             </h1>
                             <p className="text-white/40 text-sm md:text-base leading-snug">{mediaData.overview}</p>
                         </div>
@@ -325,6 +318,49 @@ export default function MediaPage({mediaData ,id , mediaType , session , isInWat
                         </div>
                     </motion.div>
                 </div>
+                
+                <div className="max-w-[1500px] mx-auto lg:mt-15 mt-5 flex flex-col gap-2">
+                    <h1 className="text-xl md:text-4xl  font-bold text-wrap flex flex-wrap tracking-tight">You can also Watchlist</h1>
+                    <div className="w-full h-fit grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5 grid mx-auto">
+                        
+                        {
+                            relatedMovies.length > 0 ? 
+                                    relatedMovies.map((mediaData : any , index : number) => (
+                                        <motion.div
+                                            initial={{ opacity : 0 , translateY      : 10}}
+                                            animate={{ opacity: 1, translateY : 0 }}
+                                            transition={{
+                                                duration: 0.8,
+                                                delay: 0.5,
+                                                ease: [0, 0.71, 0.2, 1.01],
+                                            }}
+                                            key={index}
+                                        >
+                                                <RelatedMedia mediaData={mediaData} key={index}/>
+                                        </motion.div>
+                                    )) 
+                                :
+                                    trendingData.map((mediaData : any , index : number) => (
+                                        <motion.div
+                                            initial={{ opacity : 0 , translateY      : 10}}
+                                            animate={{ opacity: 1, translateY : 0 }}
+                                            transition={{
+                                                duration: 0.8,
+                                                delay: 0.5,
+                                                ease: [0, 0.71, 0.2, 1.01],
+                                            }}
+                                            key={index}
+                                        >
+                                                <RelatedMedia mediaData={mediaData} key={index}/>
+                                        </motion.div>
+                                    ))
+                        }
+                        
+                    </div> 
+                </div>
+
+
+
             </div>
 
         </section>

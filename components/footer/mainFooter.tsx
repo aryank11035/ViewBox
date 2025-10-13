@@ -1,4 +1,7 @@
-import { Mail,Linkedin,Twitter } from "lucide-react"
+import { FaLinkedin } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import { MdMailOutline } from "react-icons/md";
+import { FaGithub } from "react-icons/fa6";
 import Link from "next/link"
 
 export function Footer(){
@@ -30,19 +33,25 @@ export function Footer(){
                                 <div className="gap-3 flex flex-col">
                                     <h1 className="font-medium text-md md:text-lg">Contact</h1>
                                     <div className="flex space-y-1.5 flex-col text-white/40 text-sm md:text-base">
-                                        <a className="flex gap-2 items-center hover:text-green-600 duration-200 cursor-pointer"><Mail size={20}/>
+                                        {/* <a className="flex gap-2 items-center hover:text-green-600 duration-200 cursor-pointer">
+                                            <MdMailOutline size={21} className="mt-0.5"/>
                                             <p className="pt-1">
                                                 Email
                                             </p>
-                                        </a>
-                                        <a className="flex gap-2 items-center hover:text-green-600 duration-200 cursor-pointer"><Twitter size={20}/>
+                                        </a> */}
+                                        <a className="flex gap-2 items-center hover:text-green-600 duration-200 cursor-pointer"><FaXTwitter size={19    }/>
                                             <p className="pt-1">
                                                 X
                                             </p>    
                                         </a>
-                                        <a className="flex gap-2 items-center text-center hover:text-green-600 duration-200 cursor-pointer"><Linkedin size={20}/>
+                                        <a className="flex gap-2 items-center text-center hover:text-green-600 duration-200 cursor-pointer"><FaLinkedin size={19}/>
                                             <p className="pt-1">
                                                 LinkedIn
+                                            </p>
+                                        </a>
+                                        <a className="flex gap-2 items-center text-center hover:text-green-600 duration-200 cursor-pointer"><FaGithub size={19}/>
+                                            <p className="pt-1">
+                                                GitHub
                                             </p>
                                         </a>
                                     </div>
@@ -62,9 +71,10 @@ export function Footer(){
                                 <p>Made with passion of finding good cinema</p>
                             </div>
                             <div className="flex flex-row gap-4 text-white/40 justify-center">
-                                <a className="flex gap-2 items-center hover:text-green-600 duration-200 cursor-pointer"><Mail size={20}/></a>
-                                <a className="flex gap-2 items-center hover:text-green-600 duration-200 cursor-pointer"><Twitter size={20}/></a>
-                                <a className="flex gap-2 items-center text-center hover:text-green-600 duration-200 cursor-pointer"><Linkedin size={20}/></a>
+                                {/* <a className="flex gap-2 items-center hover:text-green-600 duration-200 cursor-pointer"><MdMailOutline size={21}/></a> */}
+                                <a className="flex gap-2 items-center hover:text-green-600 duration-200 cursor-pointer"><FaXTwitter size={19}/></a>
+                                <a className="flex gap-2 items-center text-center hover:text-green-600 duration-200 cursor-pointer"><FaLinkedin size={19}/></a>
+                                <a className="flex gap-2 items-center text-center hover:text-green-600 duration-200 cursor-pointer"><FaGithub size={19}/></a>
                             </div>
 
                         </div>
