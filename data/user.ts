@@ -1,5 +1,5 @@
 
-import { ObjectId } from "mongodb";
+import { Admin, ObjectId } from "mongodb";
 import { auth } from "@/auth";
 import client from "@/lib/db";
 
@@ -15,6 +15,19 @@ export const getUserByEmail = async (email: string) => {
     return null;
   }
 };
+
+
+export const returnUserAdmin = async (email : string) => {
+  
+  const adminEmail = process.env.ADMIN_EMAIL
+
+  if(email === adminEmail) {
+    return true
+  }else {
+    return false
+  }
+
+}
 
 
 export const getUserById = async (id: string) => {

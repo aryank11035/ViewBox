@@ -8,7 +8,11 @@ import { ProgressiveBlur } from "@/components/motion-primitives/progressive-blur
 import UpdatedSection from "@/components/sections/updatedSection";
 import { LandingPage } from "@/components/sections/landingPage";
 
-
+import { SlFilm } from "react-icons/sl";
+import { FaRegStar } from "react-icons/fa";
+import { Users } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
+import { InfoCardSection } from "@/components/sections/infoCardSection";
 
 export default async function Page() {
     
@@ -40,7 +44,7 @@ export default async function Page() {
                 <h1 className="text-2xl md:text-4xl font-semibold text-white/10 tracking-widest">{`Popular Movies...`}</h1>
               </div> 
         </div>
-        <section className="w-full mx-auto  bg-black/30  border-l border-r border-white/10 relative">
+        <section className="w-full mx-auto  bg-black/30">
         {/* <div className="absolute inset-0 z-10 left-0 top-0 blur-3xl">
             <ProgressiveBlur
             className='pointer-events-none absolute top-0 left-0 h-full w-[200px]'
@@ -57,9 +61,12 @@ export default async function Page() {
                 <h1 className="text-2xl md:text-4xl font-semibold text-white/10 tracking-widest">{`Popular Shows...`}</h1>
               </div> 
         </div>
-        <section className="w-full mx-auto  bg-black/30  border-l border-r border-white/10 ">
+        <section className="w-full mx-auto  bg-black/30 ">
              
           <UpdatedSection mediaData={tv} />
+        </section>
+        <section className="bg-[#111111] w-full mx-auto border-t border-white/10 ">
+          <InfoCardSection />
         </section>
       </>
    

@@ -15,15 +15,12 @@ export  function Header({session} : {session : Session | null}){
       setHeaderName(session?.user?.name)
     },[headerName])
     
-    useEffect(() => {
-      router.prefetch('/');
-    }, []);
-
+    
     return (
         <header className="w-full h-20  flex items-center justify-center text-white fixed z-20 border-b border-b-white/10  backdrop-blur-xl top-0">
         
           <nav className="w-[1700px] h-full border-l border-r border-white/10 flex justify-between items-center px-6 md:px-10 backdrop-blur-xl">
-            <Link href='/'>
+            <Link href='/' prefetch={true}>
               <h1 className="text-2xl lg:text-4xl font-bold cursor-pointer tracking-wider">ViewBox</h1>
             </Link>
             <div className="flex  gap-5 md:gap-10 items-center justify-center">

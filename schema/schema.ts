@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import { unique } from "next/dist/build/utils";
+import { boolean } from "zod";
 
 const movieSchema = new mongoose.Schema({
     id : {
@@ -40,24 +42,28 @@ const movieSchema = new mongoose.Schema({
 
 
 const userSchema = new mongoose.Schema({
-    username : {
-        type : String,
-        required : true 
-    },
+    name : String,
     email : {
         type : String,
-        required : true
+        required : true,
+        unique : true,
     },
     password : {
         type : String,
         required : true
     },
-    movies : {
-        type : [mongoose.Schema.Types.ObjectId],
-        ref : "Movie",
-        default : [],
-    }
-
+    role: {
+        type: String,
+        enum: ['user', 'admin'],
+        default: 'user'
+    },
+    isAdmin : {
+        type : Boolean,
+        default : false
+    },
+    sugesstions : [String],
+    favourites : [String],
+    playlist : [String]
 })
 
 export {movieSchema , userSchema}

@@ -1,7 +1,7 @@
 import NextAuth from "next-auth"
 import { MongoDBAdapter } from "@auth/mongodb-adapter"
 import client from "./lib/db"
-import {  getUserById } from "./data/user"
+import {  getUserByEmail, getUserById, returnUserAdmin } from "./data/user"
 import authConfig from "./auth.config"
 
 
@@ -18,18 +18,26 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           
         session.user.movies = token.movies
       }
+      if(token.role && session.user){
+        session.user.role = token.role
+      }
+      if(session.user){
+        session.user.isAdmin = token.isAdmin
+      }
+      console.log('session',{session})
       return session
     },
     async jwt({ token , user}) {
-        if(!token.sub) return token
+        if(!token.sub || !token.email) return token
         
         const existingUser = await getUserById(token.sub)
-
+  
         if(!existingUser) return token
-    
-        
-        token.name = existingUser.name
+
+        token.name = existingUser.isAdmin ? 'Admin' : existingUser.name
         token.movies = existingUser.movies || []
+        token.role = existingUser.isAdmin ? 'admin' : existingUser.role
+        token.isAdmin = existingUser.isAdmin 
         
         return token
     },
@@ -39,7 +47,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       
       await db.collection('users').updateOne(
         {email : user.email},
-        {$setOnInsert : {movies : []}},
+        {$setOnInsert : {name : user.name , movies : [], role : 'user',isAdmin : false}},
         {upsert : true}
       )
       return true

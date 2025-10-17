@@ -127,6 +127,22 @@ export async function getImages(){
   }
 }
 
+export async function getBackdrop(mediaType : 'movie' | 'tv' =  'movie'){
+  try{
+    const res = await fetch(`https://api.themoviedb.org/3/${mediaType}/popular`,options)
+    if(!res.ok){
+      console.log('Error Fetching Data')
+      return {message : 'No trending movies or tv shows'}
+    }
+    const data = await res.json()
+    const imagesArray = data.results.map((item: any) => item.backdrop_path);
+    return imagesArray.slice(0,6)
+  }catch(err){
+    console.error(err)
+    return null
+  }
+}
+
 
 export async function getMovieVideoById(mediaType: 'movie' | 'tv' =  'movie',id: number)  {
 
