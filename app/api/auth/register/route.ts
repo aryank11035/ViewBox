@@ -4,7 +4,7 @@ import client from '@/lib/db'
 
 import { getUserByEmail, returnUserAdmin } from '@/data/user'
 import { connectToMongoose } from '@/lib/mongoose'
-import Users from '@/lib/models'
+import {Users} from '@/lib/models'
 import mongoose from 'mongoose'
 export async function POST(req : Request){
     const {name ,  email , password } = await req.json()
@@ -28,7 +28,6 @@ export async function POST(req : Request){
         password: hashedPassword,
         role: isAdmin ? "admin" : "user",
         isAdmin,
-        movies: [],
         votes_id: [],
         suggestions: [],
         favourites: [],

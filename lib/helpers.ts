@@ -1,6 +1,6 @@
 'use server'
 
-import { Movie } from "@/schema/type";
+
 
 const options = {
   method: 'GET',
@@ -25,7 +25,7 @@ export async function getShowData(mediaType : 'movie' | 'tv' =  'movie'){
     return data.results.map((item : any) => ({
       ...item,
       mediaType : mediaType,
-    })) as Movie []
+    })) as any []
   }catch(err){
     console.error(err)
     return []
@@ -180,7 +180,7 @@ export async function getWheretoWatchById(mediaType: 'movie' | 'tv' =  'movie',i
 
     if(whereToWatchSourceIN?.flatrate) formattedData.flatrate = whereToWatchSourceIN.flatrate
     if(whereToWatchSourceIN?.rent) formattedData.rent = whereToWatchSourceIN.rent
-    if(whereToWatchSourceIN?.buy) formattedData.but = whereToWatchSourceIN.buy
+    if(whereToWatchSourceIN?.buy) formattedData.buy = whereToWatchSourceIN.buy
 
 
     if(!formattedData.rent && !formattedData.buy && !formattedData.flatrate){
@@ -220,6 +220,11 @@ export async function getRelatedMedia(mediaType: 'movie' | 'tv' =  'movie',id: n
       console.error(err)
       return null
     }
+}
+
+
+export async function allData(allMediaData : any){
+  console.log(allMediaData)
 }
 
 

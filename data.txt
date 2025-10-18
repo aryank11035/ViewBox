@@ -1,0 +1,110 @@
+{
+  id: 8358,
+  title: 'Cast Away',
+  backdrop_path: '/ioqaIhJSkwa9DGRHGtOOUTiGRs2.jpg',
+  poster_path: '/7lLJgKnAicAcR5UEuo8xhSMj18w.jpg',
+  tagline: 'At the edge of the world, his journey begins.',
+  homepage: '',
+  adult: false,
+  original_language: 'en',
+  vote_average: 7.66,
+  runtime: 143,
+  release_date: '2000-12-22',
+  original_title: 'Cast Away',
+  overview: "Chuck Noland, a top international manager for FedEx, and Kelly, a Ph.D. student, are in love and heading towards marriage. Then Chuck's plane to Malaysia crashes at sea during a terrible storm. He's the only survivor, and finds himself marooned on a desolate island. With no way to escape, Chuck must find ways to survive in his new home.",
+  genres: [ { id: 12, name: 'Adventure' }, { id: 18, name: 'Drama' } ],
+  production_companies: [
+    {
+      id: 25,
+      name: '20th Century Fox',
+      logo_path: '/qZCc1lty5FzX30aOCVRBLzaVmcp.png',
+      origin_country: 'US'
+    },
+    {
+      id: 7,
+      name: 'DreamWorks Pictures',
+      logo_path: '/vru2SssLX3FPhnKZGtYw00pVIS9.png',
+      origin_country: 'US'
+    },
+    {
+      id: 11395,
+      name: 'ImageMovers',
+      logo_path: '/5vSBzUwnCcaF90ZTchG3LwRKQ2M.png',
+      origin_country: 'US'
+    },
+    {
+      id: 4171,
+      name: 'Playtone',
+      logo_path: '/cdwjRVcXP9zws9gkiim0KkBNs9N.png',
+      origin_country: 'US'
+    }
+  ],
+  mediaType: 'movie',
+  videokey: '2dZvTscDGek',
+  flatrate: [
+    {
+      logo_path: '/pbpMk2JmcoNnQwx5JGpXngfoWtp.jpg',
+      provider_id: 8,
+      provider_name: 'Netflix',
+      display_priority: 0
+    },
+    {
+      logo_path: '/pvske1MyAoymrs5bguRfVqYiM9a.jpg',
+      provider_id: 119,
+      provider_name: 'Amazon Prime Video',
+      display_priority: 1
+    },
+    {
+      logo_path: '/8aBqoNeGGr0oSA85iopgNZUOTOc.jpg',
+      provider_id: 2100,
+      provider_name: 'Amazon Prime Video with Ads',
+      display_priority: 73
+    }
+  ],
+  rent: [
+    {
+      logo_path: '/oMYZg3cGAGp9ecKGlBgumcjDmnN.jpg',
+      provider_id: 2,
+      provider_name: 'Apple TV',
+      display_priority: 3
+    },
+    {
+      logo_path: '/8z7rC8uIDaTM91X0ZfkRf04ydj2.jpg',
+      provider_id: 3,
+      provider_name: 'Google Play Movies',
+      display_priority: 7
+    },
+    {
+      logo_path: '/pTnn5JwWr4p3pG8H6VrpiQo7Vs0.jpg',
+      provider_id: 192,
+      provider_name: 'YouTube',
+      display_priority: 10
+    },
+    {
+      logo_path: '/seGSXajazLMCKGB5hnRCidtjay1.jpg',
+      provider_id: 10,
+      provider_name: 'Amazon Video',
+      display_priority: 38
+    }
+  ],
+  buy: [
+    {
+      logo_path: '/oMYZg3cGAGp9ecKGlBgumcjDmnN.jpg',
+      provider_id: 2,
+      provider_name: 'Apple TV',
+      display_priority: 3
+    },
+    {
+      logo_path: '/8z7rC8uIDaTM91X0ZfkRf04ydj2.jpg',
+      provider_id: 3,
+      provider_name: 'Google Play Movies',
+      display_priority: 7
+    },
+    {
+      logo_path: '/pTnn5JwWr4p3pG8H6VrpiQo7Vs0.jpg',
+      provider_id: 192,
+      provider_name: 'YouTube',
+      display_priority: 10
+    }
+  ]
+}

@@ -1,50 +1,70 @@
+import { WhereToWatch } from "@/components/media/whereToWatch";
 import mongoose from "mongoose";
-import { unique } from "next/dist/build/utils";
-import { boolean } from "zod";
+import { release } from "os";
+
+
+const providerSchema = new mongoose.Schema({
+  logo_path: { type: String, required: true },
+  provider_id: { type: Number, required: true },
+  provider_name: { type: String, required: true },
+  display_priority: { type: Number, required: true },
+});
+
+
+const whereToWatchSchema = new mongoose.Schema({
+  flatrate: { type: [providerSchema], required: false  },
+  rent: { type: [providerSchema], required: false },
+  buy: { type: [providerSchema],  required: false },
+  clips: { type : [providerSchema],  required: false }
+});
+
 
 const movieSchema = new mongoose.Schema({
-    id : {
-        type : Number,
-        required : true,
-        unique : true 
-    },
+    id : Number,
     title : {
         type : String,
-        required : true,
+        required : false,
     },
+    original_name : {
+        type : String,
+        required : false
+    }, 
     backdrop_path : String,
     poster_path : String,
-    tagline : String,
-    homepage : String,
-    adult : Boolean,
-    original_language : String,
-    vote_average : Number,
-    runtime : Number,
-    release_date : String,
-    original_date : String,
     overview : String,
+    vote_average : Number,
+    release_date : {
+        type: String,
+        required : false
+    },
+    first_air_date : {
+        type : String,
+        required : false
+    },
     genres : [{
         id : Number,
-        name : String
-    }],
-    production_companies : [{
-        id : Number,
-        name : String,
-        logo_path : String,
-        origin_country : String
+        name: String
     }],
     mediaType : {
         type : String,
-        enum : [ 'movie','tv'],
-        required : true
-    }
+        enum : ['movie' , 'tv']
+    },
+    overrated : {
+        type : Number,
+        default : 0
+    },
+    underrated : {
+        type : Number,
+        default : 0
+    },
+    videoKey : String,
+    whereToWatch : whereToWatchSchema
 })
-
 
 const userSchema = new mongoose.Schema({
     name : String,
     email : {
-        type : String,
+        type : String,      
         required : true,
         unique : true,
     },
@@ -58,7 +78,7 @@ const userSchema = new mongoose.Schema({
         default: 'user'
     },
     isAdmin : {
-        type : Boolean,
+        type : Boolean, 
         default : false
     },
     sugesstions : [String],

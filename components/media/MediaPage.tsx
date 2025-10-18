@@ -1,6 +1,6 @@
 'use client'
 
-import { Movie, Session } from "@/schema/type"
+import { Session } from "@/schema/type"
 import { Timer,Star,Languages,Clapperboard, Icon } from "lucide-react"
 import { useEffect, useState } from "react"
 import { addMovie } from "../../app/actions/addMovie"
@@ -27,7 +27,7 @@ const font = Libre_Franklin({
 
 
 
-export default function MediaPage({mediaData ,id , mediaType , session , isInWatchList , videoKey , whereToWatch , relatedMovies , trendingData} : {mediaData : Movie ,id : number,mediaType : 'movie' | 'tv', session : Session | null , isInWatchList : boolean , videoKey : string , whereToWatch : any, relatedMovies : any , trendingData : any}){
+export default function MediaPage({allMediaData, mediaData ,id , mediaType , session , isInWatchList , videoKey , whereToWatch , relatedMovies , trendingData} : {allMediaData : any , mediaData : any ,id : number,mediaType : 'movie' | 'tv', session : Session | null , isInWatchList : boolean , videoKey : string , whereToWatch : any, relatedMovies : any , trendingData : any}){
 
 
     const [addedToWatchlist , SetAddedToWatchlist] = useState(isInWatchList)
@@ -59,12 +59,20 @@ export default function MediaPage({mediaData ,id , mediaType , session , isInWat
             return
         }
 
-        if(addedToWatchlist) return 
+        
 
         try {
             setLoading(true)
-            await addMovie(mediaData)
-            SetAddedToWatchlist(true)
+            const res = await fetch('/api/media_data',{
+                method : 'POST',
+                headers : {
+                    'Content-Type' : 'application/json',
+                },
+                body : JSON.stringify(allMediaData)
+                
+            })
+            await addMovie(allMediaData)
+            
         } catch (error) {
             console.error('Error adding to watchlist',error)   
         }finally{

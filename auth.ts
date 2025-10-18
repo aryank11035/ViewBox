@@ -14,17 +14,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if(token.sub && session.user){
           session.user.id = token.sub
       }
-      if(token.movies && session.user){
-          
-        session.user.movies = token.movies
-      }
       if(token.role && session.user){
         session.user.role = token.role
       }
       if(session.user){
         session.user.isAdmin = token.isAdmin
       }
-      console.log('session',{session})
+     
       return session
     },
     async jwt({ token , user}) {
@@ -35,7 +31,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if(!existingUser) return token
 
         token.name = existingUser.isAdmin ? 'Admin' : existingUser.name
-        token.movies = existingUser.movies || []
         token.role = existingUser.isAdmin ? 'admin' : existingUser.role
         token.isAdmin = existingUser.isAdmin 
         
@@ -47,7 +42,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       
       await db.collection('users').updateOne(
         {email : user.email},
-        {$setOnInsert : {name : user.name , movies : [], role : 'user',isAdmin : false}},
+        {$setOnInsert : {name : user.name , role : 'user',isAdmin : false}},
         {upsert : true}
       )
       return true

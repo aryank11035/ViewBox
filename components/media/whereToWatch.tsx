@@ -64,7 +64,7 @@ export function WhereToWatch({whereToWatch , mediaName } : {whereToWatch : any ,
                     </div>
                 )   
             }
-
+             
             {
                 whereToWatch?.clips && (
                     <div className="w-full  flex gap-2 flex-col mt-4 " >

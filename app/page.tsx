@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { getMovie } from "./actions/getMovie";
 import {  getImages, getShowData } from "@/lib/helpers";
-import { Movie } from "@/schema/type";
+
 import Link from "next/link";
 import PosterMarqueeStandalone from "@/components/poster-marquee";
 import { ProgressiveBlur } from "@/components/motion-primitives/progressive-blur";
@@ -17,9 +17,9 @@ import { InfoCardSection } from "@/components/sections/infoCardSection";
 export default async function Page() {
     
   const session = await auth()
-  const movies = await getShowData() as Movie[]
-  const tv = await getShowData('tv') as Movie[]
-  const yourMedia =( await getMovie(session)) as Movie[]
+  const movies = await getShowData() 
+  const tv = await getShowData('tv') 
+  const yourMedia =( await getMovie(session)) 
   
  
   

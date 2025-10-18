@@ -1,9 +1,28 @@
-import { watch } from "fs"
+
 import { NextResponse } from "next/server"
-import {Movie} from "@/app/db/database"
-import client from "@/lib/db"
-import { ObjectId } from "mongodb"
-import { auth } from "@/auth"
+
+export async function POST(req : Request){
+    try {
+        const data = await req.json()
+        console.log(data)
+
+        return NextResponse.json({succes : true , media : data })
+    } catch (error) {
+        return NextResponse.json({success : false})
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
