@@ -29,7 +29,7 @@ export default async function ShowMedia({params} : Params) {
         videokey : videoKey,
         whereToWatch :  whereToWatch,
     }
-    
+    console.log(allMediaData)
     // const mediaDataPage = await allData(allMediaData)
     
     if(!mediaData) {

@@ -57,7 +57,11 @@ const movieSchema = new mongoose.Schema({
         type : Number,
         default : 0
     },
-    videoKey : String,
+    videokey : String,
+    suggested : {
+        type : String,
+        required : false
+    },
     whereToWatch : whereToWatchSchema
 })
 
