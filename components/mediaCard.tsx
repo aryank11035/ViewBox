@@ -2,11 +2,11 @@
 
 import Link from "next/link"
 import { Star } from "lucide-react"
-import { Movie } from "@/schema/type"
+
 import { ProgressiveBlur } from "./motion-primitives/progressive-blur";
 import { useState } from "react";
 import { motion, scale } from "motion/react";
-export default function MediaCard({mediaData,} : {mediaData : Movie } ){
+export default function MediaCard({mediaData,} : {mediaData : any } ){
   
     const [isHover, setIsHover] = useState(false);
     const [ onView, setOnView ] = useState(false)

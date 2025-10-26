@@ -18,7 +18,7 @@ export default async function ShowMedia({params} : Params) {
     const trendingData = (await getShowData(mediaType)).slice(0,6)
     const mediaData = await getMovieById(id,mediaType) as any
     const mediaVideoData = await getMovieVideoById(mediaType,id) || []
-    const videoKey =mediaVideoData[0]?.key ||   false
+    const videoKey =mediaVideoData[0]?.key || null
     const whereToWatch = await getWheretoWatchById(mediaType,id)
     const addedMediaData = await getMovie(session)  as any[]
     const isInWatchlist = addedMediaData.some((item : any) => item.id  == id) 
@@ -29,7 +29,7 @@ export default async function ShowMedia({params} : Params) {
         videokey : videoKey,
         whereToWatch :  whereToWatch,
     }
-    console.log(allMediaData)
+
     // const mediaDataPage = await allData(allMediaData)
     
     if(!mediaData) {

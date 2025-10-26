@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { getMovie } from "./actions/getMovie";
-import {  getImages, getShowData } from "@/lib/helpers";
+import {  getImages, getSearchMedia2, getShowData } from "@/lib/helpers";
 
 import Link from "next/link";
 import PosterMarqueeStandalone from "@/components/poster-marquee";
@@ -21,6 +21,8 @@ export default async function Page() {
   const tv = await getShowData('tv') 
   const yourMedia =( await getMovie(session)) 
   
+
+ 
  
   
   return (

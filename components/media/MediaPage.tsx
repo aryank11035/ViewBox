@@ -1,7 +1,8 @@
 'use client'
 
 import { Session } from "@/schema/type"
-import { Timer,Star,Languages,Clapperboard, Icon } from "lucide-react"
+
+import { FaHeart } from "react-icons/fa";
 import { useEffect, useState } from "react"
 import { addMovie } from "../../app/actions/addMovie"
 import { deleteMovie } from "../../app/actions/deleteMovie"
@@ -20,6 +21,8 @@ import { AnimatePresence, hover, motion } from "framer-motion"
 import { WhereToWatch } from "./whereToWatch"
 import MediaCard from "../mediaCard"
 import { RelatedMedia } from "./relatedMediaCard"
+import { HeartButton } from "./favourite/heart-button";
+import { PlaylistButton } from "./playlist/playlist-button";
 const font = Libre_Franklin({
     subsets : ['latin'],
     weight : ['800']
@@ -38,6 +41,14 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
     const [onHover,setOnHover] = useState(false)
     const router = useRouter()
   
+    
+
+    const mediaInfo = {
+        id,
+        type : mediaType,
+        genres : mediaData.genres
+    }
+
     const mediaName = mediaData.title ? mediaData.title : mediaData.original_name as string
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth < 640);
@@ -46,6 +57,10 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
         return () => window.removeEventListener("resize", handleResize);
     }, []);
     
+
+    
+
+
     async function postMovie() {
         if(!session){
             toast('User Must be Logged In', {
@@ -101,7 +116,7 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
     return (
         <>
         <section className="pt-20 ">
-            <div className="h-fit mx-auto relative  backdrop-blur-3xl  max-w-[1700px] border-l border-r border-white/10 min-h-screen px-6 md:py-15 py-10 bg-black/30">
+            <div className="h-fit  relative  backdrop-blur-3xl  max-w-[1700px] border-l border-r border-white/10 min-h-screen px-6 md:py-15 py-10 bg-black/30 mx-auto">
                 <Toaster 
                         offset={{ bottom :"100px", right: "16px", left: "16px" }} 
                         mobileOffset={{ bottom: '100px' }} 
@@ -114,10 +129,10 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
                             }
                         }}
                 />
-                <div className="flex flex-col-reverse lg:flex-row-reverse max-w-[1500px] mx-auto lg:gap-15 gap-5 relative">
+                <div className="flex flex-col-reverse lg:flex-row-reverse max-w-[1500px] mx-auto lg:gap-15 gap-5  ">
 
                     <motion.div 
-                        className="space-y-3 flex-2"
+                        className="space-y-3 flex-2  relative"
                         initial={{ opacity : 0 , translateX : 5}}
                         animate={{ opacity: 1, translateX : 0 }}
                         transition={{
@@ -126,6 +141,8 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
                             ease: [0, 0.71, 0.2, 1.01],
                         }}
                     >
+
+                      
                         <div className="hidden lg:block space-y-3   ">
                             <h1 className="text-4xl md:text-5xl font-bold text-wrap">{mediaData.title ? mediaData.title : mediaData.original_name} 
                                 <span className="text-white/40 text-xl ml-2 font-medium">
@@ -134,49 +151,12 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
                             </h1>
                             <p className="text-white/40 text-sm md:text-base leading-snug">{mediaData.overview}</p>
                         </div>
-
-                        <div className=" space-x-3  flex h-fi mb-8">
-                            <div>
-                                <Button  
-                                    onClick={(e) => {
-                                                postMovie()
-                                                e.preventDefault()
-                                                }} 
-                                    variant={addedToWatchlist ? 'custom_one_2': 'custom_one'} size='custom_one'
-                                >
-                                    <ListPlus/>{loading? 'Adding..' :  addedToWatchlist ? 'Added' : ' Add to Watchlist'}
-                                                                    
-                                </Button>
-                            
-                            </div>
-                            {   
-                                addedToWatchlist &&  (
-                                    <motion.div
-
-                                        initial={{opacity : 0 , translateX : -6 }}
-                                        animate={{ opacity: 1, translateX : 0 }}
-                                        transition={{   
-                                            duration: 0.8,
-                                            delay: 0.5,
-                                            ease: [0, 0.71, 0.2, 1.01],
-                                        }}
-                                    >
-                                        <Button     
-                                            onClick={(e) =>{
-                                                e.preventDefault()
-                                                removeMovie()
-                                                }} 
-                                            size="custom_one" variant="custom_two"
-                                        >
-                                                            
-                                            <ListMinus />Remove            
-                                        </Button>
-
-                                    </motion.div>
-                                )
-                            }   
-                        
+                        <div className=" space-x-3  flex h-fill mb-8">
+                            <HeartButton mediaInfo = {mediaInfo}/>
+                            <PlaylistButton />
                         </div>
+                       
+
 
                         <div className="w-full aspect-video  bg-black/30 rounded-xs relative">
                             <div className="w-ful aspect-video   flex justify-center items-center text-2xl absolute inset-0">
@@ -203,11 +183,11 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
                             }
                         </div>
                         <div  className="flex flex-col gap-3">
-                            <div className="text-4xl font-bold text-wrap flex gap-3 items-end relative w-fit ">
+                            <div className="text-4xl font-bold text-wrap flex gap-3 items-end  w-fit relative">
                                 <h1 className="">
                                     Where to Watch
                                 </h1>
-                                <div className=" flex items-end w-fit h-fit">
+                                <div className=" flex items-end w-fit h-fit ">
                                     <motion.span
                                         className=" text-xs rounded-full bg-white/20 h-fit w-fit p-1 px-2 mb-1.5 cursor-pointer hover:bg-green-600 duration-300"
                                         onMouseEnter={() => setInfoMessage(true)}
@@ -246,19 +226,6 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
                             <p className="text-xs text-white/40">
                                 {`Click any provider to search for "${mediaData.title ? mediaData.title  : mediaData.original_name}" on their platfrom`}
                             </p>
-                            {/* {
-                                whereToWatch.flatrate && (
-                                    <div className="w-full h-20 ">
-                                        {
-
-                                            whereToWatch.flatrate.map((item : any) => (
-                                                <p>{item.provider_name}</p>
-                                            ))
-
-                                            }
-                                    </div>
-                                )
-                            } */}
                             
                                 <WhereToWatch whereToWatch={whereToWatch} mediaName={mediaName}/>
                         </div>
@@ -376,3 +343,60 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
         </>
     )
 }   
+
+                            {/* {
+                                whereToWatch.flatrate && (
+                                    <div className="w-full h-20 ">
+                                        {
+
+                                            whereToWatch.flatrate.map((item : any) => (
+                                                <p>{item.provider_name}</p>
+                                            ))
+
+                                            }
+                                    </div>
+                                )
+                            } */}
+
+
+
+                             {/* <div>
+                                <Button  
+                                    onClick={(e) => {
+                                                postMovie()
+                                                e.preventDefault()
+                                                }} 
+                                    variant={addedToWatchlist ? 'custom_one_2': 'custom_one'} size='custom_one'
+                                >
+                                    <ListPlus/>{loading? 'Adding..' :  addedToWatchlist ? 'Added' : ' Add to Watchlist'}
+                                                                    
+                                </Button>
+                            
+                            </div>
+                            {   
+                                addedToWatchlist &&  (
+                                    <motion.div
+
+                                        initial={{opacity : 0 , translateX : -6 }}
+                                        animate={{ opacity: 1, translateX : 0 }}
+                                        transition={{   
+                                            duration: 0.8,
+                                            delay: 0.5,
+                                            ease: [0, 0.71, 0.2, 1.01],
+                                        }}
+                                    >
+                                        <Button     
+                                            onClick={(e) =>{
+                                                e.preventDefault()
+                                                removeMovie()
+                                                }} 
+                                            size="custom_one" variant="custom_two"
+                                        >
+                                                            
+                                            <ListMinus />Remove            
+                                        </Button>
+
+                                    </motion.div>
+                                )
+                            }    */}
+                        

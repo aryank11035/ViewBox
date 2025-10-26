@@ -86,8 +86,73 @@ const userSchema = new mongoose.Schema({
         default : false
     },
     sugesstions : [String],
-    favourites : [String],
-    playlist : [String]
+    favourites : [
+        {
+            id : {
+                type : String,
+                required : true
+            },
+            type : {
+                type : String , 
+                enum : ['movie' , 'tv'],
+                required : true
+            },
+            genres : [{
+                id : Number,
+                name : String
+            }]
+        }
+    ],
+    playlists : [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Playlist',
+    }]
 })
 
-export {movieSchema , userSchema}
+
+const playlistSchema = new mongoose.Schema({
+    playlist_name : {
+        type : String,
+        required : true,
+        trim : true
+    },
+    description : {
+        type : String,
+        default : ''
+    },
+    playlist_type : {
+        type : String,
+        enum : ['public' , 'private'],
+        required : true
+    },
+    movies : [{
+        id : {
+            type : String,
+            required : true
+        },
+        type : {
+            type : String ,
+            required : true
+        },
+        img : String,
+        added_on : {
+            type : Date,
+            default : Date.now
+        }
+    }],
+    created_at : {
+        type: Date,
+        default: Date.now,
+    },
+    created_by : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'User',
+        required : true
+    },
+    created_by_name: {
+        type: String,
+        required: true,
+    },
+})
+
+export {movieSchema , userSchema , playlistSchema}

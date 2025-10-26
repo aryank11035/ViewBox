@@ -21,6 +21,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         session.user.isAdmin = token.isAdmin
       }
      
+     
       return session
     },
     async jwt({ token , user}) {

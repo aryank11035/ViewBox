@@ -228,17 +228,42 @@ export async function allData(allMediaData : any){
 }
 
 
-// export async function getWheretoWatchById(mediaType: 'movie' | 'tv' =  'movie',id : number) {
-//   try {
-//     const res = await fetch(`https://api.watchmode.com/v1/title/${mediaType}-${id}/sources/?apiKey=${process.env.WATCH_MODE_API_KEY}`)
-//     if (!res.ok) {
-//       console.error("Error retrieving movie data");
-//       return null;
-//     }
-//     const data = await res.json();
-//     return data.filter((item : any) => item.region === 'IN')
-//   } catch (err) {
-//     console.error(err)
-//     return []
-//   }
-// }
+
+
+export async function getSearchMedia(query : string , mediaType: 'movie' | 'tv' =  'movie'){
+  try {
+    const res = await fetch(`https://api.themoviedb.org/3/search/${mediaType}?query=${query}`,options)
+    if(!res.ok){
+      console.error('Error Fetching Data')
+      return {message : 'No results found'}
+    }
+    const data = await res.json()
+    const mappedData = data.results.map((item : any) => ({
+      ...item,
+      mediaType : mediaType
+    }))
+    const filteredData = mappedData.filter((item : any) => item.poster_path && item.backdrop_path && item.vote_average !== 0  && item.runtime !== 0)  
+    return filteredData
+  } catch(err){
+    console.error(err)
+    return null
+  }
+}
+
+
+
+
+export async function getSearchMedia2(){
+  try {
+    const res = await fetch(`https://api.themoviedb.org/3/search/tv?query=dexter}`,options)
+    if(!res.ok){
+      console.error('Error Fetching Data')
+      return {message : 'No results found'}
+    }
+    const data = await res.json()
+    return data.results
+  } catch(err){
+    console.error(err)
+    return null
+  }
+}
