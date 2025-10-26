@@ -2,27 +2,22 @@
 
 import { Session } from "@/schema/type"
 
-import { FaHeart } from "react-icons/fa";
 import { useEffect, useState } from "react"
 import { addMovie } from "../../app/actions/addMovie"
 import { deleteMovie } from "../../app/actions/deleteMovie"
 import { Libre_Franklin } from "next/font/google"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
-import { cn } from "@/lib/utils"
-import { ListPlus } from 'lucide-react';
 import { Frown } from 'lucide-react';
-import { ListMinus } from 'lucide-react';
-import { Button } from "../ui/button"
+import { ArrowLeft } from 'lucide-react';
 import YouTube from "react-youtube"
 import { Toaster } from "../ui/sonner"
-import { Info } from 'lucide-react'; 
-import { AnimatePresence, hover, motion } from "framer-motion"
+import { motion } from "framer-motion"
 import { WhereToWatch } from "./whereToWatch"
-import MediaCard from "../mediaCard"
 import { RelatedMedia } from "./relatedMediaCard"
 import { HeartButton } from "./favourite/heart-button";
 import { PlaylistButton } from "./playlist/playlist-button";
+import Link from "next/link"
 const font = Libre_Franklin({
     subsets : ['latin'],
     weight : ['800']
@@ -38,7 +33,7 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
     const [infoMessage , setInfoMessage] = useState(false)
     const [message,setMessage] = useState(false)
     const [isMobile, setIsMobile] = useState(false);
-    const [onHover,setOnHover] = useState(false)
+    const [isHover,setIsHover] = useState(false)
     const router = useRouter()
   
     
@@ -46,7 +41,13 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
     const mediaInfo = {
         id,
         type : mediaType,
-        genres : mediaData.genres
+        genres : mediaData.genres,
+    }
+    const playlistMedia = {
+        id : mediaData.id , 
+        type : mediaType,
+        genres : mediaData.genres,
+        img : mediaData.poster_path  
     }
 
     const mediaName = mediaData.title ? mediaData.title : mediaData.original_name as string
@@ -116,7 +117,7 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
     return (
         <>
         <section className="pt-20 ">
-            <div className="h-fit  relative  backdrop-blur-3xl  max-w-[1700px] border-l border-r border-white/10 min-h-screen px-6 md:py-15 py-10 bg-black/30 mx-auto">
+            <div className="h-fit  relative  backdrop-blur-3xl  max-w-[1700px] border-l border-r border-white/10 min-h-screen px-6  py-10 bg-black/30 mx-auto">
                 <Toaster 
                         offset={{ bottom :"100px", right: "16px", left: "16px" }} 
                         mobileOffset={{ bottom: '100px' }} 
@@ -129,6 +130,35 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
                             }
                         }}
                 />
+                <div className="max-w-[1500px] mx-auto h-fit  mb-6 ">
+                    <Link className=' bg-white/10 flex w-fit gap-2 hover:text-black/80 hover:bg-white duration-300 rounded-xs ' href='/'>
+                        <motion.div
+                            className="flex w-full h-full gap-2 p-3 rounded-xs items-center"
+                            onMouseEnter = {() => setIsHover(true)}
+                            onMouseLeave = {() => setIsHover(false)}
+                        >   
+                            <motion.div
+                                className="size-4"
+                                initial = {{ opacity : 1  , rotate : 225 }}
+                                animate = { isHover ? 'hovered' : 'normal' }
+                                variants={{
+                                    normal : { opacity : 1 ,  translateX : 0 ,  rotate : 225  },
+                                    hovered : { opacity : 1 ,  translateX : -6  ,  rotate : 225  },   
+                                }}
+                                transition={{                                        
+                                    duration : 0.7,
+                                    ease: [0, 0.71, 0.2, 1.01],
+                                }}
+                            >
+                               <svg width="100&" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6 18L18 6M18 6H10M18 6V14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            </motion.div>
+                                Go back to movies
+
+                        </motion.div>
+                    </Link>
+                </div>
                 <div className="flex flex-col-reverse lg:flex-row-reverse max-w-[1500px] mx-auto lg:gap-15 gap-5  ">
 
                     <motion.div 
@@ -153,12 +183,12 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
                         </div>
                         <div className=" space-x-3  flex h-fill mb-8">
                             <HeartButton mediaInfo = {mediaInfo}/>
-                            <PlaylistButton />
+                            <PlaylistButton playlistMediaInfo={playlistMedia}/>
                         </div>
                        
 
 
-                        <div className="w-full aspect-video  bg-black/30 rounded-xs relative">
+                        <div className="w-full aspect-video  bg-black/30 rounded-xs relative mb-7">
                             <div className="w-ful aspect-video   flex justify-center items-center text-2xl absolute inset-0">
                                 <p className="text-white/30 flex items-center gap-3"><Frown />No Videos</p>
                             </div>

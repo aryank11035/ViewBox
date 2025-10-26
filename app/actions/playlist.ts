@@ -3,6 +3,7 @@
 import { auth } from "@/auth"
 import { Playlists, Users } from "@/lib/models"
 import { connectToMongoose } from "@/lib/mongoose"
+import { error } from "node:console"
 
 export async function createNewPlaylist(playlist : any){
 
@@ -55,8 +56,44 @@ export async function getPlaylistNames(){
         await connectToMongoose()
         const playlists = await Playlists.find({created_by : userId}).sort({created_at : -1})
         const playlist_names = playlists.map(p => p.playlist_name)
+        console.log('playlist_names',playlist_names)
         return playlist_names
     } catch (error) {
         return []
+    }
+}
+
+
+export async function addToPlaylist(selectedPlaylist  : string , selectedMedia : any){
+    console.log('selected playlist : ' , selectedPlaylist)
+    console.log('selected media : ' , selectedMedia)
+
+    try {
+
+        if(selectedPlaylist === '') return {success : false , error : 'select a Playlist'}
+
+        await connectToMongoose()
+        const playlist = await Playlists.findOne({
+            playlist_name : selectedPlaylist
+        })
+        if(!playlist) return {success : false , error : 'Playlist not found'}
+
+        const alreadyAdded = playlist.movies.some((movie : any) => movie.id === selectedMedia.id.toString())
+        if(alreadyAdded)  return {success : false , error : 'Media already in playlist'}
+        
+        playlist.movies.push({
+            id: selectedMedia.id,
+            type: selectedMedia.type,
+            img: selectedMedia.img,
+            genres : selectedMedia.genres,
+            added_on: new Date()
+        });
+
+        await playlist.save();
+
+        return { success: true, message: "Media added to playlist" };
+
+    } catch (error) {
+        return { success: false, error: "Failed to add media" };
     }
 }

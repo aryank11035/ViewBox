@@ -127,14 +127,19 @@ const playlistSchema = new mongoose.Schema({
     },
     movies : [{
         id : {
-            type : String,
+            type : Number,
             required : true
         },
         type : {
-            type : String ,
-            required : true
-        },
+                type : String , 
+                enum : ['movie' , 'tv'],
+                required : true
+            },
         img : String,
+        genres : [{
+                id : Number,
+                name : String
+            }],
         added_on : {
             type : Date,
             default : Date.now

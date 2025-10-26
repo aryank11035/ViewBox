@@ -24,7 +24,7 @@ export function WhereToWatchIcons({iconData , mediaName} : {iconData : any , med
             <img   src={`https://image.tmdb.org/t/p/w500${iconData.logo_path}`} 
                 className="w-9 h-9 object-contain rounded-xs"
             />
-            <motion.div 
+            <motion.div     
                 className="h-fit w-fit flex items-center justify-center gap-2"
                 
             >

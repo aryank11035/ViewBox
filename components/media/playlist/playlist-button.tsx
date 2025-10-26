@@ -5,9 +5,10 @@ import { ListPlus } from "lucide-react"
 import { useEffect, useState } from "react"
 import { X } from 'lucide-react';
 import { Input } from "@/components/ui/input";
-import { createNewPlaylist, getPlaylistNames } from "@/app/actions/playlist";
+import { addToPlaylist, createNewPlaylist, getPlaylistNames } from "@/app/actions/playlist";
 import { FormError } from "@/components/formError";
 import { FormSucess } from "@/components/formSucess";
+import { strict } from "node:assert";
 
 
 interface ResponseProps {
@@ -16,25 +17,17 @@ interface ResponseProps {
     success ?: boolean
 }
 
-export function PlaylistButton(){
+export function PlaylistButton({playlistMediaInfo} : any){
 
     const [showMessage,setShowMessage] = useState(false)
     const [response, setResponse] = useState<ResponseProps | undefined>(undefined);
     const [newPlaylist,setNewPlayist] = useState(false)
+    const [userPlaylists, setUserPlaylists] = useState<string[]>([]);
 
 
     const [checkbox,setCheckBox] = useState(false)
     const [playlistName , setPlaylistName] = useState('')
-    const [userPlaylists, setUserPlaylists] = useState<string[]>([]);
-
-    useEffect(() => {
-        const fetchPlaylists = async () => {
-            const names = await getPlaylistNames(); 
-            setUserPlaylists(names)
-        };
-        fetchPlaylists();
-    }, []);
-
+    const [selectedPlaylist,setSelectedPlaylist] = useState<string >('')
     const handleSubmit = async (e : any) => {
         e.preventDefault()
        
@@ -43,20 +36,47 @@ export function PlaylistButton(){
             playlist_name : playlistName,
             playlist_type : playlistType
         }
-
+        
         const res =  await createNewPlaylist(playlist) 
-       
+        const names = await getPlaylistNames(); 
+        setUserPlaylists(names)
         if(res.success){
             setResponse({message : res.message})
             setTimeout(() => {
                 setNewPlayist(false)
                 setPlaylistName('')
                 setResponse(undefined);
-            } , 1500)
+            } , 800)
         }else{
             setResponse({error : res.error})
         }
 
+    }
+
+
+    useEffect(() => {
+        const fetchPlaylists = async() => {
+            const names = await getPlaylistNames()
+            setUserPlaylists(names)
+            if (names.length > 0 || !selectedPlaylist) {
+                setSelectedPlaylist(names[0]);
+            }
+        }
+        fetchPlaylists()
+    },[])
+    
+    const handlePlaylist = async (e : any) => {
+        e.preventDefault()
+         
+        const res = await addToPlaylist(selectedPlaylist,playlistMediaInfo)
+        if(res.success){
+            setResponse({message : res.message})
+        }else{
+            setResponse({error : res.error})
+        }
+        setTimeout(() => {
+            setResponse(undefined)     
+        }, 1500)
     }
 
     return (
@@ -70,8 +90,8 @@ export function PlaylistButton(){
         </Button>
         {
             showMessage && (
-                <div className="absolute inset-0 bg-black/50 z-10 flex items-center justify-center">
-                    <div className="p-6 bg-[#111111] flex flex-col gap-6 rounded-xs max-w-[420px]">
+                <div className="absolute inset-0  z-10 flex items-center justify-center">
+                    <div className="p-6 bg-[#111111]/60 backdrop-blur-2xl flex flex-col gap-6 rounded-xs max-w-[420px] shadow-2xl">
                         <div className="w-full flex justify-between">
                             <h1 className="text-2xl font-bold">Add to Playlist</h1>
                             <div onClick={() => {
@@ -104,7 +124,7 @@ export function PlaylistButton(){
                                         <div className="flex items-center gap-2 text-sm">
                                             <input 
                                                 type="checkbox" 
-                                                className="size-4" 
+                                                className="size-4 accent-green-600" 
                                                 onChange={(e) => setCheckBox(e.target.checked)}/>
                                             make this playlist public
                                         </div>
@@ -116,7 +136,7 @@ export function PlaylistButton(){
                                                 variant="custom_one_2"
                                                 size="custome_one_2"
                                             >
-                                                <ListPlus/>add to playlist
+                                                <ListPlus/>Create playlist
                                             </Button>
                                         </div>
                                     </form>
@@ -124,22 +144,29 @@ export function PlaylistButton(){
                      
                             ) : (
                                 <>
-                                    <select className="max-w-full h-12 bg-white/30 rounded-xs text-sm px-2" >
-                                        {userPlaylists.map((name, idx) => (
-                                            <option key={idx} value={name} className="bg-[#111111] ">
-                                            {name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    <div className="flex justify-between items-center flex-col-reverse gap-6 md:flex-row">
-                                        <button  onClick={() => setNewPlayist(true)}  className="tracking-tighter text-xs cursor-pointer hover:text-green-600">Create new playlist</button>
-                                        <Button
-                                            variant="custom_one_2"
-                                            size="custome_one_2"
-                                        >
-                                            <ListPlus/>add to playlist
-                                        </Button>
-                                    </div>
+                                    <form
+                                        onSubmit={handlePlaylist}
+                                        className="w-full h-fit flex flex-col gap-4"
+                                    >
+                                        <select className="w-full h-12 bg-white/30 rounded-xs text-sm px-2" onChange={(e) => setSelectedPlaylist(e.target.value)} value={selectedPlaylist}>
+                                            {userPlaylists.map((name, idx) => (
+                                                <option key={idx} value={name} className="bg-[#111111] ">
+                                                {name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        <FormError error={response?.error} />
+                                        <FormSucess message={response?.message} />
+                                        <div className="flex justify-between items-center flex-col-reverse gap-6 md:flex-row mt-4">
+                                            <button  onClick={() => setNewPlayist(true)}  className="tracking-tighter text-xs cursor-pointer hover:text-green-600">Create new playlist</button>
+                                            <Button
+                                                variant="custom_one_2"
+                                                size="custome_one_2"
+                                            >
+                                                <ListPlus/>add to playlist
+                                            </Button>
+                                        </div>
+                                    </form>
                                 </>
 
                             )
@@ -151,6 +178,6 @@ export function PlaylistButton(){
         } 
        
        </>
-    //   
+      
     )
 }
