@@ -26,18 +26,39 @@ export async function createNewPlaylist(playlist : any){
             };
         }
 
-        const createdPlaylist = await Playlists.create({
+        if(!playlist.description) {
+            const createdPlaylist = await Playlists.create({
+                playlist_name : playlist.playlist_name,
+                playlist_type : playlist.playlist_type,
+                created_by : userId,
+                created_by_name : username
+            })
+            await Users.findByIdAndUpdate(userId, {
+                $push: { playlists: createdPlaylist._id }
+            });
+            return {
+                success: true,
+                message: "Playlist created successfully",
+                playlist_name : createdPlaylist.playlist_name
+            }; 
+        }
+
+
+        const createPlaylist = await Playlists.create({
             playlist_name : playlist.playlist_name,
+            description : playlist.description,
             playlist_type : playlist.playlist_type,
             created_by : userId,
             created_by_name : username
         })
-        await Users.findByIdAndUpdate(userId, {
-            $push: { playlists: createdPlaylist._id }
-        });
+
+        await Users.findByIdAndUpdate(userId , {
+            $push : { playlists : createPlaylist._id}
+        })
         return {
             success: true,
             message: "Playlist created successfully",
+            playlist_name : createPlaylist.playlist_name
         };
     } catch (error) {
         console.error("Error creating playlist:", error);
@@ -78,7 +99,7 @@ export async function addToPlaylist(selectedPlaylist  : string , selectedMedia :
         })
         if(!playlist) return {success : false , error : 'Playlist not found'}
 
-        const alreadyAdded = playlist.movies.some((movie : any) => movie.id === selectedMedia.id.toString())
+        const alreadyAdded = playlist.movies.some((movie : any) => movie.id === selectedMedia.id)
         if(alreadyAdded)  return {success : false , error : 'Media already in playlist'}
         
         playlist.movies.push({
@@ -91,7 +112,7 @@ export async function addToPlaylist(selectedPlaylist  : string , selectedMedia :
 
         await playlist.save();
 
-        return { success: true, message: "Media added to playlist" };
+        return { success: true, message: `Media added to playlist ${selectedPlaylist}` };
 
     } catch (error) {
         return { success: false, error: "Failed to add media" };

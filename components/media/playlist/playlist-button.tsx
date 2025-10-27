@@ -28,6 +28,7 @@ export function PlaylistButton({playlistMediaInfo} : any){
     const [checkbox,setCheckBox] = useState(false)
     const [playlistName , setPlaylistName] = useState('')
     const [selectedPlaylist,setSelectedPlaylist] = useState<string >('')
+
     const handleSubmit = async (e : any) => {
         e.preventDefault()
        
@@ -42,6 +43,7 @@ export function PlaylistButton({playlistMediaInfo} : any){
         setUserPlaylists(names)
         if(res.success){
             setResponse({message : res.message})
+            setSelectedPlaylist(res.playlist_name)
             setTimeout(() => {
                 setNewPlayist(false)
                 setPlaylistName('')
@@ -71,6 +73,7 @@ export function PlaylistButton({playlistMediaInfo} : any){
         const res = await addToPlaylist(selectedPlaylist,playlistMediaInfo)
         if(res.success){
             setResponse({message : res.message})
+
         }else{
             setResponse({error : res.error})
         }
@@ -91,7 +94,7 @@ export function PlaylistButton({playlistMediaInfo} : any){
         {
             showMessage && (
                 <div className="absolute inset-0  z-10 flex items-center justify-center">
-                    <div className="p-6 bg-[#111111]/60 backdrop-blur-2xl flex flex-col gap-6 rounded-xs max-w-[420px] shadow-2xl">
+                    <div className="p-6 bg-[#111111]/60 backdrop-blur-3xl flex flex-col gap-6 rounded-xs max-w-[420px] shadow-2xl ">
                         <div className="w-full flex justify-between">
                             <h1 className="text-2xl font-bold">Add to Playlist</h1>
                             <div onClick={() => {

@@ -103,10 +103,12 @@ const userSchema = new mongoose.Schema({
             }]
         }
     ],
-    playlists : [{
+    playlists : [
+        {
         type : mongoose.Schema.Types.ObjectId,
         ref : 'Playlist',
-    }]
+        }
+]
 })
 
 
