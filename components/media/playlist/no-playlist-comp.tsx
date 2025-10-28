@@ -10,7 +10,7 @@ export default function NoPlaylistComp({handleMessage} : any){
             <p className="text-base text-white/50 font-medium text-center">
                 Create your first playlist to start organizing your favorite movies!
             </p>
-            <Button onClick ={handleMessage} className="p-4 py-6 md:text-xl bg-green-600 rounded-xs hover:scale-98 duration-300 hover:bg-green-600 cursor-pointer">
+            <Button onClick ={() => handleMessage(true)} className="p-4 py-6 md:text-xl bg-green-600 rounded-xs hover:scale-98 duration-300 hover:bg-green-600 cursor-pointer">
                 Create new Playlist
             </Button>
         </div>

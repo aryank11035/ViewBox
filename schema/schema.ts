@@ -1,7 +1,7 @@
 import { WhereToWatch } from "@/components/media/whereToWatch";
 import mongoose from "mongoose";
 import { release } from "os";
-
+import { nanoid } from "nanoid";
 
 const providerSchema = new mongoose.Schema({
   logo_path: { type: String, required: true },
@@ -117,6 +117,11 @@ const playlistSchema = new mongoose.Schema({
         type : String,
         required : true,
         trim : true
+    },
+    playlist_id: {
+        type: String,
+        default: () => nanoid(), 
+        unique: true              
     },
     description : {
         type : String,

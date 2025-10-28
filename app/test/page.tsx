@@ -1,6 +1,6 @@
-'use client'
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css'
+
 export default function Loading() {
       return (
         <section className="w-full pt-20">

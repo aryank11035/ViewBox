@@ -159,10 +159,10 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
                         </motion.div>
                     </Link>
                 </div>
-                <div className="flex flex-col-reverse lg:flex-row-reverse max-w-[1500px] mx-auto lg:gap-15 gap-5  ">
+                <div className="flex flex-col-reverse lg:flex-row-reverse max-w-[1500px] mx-auto lg:gap-15 gap-5 ">
 
                     <motion.div 
-                        className="space-y-3 flex-2  relative"
+                        className="space-y-3 flex-2 relative"
                         initial={{ opacity : 0 , translateX : 5}}
                         animate={{ opacity: 1, translateX : 0 }}
                         transition={{
@@ -188,7 +188,7 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
                        
 
 
-                        <div className="w-full aspect-video  bg-black/30 rounded-xs relative mb-7">
+                        <div className="w-full aspect-video  bg-black/30 rounded-xs relative mb-7 ">
                             <div className="w-ful aspect-video   flex justify-center items-center text-2xl absolute inset-0">
                                 <p className="text-white/30 flex items-center gap-3"><Frown />No Videos</p>
                             </div>
@@ -373,60 +373,3 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
         </>
     )
 }   
-
-                            {/* {
-                                whereToWatch.flatrate && (
-                                    <div className="w-full h-20 ">
-                                        {
-
-                                            whereToWatch.flatrate.map((item : any) => (
-                                                <p>{item.provider_name}</p>
-                                            ))
-
-                                            }
-                                    </div>
-                                )
-                            } */}
-
-
-
-                             {/* <div>
-                                <Button  
-                                    onClick={(e) => {
-                                                postMovie()
-                                                e.preventDefault()
-                                                }} 
-                                    variant={addedToWatchlist ? 'custom_one_2': 'custom_one'} size='custom_one'
-                                >
-                                    <ListPlus/>{loading? 'Adding..' :  addedToWatchlist ? 'Added' : ' Add to Watchlist'}
-                                                                    
-                                </Button>
-                            
-                            </div>
-                            {   
-                                addedToWatchlist &&  (
-                                    <motion.div
-
-                                        initial={{opacity : 0 , translateX : -6 }}
-                                        animate={{ opacity: 1, translateX : 0 }}
-                                        transition={{   
-                                            duration: 0.8,
-                                            delay: 0.5,
-                                            ease: [0, 0.71, 0.2, 1.01],
-                                        }}
-                                    >
-                                        <Button     
-                                            onClick={(e) =>{
-                                                e.preventDefault()
-                                                removeMovie()
-                                                }} 
-                                            size="custom_one" variant="custom_two"
-                                        >
-                                                            
-                                            <ListMinus />Remove            
-                                        </Button>
-
-                                    </motion.div>
-                                )
-                            }    */}
-                        

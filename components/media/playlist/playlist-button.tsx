@@ -5,7 +5,7 @@ import { ListPlus } from "lucide-react"
 import { useEffect, useState } from "react"
 import { X } from 'lucide-react';
 import { Input } from "@/components/ui/input";
-import { addToPlaylist, createNewPlaylist, getPlaylistNames } from "@/app/actions/playlist";
+import { addToPlaylist, createNewPlaylist,  getPlaylists } from "@/app/actions/playlist";
 import { FormError } from "@/components/formError";
 import { FormSucess } from "@/components/formSucess";
 import { strict } from "node:assert";
@@ -39,7 +39,7 @@ export function PlaylistButton({playlistMediaInfo} : any){
         }
         
         const res =  await createNewPlaylist(playlist) 
-        const names = await getPlaylistNames(); 
+        const names = await getPlaylists(); 
         setUserPlaylists(names)
         if(res.success){
             setResponse({message : res.message})
@@ -58,7 +58,7 @@ export function PlaylistButton({playlistMediaInfo} : any){
 
     useEffect(() => {
         const fetchPlaylists = async() => {
-            const names = await getPlaylistNames()
+            const names = await getPlaylists()
             setUserPlaylists(names)
             if (names.length > 0 || !selectedPlaylist) {
                 setSelectedPlaylist(names[0]);
@@ -93,7 +93,7 @@ export function PlaylistButton({playlistMediaInfo} : any){
         </Button>
         {
             showMessage && (
-                <div className="absolute inset-0  z-10 flex items-center justify-center">
+                <div className="absolute inset-0  z-10 flex items-center justify-center ">
                     <div className="p-6 bg-[#111111]/60 backdrop-blur-3xl flex flex-col gap-6 rounded-xs max-w-[420px] shadow-2xl ">
                         <div className="w-full flex justify-between">
                             <h1 className="text-2xl font-bold">Add to Playlist</h1>

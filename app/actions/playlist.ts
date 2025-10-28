@@ -69,7 +69,7 @@ export async function createNewPlaylist(playlist : any){
     }
 }
 
-export async function getPlaylistNames(){
+export async function getPlaylists(){
     const session = await auth()
     const userId = session?.user?.id
 
@@ -77,9 +77,21 @@ export async function getPlaylistNames(){
         await connectToMongoose()
         const playlists = await Playlists.find({created_by : userId}).sort({created_at : -1})
         const playlist_names = playlists.map(p => p.playlist_name)
-        console.log('playlist_names',playlist_names)
         return playlist_names
     } catch (error) {
+        return []
+    }
+}
+export async function getAllPlaylists() {
+     const session = await auth()
+    const userId = session?.user?.id
+
+    try {
+        await connectToMongoose()
+        const playlists = await Playlists.find({created_by : userId}).sort({ created_at: -1 }).lean()
+        return JSON.parse(JSON.stringify(playlists))
+    } catch (error) {
+        console.error("Error fetching all playlists:", error)
         return []
     }
 }

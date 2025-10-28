@@ -25,20 +25,22 @@ export async function addToFavourites(mediaInfo : any){
 }
 
 export async function removeFromFavourites(mediaInfo : any){
-    const session = await auth()
-    const userId  = session?.user?.id
-    try{
-        await connectToMongoose()
-        await Users.findByIdAndUpdate(
-            userId,
-            {$pull : { favourites : mediaInfo}},
-            {new : true}
-        )
-        return {sucess : true}
-    }catch(error){
-        console.error(error);
-        return { success: false, error: "Failed to add favourite" }
-    }
+        const session = await auth()
+        const userId  = session?.user?.id
+        try{
+            await connectToMongoose()
+            await Users.findByIdAndUpdate(
+                userId,
+                {$pull : { favourites : {id : mediaInfo.id}}},
+                {new : true}
+            )
+            return {success : true}
+        }catch(error){
+            console.error(error);
+            return { success: false, error: "Failed to add favourite" }
+        }
+
+    
 }
 
 export async function checkIsFavourite(id : string){

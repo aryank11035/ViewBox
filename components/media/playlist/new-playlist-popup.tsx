@@ -18,13 +18,13 @@ interface ResponseProps {
 }
 
 
-export default function NewPlaylistPopup({handleMessage} : any){
+export default function NewPlaylistPopup({handleMessage , showPlaylist} : any){
 
     const [response, setResponse] = useState<ResponseProps | undefined>(undefined);
 
     const [playlistName , setPlaylistName] = useState('')
     const [playlistDescription,setPlaylistDescription] = useState('')
-    const [checkbox,setCheckBox] = useState(true)
+    const [checkbox,setCheckBox] = useState(false)
 
 
     const handleSubmit = async (e : any) => {
@@ -50,16 +50,17 @@ export default function NewPlaylistPopup({handleMessage} : any){
         
         setTimeout(() => {
             setResponse(undefined)
+            showPlaylist()
         },1500)
         
     }
     
     return(
-        <div className="absolute inset-0 flex justify-center px-2">
+        <div className="absolute inset-0 flex justify-center px-2 z-50">
             <div className="p-6 bg-[#111111]/10 backdrop-blur-3xl flex flex-col gap-6 rounded-xs w-[520px] shadow-2xl h-fit mt-30">
                 <div className="flex justify-between">
                     <h1 className="text-base text-warp">Create new Playlist</h1>
-                    <div onClick={handleMessage}>
+                    <div onClick={() => handleMessage(false)}>
                         <X strokeWidth={1.5} className="hover:text-white/50 cursor-pointer" />
                     </div>
                 </div>

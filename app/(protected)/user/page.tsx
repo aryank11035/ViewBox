@@ -1,3 +1,6 @@
+import { signOut } from "@/auth";
+import { Button } from "@/components/ui/button";
+
 export default async function UserProfilePage(){
     return (
         <section className="max-w-full pt-20 mx-auto bg-[#111111] backdrop-blur-2xl text-xl font-bold  min-h-screen  ">
@@ -12,7 +15,10 @@ export default async function UserProfilePage(){
             </div>
             <div className="w-full h-20 border-t border-b border-white/10">
                 <div className="max-w-[1700px] h-full mx-auto border-l border-r border-white/10">
-
+                    <Button onClick={async  () => {
+                        'use server'
+                        await signOut()
+                        }}> sign out</Button>
                 </div>
             </div>
         </section>
