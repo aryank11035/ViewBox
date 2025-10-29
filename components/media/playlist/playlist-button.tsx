@@ -9,6 +9,8 @@ import { addToPlaylist, createNewPlaylist,  getPlaylists } from "@/app/actions/p
 import { FormError } from "@/components/formError";
 import { FormSucess } from "@/components/formSucess";
 import { strict } from "node:assert";
+import PopUpWrapper from "./popup-wrapper";
+import { AnimatePresence } from "motion/react";
 
 
 interface ResponseProps {
@@ -91,10 +93,12 @@ export function PlaylistButton({playlistMediaInfo} : any){
             >
             <ListPlus/>add to playlist
         </Button>
+        <AnimatePresence mode="wait">
         {
             showMessage && (
-                <div className="absolute inset-0  z-10 flex items-center justify-center ">
-                    <div className="p-6 bg-[#111111]/60 backdrop-blur-3xl flex flex-col gap-6 rounded-xs max-w-[420px] shadow-2xl ">
+                <>
+                    <PopUpWrapper items_center={true}>
+
                         <div className="w-full flex justify-between">
                             <h1 className="text-2xl font-bold">Add to Playlist</h1>
                             <div onClick={() => {
@@ -112,7 +116,7 @@ export function PlaylistButton({playlistMediaInfo} : any){
                                 Movie Name
                                 <span className="block text-sm tracking-tighter text-white/30">Select a playlist to add this movie to :</span>
                             </p>
-                        
+
                         </div>
 
                         {
@@ -144,7 +148,7 @@ export function PlaylistButton({playlistMediaInfo} : any){
                                         </div>
                                     </form>
                                 </>
-                     
+
                             ) : (
                                 <>
                                     <form
@@ -174,11 +178,13 @@ export function PlaylistButton({playlistMediaInfo} : any){
 
                             )
                         }
+                        </PopUpWrapper>
+                   
+                </>
 
-                    </div>
-                </div>
-            )
-        } 
+                )
+            } 
+            </AnimatePresence>
        
        </>
       

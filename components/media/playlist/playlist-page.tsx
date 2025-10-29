@@ -4,19 +4,35 @@
 import { useEffect, useState } from "react"
 import NoPlaylistComp from "./no-playlist-comp"
 import NewPlaylistPopup from "./new-playlist-popup"
-import { getAllPlaylists, getPlaylists } from "@/app/actions/playlist"
+import { deletePlaylist, getAllPlaylists, getPlaylists } from "@/app/actions/playlist"
 import LoadingPlaylist from "./loading-playlist"
 import PlaylistCard from "./playlist-card"
+import { motion , AnimatePresence} from "framer-motion"
+import DeletePlaylist from "./delete-playlist-popup"
 export default function PlaylistComp(){
 
     const [showMessage,setShowMessage] = useState(false)
     const [playlistNames , setPlaylistNames] = useState<string[]>([])
     const [allPlaylists,setAllPlaylists] = useState<any []>([])
     const [isLoading,setIsLoading] = useState(true)
+    
     const handleMessage = (bool : boolean) =>{
         setShowMessage(bool)
     }
     
+    const handleDeletePlaylist = async(playlist: any) => {
+        try {
+            setIsLoading(true)
+            const [response] = await Promise.all([
+                deletePlaylist(playlist),
+                new Promise(resolve => setTimeout(resolve , 500)),
+                showPlaylist()
+            ])
+            return response
+        }finally{
+            setIsLoading(false)
+        }
+    }
     
     const showPlaylist = async () => {
 
@@ -60,7 +76,7 @@ export default function PlaylistComp(){
 
                                     {
                                         allPlaylists.map((playlist,index) =>(
-                                            <PlaylistCard key={index} playlist={playlist}/>
+                                            <PlaylistCard key={index} playlist={playlist} handleDeletePlaylist={handleDeletePlaylist} />
                                         ))  
                                     }
 
@@ -70,10 +86,17 @@ export default function PlaylistComp(){
                     }
 
                     {
-                        showMessage && (
-                            <NewPlaylistPopup handleMessage={handleMessage} showPlaylist={showPlaylist}/>
-                        ) 
+
                     }
+
+                    <AnimatePresence mode="wait">
+                        {
+                            showMessage && (
+                                <NewPlaylistPopup handleMessage={handleMessage} showPlaylist={showPlaylist}/>
+                            ) 
+                        }
+                        
+                    </AnimatePresence>
                 </div>
             </div>
         </section>

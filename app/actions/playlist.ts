@@ -4,6 +4,7 @@ import { auth } from "@/auth"
 import { Playlists, Users } from "@/lib/models"
 import { connectToMongoose } from "@/lib/mongoose"
 import { error } from "node:console"
+import { success } from "zod"
 
 export async function createNewPlaylist(playlist : any){
 
@@ -130,3 +131,25 @@ export async function addToPlaylist(selectedPlaylist  : string , selectedMedia :
         return { success: false, error: "Failed to add media" };
     }
 }
+
+export async function deletePlaylist(id : any) {
+    const session = await auth()
+    const userId =  session?.user?.id
+
+    console.log(id)
+    try{
+        await connectToMongoose()
+        const playlistDeletedFromUser = await Users.findByIdAndUpdate(
+            userId,
+            {$pull : { playlists : id }},
+            {new : true}
+        )
+        const playlistDeleted = await Playlists.findByIdAndDelete(id)
+        if(playlistDeletedFromUser && playlistDeleted ) return {success :true , message : 'Playlist deleted sucessfully'}
+
+
+        return { success : false , error : 'playlist wasn`t  deleted' }
+    }catch(error){
+        return {success : false , error : 'something happened'}
+    }
+}   
