@@ -8,7 +8,7 @@ import { deleteMovie } from "../../app/actions/deleteMovie"
 import { Libre_Franklin } from "next/font/google"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
-import { Frown } from 'lucide-react';
+import { Frown, Plus } from 'lucide-react';
 import { ArrowLeft } from 'lucide-react';
 import YouTube from "react-youtube"
 import { Toaster } from "../ui/sonner"
@@ -18,14 +18,11 @@ import { RelatedMedia } from "./relatedMediaCard"
 import { HeartButton } from "./favourite/heart-button";
 import { PlaylistButton } from "./playlist/playlist-button";
 import Link from "next/link"
-const font = Libre_Franklin({
-    subsets : ['latin'],
-    weight : ['800']
-})
+import { Button } from "../ui/button"
 
 
 
-export default function MediaPage({allMediaData, mediaData ,id , mediaType , session , isInWatchList , videoKey , whereToWatch , relatedMovies , trendingData} : {allMediaData : any , mediaData : any ,id : number,mediaType : 'movie' | 'tv', session : Session | null , isInWatchList : boolean , videoKey : string , whereToWatch : any, relatedMovies : any , trendingData : any}){
+export default function MediaPage({allMediaData, mediaData ,id , mediaType , session , isInWatchList , videoKey , whereToWatch , relatedMovies , trendingData , isAdmin } : {allMediaData : any , mediaData : any ,id : number,mediaType : 'movie' | 'tv', session : Session | null , isInWatchList : boolean , videoKey : string , whereToWatch : any, relatedMovies : any , trendingData : any , isAdmin : boolean}){
 
 
     const [addedToWatchlist , SetAddedToWatchlist] = useState(isInWatchList)
@@ -41,17 +38,25 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
     const mediaInfo = {
         id,
         type : mediaType,
+        name : mediaData.title ? mediaData.title : mediaData.original_name,
+        img : mediaData.poster_path,
+        votes : mediaData.vote_average,
         genres : mediaData.genres,
     }
     const playlistMedia = {
         id : mediaData.id , 
         type : mediaType,
+        name : mediaData.title ? mediaData.title : mediaData.original_name,
         genres : mediaData.genres,
         img : mediaData.poster_path  
     }
 
     const mediaName = mediaData.title ? mediaData.title : mediaData.original_name as string
+
+    
+
     useEffect(() => {
+
         const handleResize = () => setIsMobile(window.innerWidth < 640);
         handleResize();
         window.addEventListener("resize", handleResize);
@@ -79,14 +84,6 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
 
         try {
             setLoading(true)
-            const res = await fetch('/api/media_data',{
-                method : 'POST',
-                headers : {
-                    'Content-Type' : 'application/json',
-                },
-                body : JSON.stringify(allMediaData)
-                
-            })
             await addMovie(allMediaData)
             
         } catch (error) {
@@ -117,7 +114,7 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
     return (
         <>
         <section className="pt-20 ">
-            <div className="h-fit  relative  backdrop-blur-3xl  max-w-[1700px] border-l border-r border-white/10 min-h-screen px-6  py-10 bg-black/30 mx-auto">
+            <div className="h-fit  relative  backdrop-blur-3xl  max-w-[1450px] border-l border-r border-white/10 min-h-screen px-8  py-10 bg-black/30 mx-auto">
                 <Toaster 
                         offset={{ bottom :"100px", right: "16px", left: "16px" }} 
                         mobileOffset={{ bottom: '100px' }} 
@@ -130,7 +127,7 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
                             }
                         }}
                 />
-                <div className="max-w-[1500px] mx-auto h-fit  mb-6 ">
+                <div className="max-w-[1450px] mx-auto h-fit  mb-6 ">
                     <Link className=' bg-white/10 flex w-fit gap-2 hover:text-black/80 hover:bg-white duration-300 rounded-xs ' href='/'>
                         <motion.div
                             className="flex w-full h-full gap-2 p-3 rounded-xs items-center"
@@ -159,7 +156,7 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
                         </motion.div>
                     </Link>
                 </div>
-                <div className="flex flex-col-reverse lg:flex-row-reverse max-w-[1500px] mx-auto lg:gap-15 gap-5 ">
+                <div className="flex flex-col-reverse lg:flex-row-reverse max-w-[1500px] mx-auto lg:gap-8 gap-5 ">
 
                     <motion.div 
                         className="space-y-3 flex-2 relative"
@@ -183,7 +180,14 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
                         </div>
                         <div className=" space-x-3  flex h-fill mb-8">
                             <HeartButton mediaInfo = {mediaInfo}/>
-                            <PlaylistButton playlistMediaInfo={playlistMedia}/>
+                            <PlaylistButton playlistMediaInfo={playlistMedia}/> 
+                            {
+                                isAdmin && (
+                                    
+                                        <Button variant='custom_one' size='custom_one' onClick={postMovie}><Plus/> add Movie</Button>
+                                        
+                                )
+                            }
                         </div>
                        
 

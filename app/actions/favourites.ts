@@ -60,3 +60,38 @@ export async function checkIsFavourite(id : string){
     }
 }
 
+interface UserFavourites {
+    favourites: Array<{
+        id: string;
+        type: string;
+        name: string;
+        img: string;
+        votes: number;
+        genres: any[];
+        _id: any;
+    }>;
+}
+
+export async function getFavourites(){
+    const session =  await auth()
+    const userId = session?.user?.id
+    try{
+        await connectToMongoose()
+        const userFavourites = await Users.findById(userId , { favourites : 1 , _id : 0 }).lean() as any | null
+
+         if (!userFavourites?.favourites) {
+            return []
+        }
+        const serailizedFavourites = userFavourites.favourites.map((movie : any) => ({
+            id : movie.id,
+            mediaType : movie.type,
+            title : movie.name,
+            vote_average : movie.votes,
+            poster_path : movie.img
+        }))
+        // console.log(userFavourites)
+        return JSON.parse(JSON.stringify(serailizedFavourites))
+    }catch(error){
+        return []
+    }
+}

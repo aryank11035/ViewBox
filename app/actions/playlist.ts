@@ -120,6 +120,7 @@ export async function addToPlaylist(selectedPlaylist  : string , selectedMedia :
             type: selectedMedia.type,
             img: selectedMedia.img,
             genres : selectedMedia.genres,
+            name : selectedMedia.name,
             added_on: new Date()
         });
 
@@ -147,7 +148,7 @@ export async function deletePlaylist(id : any) {
         const playlistDeleted = await Playlists.findByIdAndDelete(id)
         if(playlistDeletedFromUser && playlistDeleted ) return {success :true , message : 'Playlist deleted sucessfully'}
 
-
+        
         return { success : false , error : 'playlist wasn`t  deleted' }
     }catch(error){
         return {success : false , error : 'something happened'}

@@ -7,13 +7,12 @@ import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 
 import {Navigation, Pagination} from 'swiper/modules'
-import { Movie } from '@/schema/type'
 import MediaCard from '@/components/mediaCard'
 
 
 
 
-const SwiperComponent =  ({mediaData} : {mediaData: Movie[]}) => {
+const SwiperComponent =  ({mediaData} : {mediaData: any[]}) => {
        
 
         return(

@@ -57,3 +57,17 @@ export const getSession = async() => {
 
   return session.user
 }
+
+
+export const getAdminAcess = async () => {
+  const session = await auth()  
+
+  // if(!session?.user && !session?.user.email && !session?.user.isAdmin){
+  //   return null
+  // }
+
+  if(session?.user.isAdmin) return true
+ 
+
+  return false
+}

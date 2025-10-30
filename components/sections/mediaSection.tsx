@@ -1,7 +1,7 @@
 'use client'
 import SwiperComponent from '@/components/Swiper/SwiperComponent'
-import { Movie } from '@/schema/type'
-export default function MediaSection({movies, tv } : {movies : Movie[] , tv : Movie[]} ){
+
+export default function MediaSection({movies, tv } : {movies : any[] , tv : any[]} ){
 
     return(
         <>

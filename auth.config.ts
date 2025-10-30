@@ -4,7 +4,7 @@ import { getUserByEmail } from "./data/user"
 import { LoginSchema } from "./schema/zod"
 import { ZodError } from "zod"
 import bcrypt from "bcryptjs"
-import { User } from "./schema/type"
+
 
 export default {
     providers: [

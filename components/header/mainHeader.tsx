@@ -2,12 +2,17 @@
 import Link from "next/link";
 import { Search,CircleUser } from "lucide-react";
 import { useEffect, useState } from "react";
-
+import { AnimatePresence , motion } from "motion/react";
+import { ListVideo } from 'lucide-react';
 import { Session } from "@/schema/type";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import LinkPopUp from "./link-popup";
 
 export  function Header({session} : {session : Session | null}){
+
+    const [showLinkContainers , setShowLinkContainers] = useState<boolean>(false)
+
     const [headerName,setHeaderName] = useState<string | undefined>(session?.user?.name)
     const router = useRouter()
     
@@ -16,28 +21,49 @@ export  function Header({session} : {session : Session | null}){
     },[headerName])
     
     
+
+ 
+
     return (
-        <header className="w-full h-20  flex items-center justify-center text-white fixed z-20 border-b border-b-white/10  backdrop-blur-xl top-0">
+        <header className="w-full h-20  flex items-center justify-center text-white fixed z-20 border-b border-b-white/10  backdrop-blur-xl top-0 ">
         
-          <nav className="w-[1700px] h-full border-l border-r border-white/10 flex justify-between items-center px-6 md:px-10 backdrop-blur-xl">
+          <nav className="w-[1450px] h-full border-l border-r border-white/10 flex justify-between items-center px-6 md:px-10 backdrop-blur-xl z-20 ">
             <Link href='/' prefetch={true}>
-              <h1 className="text-2xl lg:text-4xl font-bold cursor-pointer tracking-wider">ViewBox</h1>
+              <h1 className="text-2xl lg:text-3xl font-bold cursor-pointer tracking-wider">ViewBox</h1>
             </Link>
-            <div className="flex  gap-5 md:gap-10 items-center justify-center">
+            <div className="flex  gap-5 md:gap-10 items-center justify-center relative ">
+              <Link href='/home'>
+                <div className="flex gap-2 items-center justify-center hover:text-green-600 duration-200 cursor-pointer">
+                  <ListVideo strokeWidth={1} size={20} /><p className="mb-0.5">Home</p> 
+                </div>
+              </Link>
               {
                 session ? (
-                  <p className="text-xl hidden md:flex">{headerName && `Hello! ${headerName.split('')[0].toUpperCase()}${headerName.slice(1)}` }</p>
+                  <p className=" hidden md:flex">{headerName && `Hello! ${headerName.split('')[0].toUpperCase()}${headerName.slice(1)}` }</p>
                 ) : (
                   <Button onClick={() => {router.push('/auth/register')}} className="bg-green-600 rounded-xs hover:bg-green-200  hover:text-green-600 shadow-xs shadow-black/50 cursor-pointer hover:scale-95  duration-200 " >
                     <p>Sign In</p>
                   </Button>
                 )
               }
-              <div className="flex gap-10 text-xl font-bold justify-center items-center ">
-                  <Link href='/search'><Search strokeWidth={1} size={32}/></Link>
-                  <Link href="/user" className="hidden md:block">
-                    <CircleUser strokeWidth={1} size={32}/>
-                  </Link> 
+              <div className="flex gap-10 font-bold justify-center items-center  ">
+                  <Link href='/search'><Search strokeWidth={1} size={24}/></Link>
+                  
+                      <div
+                        className=" hidden 760:block cursor-pointer"
+                        onClick={() => setShowLinkContainers(prev => !prev)}
+                      
+                      >
+                        <CircleUser strokeWidth={1} size={24}/>
+                      </div>
+                  <AnimatePresence mode="wait" propagate> 
+                      {
+                        showLinkContainers && (
+                          <LinkPopUp setShowLinkContainers={setShowLinkContainers} />
+                        )
+                      }
+
+                  </AnimatePresence>
               </div>
             </div>
           </nav>  

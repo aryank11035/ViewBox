@@ -19,8 +19,8 @@ export default function UpdatedSection({mediaData } : {mediaData : any }){
                     <InfiniteSlider 
                         speed={50}
                         speedOnHover={1} 
-                        gap={20}
-                        className="py-10"
+                        gap={15}
+                        className="py-8"
                     >
                         <SliderMediaCardSection mediaData={mediaData} />
                     </InfiniteSlider>

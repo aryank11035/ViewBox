@@ -6,35 +6,35 @@ import { Star } from "lucide-react"
 import { ProgressiveBlur } from "./motion-primitives/progressive-blur";
 import { useState } from "react";
 import { motion, scale } from "motion/react";
-export default function MediaCard({mediaData,} : {mediaData : any } ){
+export default function MediaCard({mediaData} : {mediaData : any } ){
   
     const [isHover, setIsHover] = useState(false);
     const [ onView, setOnView ] = useState(false)
 
-
+    console.log(mediaData)
     return( 
         <>  
 
             
                 <Link href={`/${mediaData.mediaType ? mediaData.mediaType : mediaData.media_type}/${mediaData.id}`}  key={mediaData.id} > 
                     <motion.div 
-                        className="relative w-72  aspect-[2/3] cursor-pointer  shadow-xl shadow-black/30 mx-auto"
-                        whileHover={{scale: 1.05}}
+                        className="relative w-67  aspect-[2/3] cursor-pointer mx-auto rounded-xs "
+                        whileHover={{scale: 1.03}}
                         transition={{
                             type : "spring",
                             stiffness : 400,
                             damping : 15
                         }}
                         >
-                        {/* <div className="absolute inset-0 rounded-xs border border-white/10 flex items-end">
-                            <h1 className="text-xl pl-5 pb-5 font-bold text-white/20">+ Add to Watchlist</h1>
-                            </div> */}
+                        
+                        
                         <div className="group relative w-full h-full rounded-[0.20rem] overflow-hidden shadow-xs 
                                         bg-black/50
                                         duration-300 transform"
                                             onMouseEnter={() => setIsHover(true)}
                                             onMouseLeave={() => setIsHover(false)}
-                                        >
+                                            >
+                                    
                             {
                                 mediaData.poster_path ? 
 
@@ -47,15 +47,22 @@ export default function MediaCard({mediaData,} : {mediaData : any } ){
                                         }}
                                         transition={{ duration: 0.2, ease: 'easeOut' }}
                                     >
-                                        <img
-                                        src={mediaData.poster_path ? `https://image.tmdb.org/t/p/w500${mediaData.poster_path}` : '/placeholder-movie.jpg'}
-                                            alt={mediaData.title}
-                                            className="absolute inset-0"
-                                            />
+
+
+                                                <img
+                                                    src={mediaData.poster_path ? `https://image.tmdb.org/t/p/w500${mediaData.poster_path}`: '/placeholder-movie.jpg'}
+                                                    alt={mediaData.title}
+                                                    className="absolute inset-0"
+                                                    />
+                                          
+
                                     </motion.div>
                                         :
                                         <div className="absoulte inset-0 w-full h-full  backdrop-blur-lg hover:scale-105 duration-200"></div>
                                     }         
+
+
+
                             <ProgressiveBlur
                                         className='pointer-events-none absolute bottom-0 left-0 h-[50%] w-full'
                                         blurIntensity={0.8}

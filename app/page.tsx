@@ -29,7 +29,7 @@ export default async function Page() {
 
       <>
 
-        <section className="max-w-[1700px] min-h-screen mx-auto relative bg-[#111111] border-l border-r border-white/10">
+        <section className="max-w-[1450px] min-h-screen mx-auto relative bg-[#111111] border-l border-r border-white/10">
             <div className="absolute mask-b-from-10% mask-b-to-100%">
               <PosterMarqueeStandalone images={await getImages()}/>
               
@@ -42,8 +42,8 @@ export default async function Page() {
             <LandingPage session={session}/>
         </section>
         <div className="w-full border-t border-b border-white/10 h-20">
-              <div className="max-w-[1700px] border-l border-r border-white/10 mx-auto h-full flex  md:justify-start justify-center items-end px-2 ">
-                <h1 className="text-2xl md:text-4xl font-semibold text-white/10 tracking-widest">{`Popular Movies...`}</h1>
+              <div className="max-w-[1450px] border-l border-r border-white/10 mx-auto h-full flex  md:justify-start justify-center items-end px-2 ">
+                <h1 className="text-2xl md:text-3xl font-semibold text-white/10 tracking-widest">{`Popular Movies...`}</h1>
               </div> 
         </div>
         <section className="w-full mx-auto  bg-black/30">
@@ -59,8 +59,8 @@ export default async function Page() {
           
         </section>
         <div className="w-full border-t border-b border-white/10 h-20">
-              <div className="max-w-[1700px] border-l border-r border-white/10 mx-auto h-full flex md:justify-start justify-center items-end px-2">
-                <h1 className="text-2xl md:text-4xl font-semibold text-white/10 tracking-widest">{`Popular Shows...`}</h1>
+              <div className="max-w-[1450px] border-l border-r border-white/10 mx-auto h-full flex md:justify-start justify-center items-end px-2">
+                <h1 className="text-2xl md:text-3xl font-semibold text-white/10 tracking-widest">{`Popular Shows...`}</h1>
               </div> 
         </div>
         <section className="w-full mx-auto  bg-black/30 ">

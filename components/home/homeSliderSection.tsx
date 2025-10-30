@@ -8,7 +8,7 @@ export function HomeSilderSection({backDropImages} : {backDropImages : string[]}
     const [index, setIndex] = useState(0);
     const safeIndex = Math.min(Math.max(index, 0), backDropImages.length - 1)
     return(
-        <div className="w-full realtive">
+        <div className="w-full mx-auto realtive ">
 
             <Carousel >
                 <CarouselContent>

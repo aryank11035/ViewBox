@@ -39,13 +39,14 @@ export default function PlaylistCard({playlist , handleDeletePlaylist } : any){
     } as any
 
     const childContainerVariants = {
-        hidden : { opacity : 1 , y : 25 },
+        hidden : { opacity : 1 , y : 30 },
         visible : {
             opacity : 1,
             y : 0,
             transition : {
-                duration : 0.2,
-                ease: [0, 0.71, 0.2, 1.01],
+                type : "spring",
+                            stiffness : 600,
+                            damping : 20
             }
         }
     } as any
@@ -178,27 +179,36 @@ export default function PlaylistCard({playlist , handleDeletePlaylist } : any){
                         </div>
                     </div>
                     <div className="w-full h-full  ">
-                        <AnimatePresence mode="wait" >
+                        <AnimatePresence mode="wait" propagate>
                         {
                             deletePlaylistMssg ? (
                                 <DeletePlaylist playlist_name={playlist.playlist_name} handleDeleteMessage={handleDeleteMessage} deletePlaylist={deletePlaylist}/>
                                 
                             ) : (
                                 <>
-                                    <div className="w-full text-sm font-medium text-white/50 flex gap-3 ">
-                                        <p className="tracking-tight">{`${playlist.movies.length} movies`}</p> 
-                                        {
-                                            playlist.playlist_type === 'public' ? (
-                                                <p className="text-green-600 flex items-center gap-1"><Eye size={17} /><span className="">Public</span></p>
-                                            ) : (
-                                                <p className="text-rose-500 flex items-center gap-1"><EyeOff size={17} /><span className="">Private</span></p>
-                                            )
-                                        }
-                                        
-                                    </div>
-                                    <p className="text-sm font-medium text-white/50 truncate">{playlist.description ? playlist.description : 'no description'}</p>
-                                    <p className="text-xs font-light text-white/30">Created on {date}</p>
-                                
+                                    <motion.div 
+                                        initial={{opacity : 0 , translateY : -5}}
+                                        animate = {{opacity : 1, translateY : 0}}
+                                        exit={{opacity : 0 , translateY : 5}}
+                                        transition={{
+                                            duration: 0.4,
+                                            ease: 'easeInOut'
+                                        }}
+                                    >
+                                        <div className="w-full text-sm font-medium text-white/50 flex gap-3 ">
+                                            <p className="tracking-tight">{`${playlist.movies.length} movies`}</p> 
+                                            {
+                                                playlist.playlist_type === 'public' ? (
+                                                    <p className="text-green-600 flex items-center gap-1"><Eye size={17} /><span className="">Public</span></p>
+                                                ) : (
+                                                    <p className="text-rose-500 flex items-center gap-1"><EyeOff size={17} /><span className="">Private</span></p>
+                                                )
+                                            }
+                                            
+                                        </div>
+                                        <p className="text-sm font-medium text-white/50 truncate">{playlist.description ? playlist.description : 'no description'}</p>
+                                        <p className="text-xs font-light text-white/30">Created on {date}</p>
+                                    </motion.div>
                                 </>
                             )
                         }

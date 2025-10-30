@@ -57,6 +57,7 @@ const movieSchema = new mongoose.Schema({
         type : Number,
         default : 0
     },
+    added_by : String,
     videokey : String,
     suggested : {
         type : String,
@@ -97,6 +98,15 @@ const userSchema = new mongoose.Schema({
                 enum : ['movie' , 'tv'],
                 required : true
             },
+            name : {
+                type : String,
+                required : true
+            },
+            img : String,
+            votes : {
+                type : Number , 
+                required : true
+            },
             genres : [{
                 id : Number,
                 name : String
@@ -108,7 +118,7 @@ const userSchema = new mongoose.Schema({
         type : mongoose.Schema.Types.ObjectId,
         ref : 'Playlist',
         }
-]
+    ],
 })
 
 
@@ -142,6 +152,10 @@ const playlistSchema = new mongoose.Schema({
                 enum : ['movie' , 'tv'],
                 required : true
             },
+        name : {
+            type : String,
+            required : true
+        },
         img : String,
         genres : [{
                 id : Number,

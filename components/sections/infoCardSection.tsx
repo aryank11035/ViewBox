@@ -17,7 +17,7 @@ export function InfoCardSection(){
     
 
     return (
-       <div className="max-w-[1700px] mx-auto border-l border-r border-white/10 h-full gap-8 py-8 flex flex-col">
+       <div className="max-w-[1450px] mx-auto border-l border-r border-white/10 h-full gap-8 py-8 flex flex-col">
           <div className="grid grid-cols-1 xl:grid-cols-4 lg:grid-cols-2 md:grid-cols-2  md:gap-8 lg:gap-8 px-8 space-y-8 md:space-y-0">
             <motion.div 
                 whileHover={{scale: 1.05 }}

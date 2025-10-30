@@ -9,14 +9,15 @@ import mongoose from "mongoose"
 
 export async function addMovie(mediaData : any){
 
-
+    const session = await auth()
+    const username = session?.user?.name
     
     try {
-        await connectToMongoose();
-       
+        await connectToMongoose();  
         mediaData.overrated = mediaData.overrated ?? 0;
         mediaData.underrated = mediaData.underrated ?? 0;
-        
+        mediaData.added_by = username
+       
         const existingMovie = await Movies.findOne({id : mediaData.id})
         if(!existingMovie){
             
@@ -32,9 +33,3 @@ export async function addMovie(mediaData : any){
     }
 }
 
-// const session = await auth()
-// await db.collection('users').updateOne(
-//     {_id : new ObjectId(session?.user?.id)},
-//     {$addToSet : {movies : { _id : existingMovie._id , id : existingMovie.id }} }
-// )
-// const userID = await db.collection('users').findOne({ _id:new ObjectId(session?.user?.id) })

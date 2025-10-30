@@ -7,8 +7,8 @@ import Link from "next/link"
 export function Footer(){
     return (
         <footer className="w-full  border-t border-t-white/10 ">
-            <div className="max-w-[1700px] border-r border-l border-white/10 h-full mx-auto flex justify-center py-10 px-4">
-                <div className="flex w-[1500px] flex-col gap-10">
+            <div className="max-w-[1450px] border-r border-l border-white/10 h-full mx-auto flex justify-center py-10 px-4">
+                <div className="flex w-[1300px] flex-col gap-10">
                     <div className=" flex flex-col  md:flex-row gap-5 md:gap-0">
 
 

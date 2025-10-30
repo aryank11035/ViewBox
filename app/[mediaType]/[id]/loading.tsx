@@ -4,14 +4,14 @@ import 'react-loading-skeleton/dist/skeleton.css'
 export default function Loading() {
       return (
         <section className="w-full pt-20">
-            <div className="max-w-[1700px] min-h-screen mx-auto bg-black/30 border-l border-r border-[rgba(255,255,255,0.1)]  px-6  py-10">
+            <div className="max-w-[1450px] min-h-screen mx-auto bg-black/30 border-l border-r border-[rgba(255,255,255,0.1)]  px-8  py-10">
                 <SkeletonTheme baseColor='#111111' highlightColor='#191919'>
                     <div className="max-w-[1500px] mx-auto h-fit mb-6 ">
                         <div className="w-full max-w-[224px] h-12 bg-[#111111] flex">
                             <Skeleton  containerClassName='block leading-[1px] flex-1 ' height='100%' borderRadius='0.125rem'/>
                         </div>
                     </div>
-                    <div className="flex flex-col-reverse lg:flex-row-reverse max-w-[1500px] mx-auto lg:gap-15 gap-5   ">
+                    <div className="flex flex-col-reverse lg:flex-row-reverse max-w-[1500px] mx-auto lg:gap-8 gap-5   ">
                         <div 
                             className="space-y-3 flex-2  "
                             
