@@ -10,14 +10,14 @@ import MediaCard from "./mediaCard";
  
 
 
-export function SliderMediaCardSection({mediaData} : {mediaData : any}) {
+export function SliderMediaCardSection({mediaData , enable} : {mediaData : any , enable : boolean}) {
 
   
    
 
     const dataFilter = mediaData.map((media: any) => ( 
         <div key={media.id}>
-                <MediaCard mediaData={media} />
+                <MediaCard mediaData={media} enable={enable}/>
         </div>
 
     ))

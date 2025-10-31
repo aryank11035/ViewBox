@@ -1,6 +1,6 @@
 'use client'
 
-import { Session } from "@/schema/type"
+
 
 import { useEffect, useState } from "react"
 import { addMovie } from "../../app/actions/addMovie"
@@ -22,7 +22,7 @@ import { Button } from "../ui/button"
 
 
 
-export default function MediaPage({allMediaData, mediaData ,id , mediaType , session , isInWatchList , videoKey , whereToWatch , relatedMovies , trendingData , isAdmin } : {allMediaData : any , mediaData : any ,id : number,mediaType : 'movie' | 'tv', session : Session | null , isInWatchList : boolean , videoKey : string , whereToWatch : any, relatedMovies : any , trendingData : any , isAdmin : boolean}){
+export default function MediaPage({allMediaData, mediaData ,id , mediaType , session , isInWatchList , videoKey , whereToWatch , relatedMovies , trendingData , isAdmin } : {allMediaData : any , mediaData : any ,id : number,mediaType : 'movie' | 'tv', session : any | null , isInWatchList : boolean , videoKey : string , whereToWatch : any, relatedMovies : any , trendingData : any , isAdmin : boolean}){
 
 
     const [addedToWatchlist , SetAddedToWatchlist] = useState(isInWatchList)

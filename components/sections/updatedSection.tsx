@@ -22,7 +22,7 @@ export default function UpdatedSection({mediaData } : {mediaData : any }){
                         gap={15}
                         className="py-8"
                     >
-                        <SliderMediaCardSection mediaData={mediaData} />
+                        <SliderMediaCardSection mediaData={mediaData} enable={false} />
                     </InfiniteSlider>
                     {/* <ProgressiveBlur
                         className='pointer-events-none absolute top-0 left-0 h-full w-[150px]'

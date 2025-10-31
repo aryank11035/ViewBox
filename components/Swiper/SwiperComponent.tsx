@@ -39,7 +39,7 @@ const SwiperComponent =  ({mediaData} : {mediaData: any[]}) => {
                     {mediaData.map((media: any) => (
                         <SwiperSlide key={media.id} className='w-fit '>
                             <div className='block max-w-[300px]  mx-auto shadow-xl shadow-black/30 '>
-                                <MediaCard mediaData={media}/> 
+                                <MediaCard mediaData={media} enable={true}/> 
                             </div>
                         </SwiperSlide>
                     ))}

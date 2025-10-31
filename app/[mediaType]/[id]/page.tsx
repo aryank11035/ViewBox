@@ -3,7 +3,6 @@ import MediaPage from "@/components/media/MediaPage"
 import {  getMovieById, getMovieVideoById, getRelatedMedia, getShowData, getTrendingData, getWheretoWatchById } from "@/lib/helpers"
 import { auth } from "@/auth"
 import { notFound } from "next/navigation"
-import {  Session } from "@/schema/type"
 import { getAdminAcess } from "@/data/user"
 
 type Params = {
@@ -15,7 +14,7 @@ type Params = {
 
 export default async function ShowMedia({params} : Params) {
     const { mediaType,id } = await params
-    const session = await auth() as Session | null
+    const session = await auth() as any | null
     const trendingData = (await getShowData(mediaType)).slice(0,6)
     const mediaData = await getMovieById(id,mediaType) as any
     const mediaVideoData = await getMovieVideoById(mediaType,id) || []
@@ -23,7 +22,8 @@ export default async function ShowMedia({params} : Params) {
     const videoKey =trailerVideo?.key || mediaVideoData[0]?.key || null
     const whereToWatch = await getWheretoWatchById(mediaType,id)
     const addedMediaData = await getMovie(session)  as any[]
-    const isInWatchlist = addedMediaData.some((item : any) => item.id  == id) 
+    // addedMediaData.some((item : any) => item.id  == id)
+    const isInWatchlist = false  
     const relatedMovies = await getRelatedMedia(mediaType,id)
     const isAdmin = await getAdminAcess()
 

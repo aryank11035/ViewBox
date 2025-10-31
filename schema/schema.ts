@@ -89,28 +89,8 @@ const userSchema = new mongoose.Schema({
     sugesstions : [String],
     favourites : [
         {
-            id : {
-                type : String,
-                required : true
-            },
-            type : {
-                type : String , 
-                enum : ['movie' , 'tv'],
-                required : true
-            },
-            name : {
-                type : String,
-                required : true
-            },
-            img : String,
-            votes : {
-                type : Number , 
-                required : true
-            },
-            genres : [{
-                id : Number,
-                name : String
-            }]
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Movie',
         }
     ],
     playlists : [

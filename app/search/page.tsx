@@ -45,7 +45,7 @@ export default async function SearchPage(props : {searchParams : Promise<{search
                         <p className="text-2xl font-medium mb-10 pl-2 text-white/60">Movie results : <span className="text-white">{ data ?  data.length : trendingData.length }</span></p>
                         <div className="mx-auto grid gap-10 xl:grid-cols-5   lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-3 grid-cols-1 pb-20  bg-blue-900">
                             {(data ?? trendingData).map((movie : any) => (
-                                <MediaCard key={movie.id} mediaData={movie} />
+                                <MediaCard key={movie.id} mediaData={movie} enable={false}/>
                             ))}
                         </div>     
                         

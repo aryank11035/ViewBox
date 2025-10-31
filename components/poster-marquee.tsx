@@ -24,7 +24,7 @@ export default function PosterMarqueeStandalone({
   // Normalize input to ImageItem[], accepting string[] or objects
   const normalized: ImageItem[] = images.map((item) => (typeof item === "string" ? { src: item } : item))
 
-  const columns = 4
+  const columns = 6
   // Split images across 4 columns by index
   const columnImages: ImageItem[][] = Array.from({ length: columns }, (_, col) =>
     normalized.filter((_, idx) => idx % columns === col),
@@ -33,7 +33,7 @@ export default function PosterMarqueeStandalone({
   const duplicatedColumns = columnImages.map((col) => [...col, ...col])
 
   // Per-column durations and alternating directions
-  const durations = [20, 24, 22, 26] // seconds
+  const durations = [20, 24, 22, 26 , 23 , 25] // seconds
 
   return (
     // Expose height via CSS variable (default 100vh)
@@ -97,7 +97,7 @@ export default function PosterMarqueeStandalone({
 
         .pm-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
+          grid-template-columns: repeat(6, 1fr);
           gap: 16px;
           height: 100%;
         }
@@ -134,7 +134,7 @@ export default function PosterMarqueeStandalone({
         .pm-poster {
           width: 100%;
           aspect-ratio: 2 / 3; /* Poster 2:3 ratio */
-          border-radius: 0px;
+          border-radius: 0.125rem;
           overflow: hidden;
           background: #f1f1f1;
         }

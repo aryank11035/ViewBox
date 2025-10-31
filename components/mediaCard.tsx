@@ -6,12 +6,12 @@ import { Star } from "lucide-react"
 import { ProgressiveBlur } from "./motion-primitives/progressive-blur";
 import { useState } from "react";
 import { motion, scale } from "motion/react";
-export default function MediaCard({mediaData} : {mediaData : any } ){
+import { HeartButton } from "./media/favourite/heart-button";
+export default function MediaCard({mediaData ,  enable } : {mediaData : any , enable : boolean } ){
   
     const [isHover, setIsHover] = useState(false);
     const [ onView, setOnView ] = useState(false)
 
-    console.log(mediaData)
     return( 
         <>  
 
@@ -26,8 +26,9 @@ export default function MediaCard({mediaData} : {mediaData : any } ){
                             damping : 15
                         }}
                         >
-                        
-                        
+       
+
+
                         <div className="group relative w-full h-full rounded-[0.20rem] overflow-hidden shadow-xs 
                                         bg-black/50
                                         duration-300 transform"
@@ -82,18 +83,19 @@ export default function MediaCard({mediaData} : {mediaData : any } ){
                                 }}
                                 transition={{ duration: 0.2, ease: 'easeOut' }}
                                 >
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
-                                <div className="absolute bottom-0 p-4  space-y-2 w-full ">
-                                    <h1 className="text-xl font-bold">{mediaData.title || mediaData.name}</h1>
-                                    <div className='flex gap-2  items-center'>
-                                         <img 
-                                            src="/logo-imdb.svg" 
-                                            alt="IMDb Logo" 
-                                            className="w-10  h-auto" 
-                                        />
-                                        <h1 className="text-xl font-light">{mediaData.vote_average ? `${mediaData.vote_average.toFixed(1)}/10`  : 'NA'}</h1>
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
+                               
+                                    <div className="absolute bottom-0 p-4  space-y-2 w-full ">
+                                        <h1 className="text-xl font-bold">{mediaData.title || mediaData.name}</h1>
+                                        <div className='flex gap-2  items-center'>
+                                            <img 
+                                                src="/logo-imdb.svg" 
+                                                alt="IMDb Logo" 
+                                                className="w-10  h-auto" 
+                                            />
+                                            <h1 className="text-xl font-light">{mediaData.vote_average ? `${mediaData.vote_average.toFixed(1)}/10`  : 'NA'}</h1>
+                                        </div>
                                     </div>
-                                </div>
                                 
                             </motion.div>     
                         </div>

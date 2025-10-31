@@ -1,8 +1,9 @@
 'use server'
 
 import { auth } from "@/auth"
-import { Users } from "@/lib/models"
+import { Movies, Users } from "@/lib/models"
 import { connectToMongoose } from "@/lib/mongoose"
+import { User } from "lucide-react"
 import { NextResponse } from "next/server"
 
 
@@ -12,12 +13,16 @@ export async function addToFavourites(mediaInfo : any){
     const userId  = session?.user?.id
     try{
         await connectToMongoose()
-        await Users.findByIdAndUpdate(
+        const media = await Movies.findOne({
+            id :  mediaInfo.id
+        })
+        const isAdded = await Users.findByIdAndUpdate(
             userId,
-            {$addToSet : { favourites : mediaInfo}},
+            {$addToSet : { favourites : media._id }},
             {new : true}
         )
-        return {sucess : true}
+        return console.log(isAdded)
+
     }catch(error){
         console.error(error);
         return { success: false, error: "Failed to add favourite" }
@@ -60,37 +65,30 @@ export async function checkIsFavourite(id : string){
     }
 }
 
-interface UserFavourites {
-    favourites: Array<{
-        id: string;
-        type: string;
-        name: string;
-        img: string;
-        votes: number;
-        genres: any[];
-        _id: any;
-    }>;
-}
 
 export async function getFavourites(){
     const session =  await auth()
     const userId = session?.user?.id
     try{
         await connectToMongoose()
-        const userFavourites = await Users.findById(userId , { favourites : 1 , _id : 0 }).lean() as any | null
 
-         if (!userFavourites?.favourites) {
-            return []
-        }
-        const serailizedFavourites = userFavourites.favourites.map((movie : any) => ({
-            id : movie.id,
-            mediaType : movie.type,
-            title : movie.name,
-            vote_average : movie.votes,
-            poster_path : movie.img
+        const userFavourites = await Users.findById(
+            userId ,
+            { favourites : 1 , _id : 0 } 
+        )
+        if(!userFavourites.favourites) return []
+
+        const favouriteIds = userFavourites.favourites
+        const userFavouriteMovies = await Movies.find(  
+            { _id : { $in : favouriteIds }}  
+        ).lean()
+
+        const serializedMovies =  userFavouriteMovies.map((movie) => ({
+            ...movie
         }))
-        // console.log(userFavourites)
-        return JSON.parse(JSON.stringify(serailizedFavourites))
+
+        return JSON.parse(JSON.stringify(serializedMovies))
+         
     }catch(error){
         return []
     }

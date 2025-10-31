@@ -153,7 +153,6 @@ export async function getMovieVideoById(mediaType: 'movie' | 'tv' =  'movie',id:
       return null;
     }
     const data = await res.json();
-    console.log(data.results)
     return data.results.filter((item : any) => (item.type.includes('Trailer') || item.type.includes('Clip')) && item.site.includes('YouTube'))
     }catch(err){
       console.error(err)
@@ -223,9 +222,6 @@ export async function getRelatedMedia(mediaType: 'movie' | 'tv' =  'movie',id: n
 }
 
 
-export async function allData(allMediaData : any){
-  console.log(allMediaData)
-}
 
 
 

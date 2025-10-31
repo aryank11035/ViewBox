@@ -1,12 +1,12 @@
 'use client'
 
-import { Movie } from "@/schema/type"
+
 
 import SwiperComponent from "@/components/Swiper/SwiperComponent"
 import { useEffect, useState } from "react"
-export default function WatchListSection({media} : {media : Movie[] }){
+export default function WatchListSection({media} : {media : any[] }){
 
-    const [show , setShowData] = useState <Movie[]>(media) 
+    const [show , setShowData] = useState <any[]>(media) 
     useEffect(() => {
         setShowData(media)
     },[media])
