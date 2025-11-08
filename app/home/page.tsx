@@ -10,7 +10,7 @@ export default async function HomePage(){
 
    
     return(
-        <section className="w-full pt-20  mx-auto min-h-screen">
+        <section className="w-full  mx-auto min-h-screen">
             <HomeSilderSection backDropImages={backDropImages}/>
             <div className="w-full border-t border-b border-[rgba(255,255,255,0.1)] h-17">
                 <div className="w-[1450px] border-l border-r border-[rgba(255,255,255,0.1)] h-full mx-auto">

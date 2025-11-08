@@ -3,6 +3,7 @@
 import { auth } from "@/auth"
 import { Movies, Users } from "@/lib/models"
 import { connectToMongoose } from "@/lib/mongoose"
+import { Movie } from "@/schema/type"
 import { User } from "lucide-react"
 import { NextResponse } from "next/server"
 
@@ -21,7 +22,7 @@ export async function addToFavourites(mediaInfo : any){
             {$addToSet : { favourites : media._id }},
             {new : true}
         )
-        return console.log(isAdded)
+        return { success : true , added : 'added to Favourites'}
 
     }catch(error){
         console.error(error);
@@ -34,21 +35,20 @@ export async function removeFromFavourites(mediaInfo : any){
         const userId  = session?.user?.id
         try{
             await connectToMongoose()
-            await Users.findByIdAndUpdate(
+            const remove = await Users.findByIdAndUpdate(
                 userId,
-                {$pull : { favourites : {id : mediaInfo.id}}},
+                {$pull : { favourites :  mediaInfo._id}},
                 {new : true}
             )
-            return {success : true}
+            
+            return {success : true , removed : 'removed from favourites'}
         }catch(error){
             console.error(error);
             return { success: false, error: "Failed to add favourite" }
         }
-
-    
 }
 
-export async function checkIsFavourite(id : string){
+export async function checkIsFavourite(_id : string){
     const session = await auth()
     const userId  = session?.user?.id
     try{
@@ -56,8 +56,8 @@ export async function checkIsFavourite(id : string){
         const user = await Users.findById(userId)
         
         if(!user) return {isFavourite : false}
-
-        const isFavourite = user.favourites.some((fav  : any) => fav.id === id)
+        const isFavourite = user.favourites.some((fav  : any) => fav._id.toString() === _id)
+    
         return { isFavourite }
     }catch(error){
         console.error(error);
@@ -93,3 +93,21 @@ export async function getFavourites(){
         return []
     }
 }
+
+
+export async function getFavouritesGenres() : Promise<string[]> {
+   try {
+        const favouritesMovies = await getFavourites()
+
+        const favUserGenres = [
+            'All Genres',
+            ...new Set (
+                favouritesMovies.flatMap((movie : Movie) => movie.genres.map((genre : {name : string}) => genre.name ))
+            )
+        ] as string []
+
+        return favUserGenres
+   }catch(error){
+        return ['All Genres']
+    }
+} 

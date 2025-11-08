@@ -10,100 +10,103 @@ import { LogOut } from 'lucide-react';
 import { User } from 'lucide-react';
 
 
+const containerVariants = {
+ hidden : { 
+   opacity : 0 ,
+   y : -20 ,
+   transition: {
+     y: {
+         duration: 0.2,
+         ease: [0, 0.71, 0.2, 1.01],
+     },
+     opacity: {
+         duration: 0.2,
+         ease: [0, 0.71, 0.2, 1.01],
+         delay: 0.07
+     }
+ }
+ },
+ visible : {
+     opacity : 1 ,
+     y : 0,
+     transition : {
+         duration: 0.2,
+         ease: [0, 0.71, 0.2, 1.01],
+     }
+ }
+} as any
+const staggerContainerVariants = {
+  hidden: { 
+    opacity: 1,
+    transition: {
+        staggerChildren: 0.08,
+        staggerDirection: -1 
+    }
+},
+  visible : {
+    opacity : 1 ,
+    translateY : 0 ,
+    transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.1
+    }
+  }
+}
+
+const childContainerVariants = {
+    hidden : { 
+      opacity : 0 , 
+      height : 0 , 
+      y : -20   ,  
+      transition: {
+          duration: 0.1,
+          ease: [0, 0.71, 0.2, 1.01],
+      },
+      paddingTop: "0rem",     
+      paddingBottom: "0rem",  
+      paddingLeft: "0rem",  
+      paddingRight: "0rem",
+    },
+    visible : {
+        opacity : 1,
+        height : 'auto',
+        y : 0,
+        paddingTop: "1rem",     
+      paddingBottom: "1rem",  
+      paddingLeft: "0.5rem",  
+      paddingRight: "0.5rem",
+        transition : {
+            duration : 0.1,
+            ease: [0, 0.71, 0.2, 1.01],
+        }
+    } 
+} as any
+
+const staticItemVariants = {
+  hidden: {
+      opacity: 0,
+      transition: {
+          duration: 0.2,
+          delay: 0.3 // Exit after children
+      }
+  },
+      visible: {
+          opacity: 1,
+          transition: {
+              duration: 0.2
+          }
+      }
+  } as any
+
+
+  
 export default function LinkPopUp({setShowLinkContainers} :any){
 
-       const containerVariants = {
-        hidden : { 
-          opacity : 0 ,
-          y : -20 ,
-          transition: {
-            y: {
-                duration: 0.2,
-                ease: [0, 0.71, 0.2, 1.01],
-            },
-            opacity: {
-                duration: 0.2,
-                ease: [0, 0.71, 0.2, 1.01],
-                delay: 0.07
-            }
-        }
-        },
-        visible : {
-            opacity : 1 ,
-            y : 0,
-            transition : {
-                duration: 0.2,
-                ease: [0, 0.71, 0.2, 1.01],
-            }
-        }
-    } as any
 
-    const staggerContainerVariants = {
-      hidden: { 
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.08,
-            staggerDirection: -1 
-        }
-    },
-      visible : {
-        opacity : 1 ,
-        translateY : 0 ,
-        transition: {
-            staggerChildren: 0.1,
-            delayChildren: 0.1
-        }
-      }
-    }
-
-    const childContainerVariants = {
-        hidden : { 
-          opacity : 0 , 
-          height : 0 , 
-          y : -20   ,  
-          transition: {
-              duration: 0.1,
-              ease: [0, 0.71, 0.2, 1.01],
-          },
-          paddingTop: "0rem",     
-          paddingBottom: "0rem",  
-          paddingLeft: "0rem",  
-          paddingRight: "0rem",
-        },
-        visible : {
-            opacity : 1,
-            height : 'auto',
-            y : 0,
-            paddingTop: "1rem",     
-          paddingBottom: "1rem",  
-          paddingLeft: "0.5rem",  
-          paddingRight: "0.5rem",
-            transition : {
-                duration : 0.1,
-                ease: [0, 0.71, 0.2, 1.01],
-            }
-        } 
-    } as any
-
-    const staticItemVariants = {
-      hidden: {
-          opacity: 0,
-          transition: {
-              duration: 0.2,
-              delay: 0.3 // Exit after children
-          }
-      },
-          visible: {
-              opacity: 1,
-              transition: {
-                  duration: 0.2
-              }
-          }
-      } as any
 
     return (
         <motion.div 
-            className="absolute w-[250px] right-0 top-15 bg-[#111111]/90 text-sm rounded-xs border-[rgba(255,255,255,0.2)] border h-fit font-medium  z-10 "
+            className="absolute w-[250px] right-0 top-16 bg-[#111111]/90 text-sm rounded-xs border-[rgba(255,255,255,0.2)] border h-fit font-medium  z-10 "
             variants={containerVariants}
             initial="hidden"
             animate="visible"

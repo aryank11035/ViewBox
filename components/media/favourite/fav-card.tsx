@@ -6,6 +6,12 @@ import { useEffect, useRef, useState } from "react"
 import { FaHeart } from "react-icons/fa"
 import { AnimatePresence, delay, easeIn, motion } from 'framer-motion'
 import { X } from "lucide-react"
+import { HeartButton } from "./heart-button"
+import { AddedMssg } from "./added-mssg"
+import { RemovedMssg } from "./removed-mssg"
+import PopupPortal from "@/components/popup-wrapper"
+import PopupWrapper from "@/components/popup-wrapper"
+import Link from "next/link"
 
 
 const useOutsideClick = (callback : () => void) => {
@@ -42,20 +48,7 @@ const containerVariants = {
     }
 }
 
-const backgroundVariants = {
-    hidden : {
-        backdropFilter: 'blur(0px)',
-        transition : {
-            duration : 0.2,
-        }
-    },
-    visible : {
-        backdropFilter: 'blur(5px)',
-        transition : {
-            duration : 0.2,
-        }
-    }
-}
+
 
 const closeButtonVariant = {
     hidden : {
@@ -68,144 +61,188 @@ const closeButtonVariant = {
         rotate : 0 , 
         transition : {
             duration : 0.2,
-            delay : 2,
+            delay: 0.5
         }
     }
 }
 
+export interface handleFavouritesProps {
+    success  : boolean,
+    removed ? : string,
+    added ?: string,
+    error ?: string
+}
 
-export default function FavCard({media} : {media : Movie}){
 
-    const [current,setCurrent] = useState<Movie | null>(null)
-    const ref= useOutsideClick(() => setCurrent(null))
+
+
+export default function FavCard({media} : {media : Movie }){
+
+
+    const [isHover,setIsHover] = useState(false)
+    const [current , setCurrent] = useState<Movie | null>(null)
+    const ref = useOutsideClick(() => setCurrent(null))
+    const [initialState , setInitialState] = useState<boolean>(true)
+    const [favouritesResponse,setFavouriteResponse] = useState<handleFavouritesProps | undefined>(undefined)
+   
+    const onFavoritesChange = (res : handleFavouritesProps) => {
+        setInitialState(false)
+        setFavouriteResponse(res)
+    }
 
     return(
-        
- 
-        <div className="relative min-h-screen w-full "> 
-            <AnimatePresence mode='wait'>
 
-             {
-                 current && (
-                     <motion.div 
-                     initial='hidden'
-                     animate='visible'
-                     exit='hidden'
-                     variants={backgroundVariants} 
-                     className="fixed inset-0 z-10 "
-                     > 
-                    </motion.div>
-                )
-            } 
-             </AnimatePresence>
-              <AnimatePresence>
+
+        <>
+         
+                 <PopupWrapper isOpen={!!current} onClose={() => setCurrent(null)}>
             {
-                current && (
-                    <div
-                        className="fixed inset-0 z-10 flex items-center justify-center px-4"
-                    >
-                        <motion.div 
-                            variants={containerVariants}
-                            initial='hidden'
-                            animate='visible'
-                            exit='hidden'
-                            layoutId={`card-${media._id}`}
-                            className=" bg-[#111111] z-20 rounded-xs flex  gap-2 md:gap-4 md:w-200  flex-col md:flex-row md:h-[463px] relative overflow-hidden border border-[rgba(255,255,255,0.1)] mt-10 md:mt-0 " ref={ref}>
-                            <button onClick={() => setCurrent(null)} className="flex justify-end text-white/50 md:hidden cursor-pointer"><X /></button>
-                            <motion.div 
-                                layoutId={`card-${media.poster_path}`}
-                                className="md:w-72 aspect-[2/3] mx-auto md:mx-0 w-full"
-                            >
-                                <img src={ `https://image.tmdb.org/t/p/w500${current.poster_path}`} className="w-full h-full rounded-xs"/>
-                            </motion.div>
-                            <div
-                                className="flex flex-col gap-2"
-                            >
-                                <motion.div
-                                    layoutId={`card-${media.title}`}
-                                    className="text-3xl tracking-tighter w-full flex justify-between">
-                                        <p>
-                                            {current.title}   
+                current && (                    
+                                //pop up div
+                                 <motion.div 
+                                    variants={containerVariants}
+                                    initial='hidden'
+                                    animate='visible'
+                                    exit='hidden'
+                                    layoutId={`card-${media._id}`}
+                                    className=" bg-[#111111] z-20 rounded-xs flex gap-2 md:gap-4 md:w-180 flex-col md:flex-row md:h-[463px] overflow-hidden border border-[rgba(255,255,255,0.1)] mx-4 w-full mt-50 mb-50" 
+                                    ref={ref}>
+                                    <button onClick={() => setCurrent(null)} className="flex justify-end text-white/50 md:hidden cursor-pointer"><X /></button>
+                                    <motion.div 
+                                        layoutId={`card-${media.poster_path}`}
+                                        className="760:w-67 aspect-[2/3] mx-auto md:mx-0 420:w-[300px] w-full"
+                                    >
+                                        <img src={ `https://image.tmdb.org/t/p/w500${current.poster_path}`} className="w-full h-full rounded-xs"/>
+                                    </motion.div>
+                                    <div
+                                        className="flex flex-col gap-2" 
+                                    >
+                                        <motion.div
+                                            layoutId={`card-${media.title}`}
+                                            className="text-3xl tracking-tighter w-full flex justify-between">
+                                                <p>
+                                                    {current.title}   
+                                                </p>
+                                                <motion.button onClick={() => setCurrent(null)} variants={closeButtonVariant} initial='hidden' animate='visible' exit='hidden' className="md:flex justify-end text-white/50  hidden  cursor-pointer w-fit h-fit"><X /></motion.button>
+                                        </motion.div>
+
+                                        <p className="text-sm text-white/30 font-medium">{current.release_date}</p>
+
+                                        <motion.div className='flex gap-2  items-center'>
+                                            <img 
+                                                src="/logo-imdb.svg" 
+                                                alt="IMDb Logo" 
+                                                className="w-10  h-auto" 
+                                            />
+                                            <h1 className="text-xl font-light">{media.vote_average ? `${media.vote_average.toFixed(1)}/10`  : 'NA'}</h1>
+                                        </motion.div>
+                                        <div className="flex gap-2">
+                                            <motion.div 
+                                                layoutId={`liked-${media._id}`}
+                                                className=' rounded-xs'>
+                                                <HeartButton mediaInfo={media} initialFavourite={initialState} onFavoritesChange={onFavoritesChange}/>
+                                            </motion.div>
+
+
+                                            {/* Link */}
+                                            <Link href={`/${media.mediaType}/${media.id}`}  key={media.id}>
+                                                <motion.button 
+                                                    className="bg-white/10 p-4 rounded-xs h-full text-sm font-light hover:bg-[#FFFFFFE6] hover:text-black cursor-pointer duration-100 flex gap-2"
+                                                    onMouseEnter = {() => setIsHover(true)}
+                                                    onMouseLeave = {() => setIsHover(false)}
+                                                >
+
+
+                                                    Find where to watch
+                                                        <motion.div 
+                                                            initial = {{ opacity : 1  }}
+                                                            animate = { isHover ? 'hovered' : 'normal' }
+                                                            variants={{
+                                                                normal : { rotate : 3 , y : -3},
+                                                                hovered : { rotate : 2 , y : -5 , x : 3}, 
+                                                            }}
+                                                            transition={{                                        
+                                                                duration : 0.3,
+                                                                ease: [0, 0.71, 0.2, 1.01],
+                                                            }}
+                                                            className="size-3.5">
+                                                            <svg width="100&" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M6 18L18 6M18 6H10M18 6V14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                                            </svg>
+                                                        </motion.div>
+                                                </motion.button>
+                                            </Link>
+                                        </div>
+                                        <motion.div className="bg-white/30 rounded-xs text-xs flex-wrap w-fit p-3 font-medium space-y-1.5">
+                                        {
+                                            current.genres.map((genre : any,index : number) => (         
+                                                <span key={genre.id}>
+                                                    {genre.name}
+                                                    {index < current.genres.length - 1 && ', '}
+                                                </span>           
+                                            ))
+                                        }
+                                        </motion.div>
+                                        <p className="text-wrap text-sm font-medium text-white/30 overflow-auto pb-20 h-30 md:h-full ">
+                                            {media.overview} 
                                         </p>
-                                        <motion.button onClick={() => setCurrent(null)} variants={closeButtonVariant} initial='hidden' animate='visible' exit='hidden' className="md:flex justify-end text-white/50  hidden items-center cursor-pointer"><X /></motion.button>
+                                    </div>
                                 </motion.div>
 
-                                <p className="text-sm text-white/30 font-medium">{current.release_date}</p>
+                )
+            }
+        </PopupWrapper>
+                    {/* card div */}
+                        <motion.div 
+                            layoutId={`card-${media._id}`}
+                            key={media._id}
+                            className="w-67 420:w-45 760:w-50 1435:w-65 aspect-[2/3] relative rounded-xs backdrop-blur-2xl cursor-pointer mx-auto">
 
-                                <motion.div className='flex gap-2  items-center'>
+                            <motion.div 
+                                 layoutId={`liked-${media._id}`}
+                                className="absolute top-1 right-1 z-40"
+                            >
+                                <HeartButton mediaInfo={media} initialFavourite={initialState} onFavoritesChange={onFavoritesChange}/>
+                            </motion.div>
+
+
+                            <motion.div 
+                                layoutId={`card-${media.poster_path}`}
+                                className="absolute inset-0 rounded-xs">
+                                <img src={ `https://image.tmdb.org/t/p/w500${media.poster_path}`} className="w-full h-full rounded-xs cursor-pointer"/>
+                            </motion.div>
+
+                            <ProgressiveBlur 
+                                className="pointer-events-none absolute bottom-0 left-0 h-[40%] w-full rounded-xs z-30"
+                                blurIntensity={3}
+                            />
+                            <AddedMssg added={favouritesResponse?.added} />
+                            <RemovedMssg removed={favouritesResponse?.removed} />
+
+                            <div className="absolute inset-0 z-20"   onClick={() => setCurrent(media)}>
+
+                            </div>
+                            <div 
+                                className="absolute bottom-0 p-4  space-y-2 w-full z-30 "
+                            >
+                                <motion.h1 
+                                    layoutId={`card-${media.title}`}
+                                    className="420:text-xs 760:text-sm 1020:text-base  text-xl font-bold text-left">
+                                        {media.title}
+                                </motion.h1>
+
+                                <div className='flex gap-2 '>
                                     <img 
                                         src="/logo-imdb.svg" 
                                         alt="IMDb Logo" 
                                         className="w-10  h-auto" 
                                     />
                                     <h1 className="text-xl font-light">{media.vote_average ? `${media.vote_average.toFixed(1)}/10`  : 'NA'}</h1>
-                                </motion.div>
-                                <div className="flex gap-2">
-                                    <motion.div className='bg-white/10 rounded-xs p-4'>
-                                        <FaHeart className="text-xl  group-hover:scale-120 duration-200"/>
-                                    </motion.div>
-                                    <motion.div className="bg-white/10 p-4 rounded-xs h-full text-sm font-light">
-                                        Find where to watch
-                                    </motion.div>
                                 </div>
-                                <motion.div className="bg-white/30 rounded-xs text-xs flex-wrap w-fit p-3 font-medium space-y-1.5">
-                                {
-                                    current.genres.map((genre : any,index : number) => (         
-                                        <span key={genre.id}>
-                                            {genre.name}
-                                            {index < current.genres.length - 1 && ', '}
-                                        </span>           
-                                    ))
-                                }
-                                </motion.div>
-                                <p className="text-wrap text-sm font-medium text-white/30 overflow-auto pb-20 ">
-                                    {media.overview} 
-                                </p>
                             </div>
-                        </motion.div>
-                    </div> 
-                )
-            }
-          </AnimatePresence>
-                <div
-                    className="w-full min-h-screen grid-cols-5 grid rounded-xs"
-                >
-                    <motion.button 
-                        layoutId={`card-${media._id}`}
-                        onClick={() => setCurrent(media)}
-                        className="w-60 aspect-[2/3] relative rounded-xs backdrop-blur-2xl cursor-pointer">
-        
-                        <motion.div 
-                            layoutId={`card-${media.poster_path}`}
-                            className="absolute inset-0 rounded-xs">
-                            <img src={ `https://image.tmdb.org/t/p/w500${media.poster_path}`} className="w-full h-full rounded-xs cursor-pointer"/>
-                        </motion.div>
-                        <ProgressiveBlur 
-                            className="pointer-events-none absolute bottom-0 left-0 h-[40%] w-full rounded-xs "
-                            blurIntensity={3}
-                        />
-                        <div 
-                            className="absolute bottom-0 p-4  space-y-2 w-full"
-                        >
-                            <motion.h1 
-                                layoutId={`card-${media.title}`}
-                                className="text-xl font-bold text-left">
-                                    {media.title}
-                            </motion.h1>
-
-                            <motion.div className='flex gap-2 '>
-                                <img 
-                                    src="/logo-imdb.svg" 
-                                    alt="IMDb Logo" 
-                                    className="w-10  h-auto" 
-                                />
-                                <h1 className="text-xl font-light">{media.vote_average ? `${media.vote_average.toFixed(1)}/10`  : 'NA'}</h1>
-                            </motion.div>
-                        </div>
-                    </motion.button>                 
-                </div>
-        </div>
-       
+                        </motion.div>                 
+                  
+       </>
 
     )
 }

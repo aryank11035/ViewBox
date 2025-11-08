@@ -5,7 +5,7 @@ import { Space_Grotesk } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { getSession } from "@/data/user";
 import { auth } from "@/auth";
-import { Session } from "@/schema/type";
+
 import { Footer } from "@/components/footer/mainFooter";
 import { IBM_Plex_Mono } from "next/font/google";
 
@@ -20,7 +20,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const session = (await auth()) as Session | null
+  const session = (await auth()) as any | null
 
   return (
   

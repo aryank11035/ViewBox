@@ -19,7 +19,7 @@ export default async function Page() {
   const session = await auth()
   const movies = await getShowData() 
   const tv = await getShowData('tv') 
-  const yourMedia =( await getMovie(session)) 
+  // const yourMedia =await getMovie() 
   
 
  

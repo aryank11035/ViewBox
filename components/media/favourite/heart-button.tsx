@@ -4,31 +4,40 @@ import { addToFavourites, checkIsFavourite, removeFromFavourites } from "@/app/a
 import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import { FaHeart } from "react-icons/fa"
-import { check } from "zod"
+import { handleFavouritesProps } from "./fav-card"
 
 
-export function HeartButton({mediaInfo}  : any){
+
+interface HeartButtonProps {
+    mediaInfo: any; 
+    initialFavourite?: boolean;
+    onFavoritesChange ?: (res: handleFavouritesProps) => void; 
+}
+
+export function HeartButton({mediaInfo , initialFavourite  = false , onFavoritesChange}  : HeartButtonProps){
 
 
-    const [isFavourite,setIsFavourite] = useState(false)
+    const [isFavourite,setIsFavourite] = useState(initialFavourite)
 
 
     useEffect(() => {
         const checkFavourite = async () => {
-            const result = await checkIsFavourite(mediaInfo.id)
+            const result = await checkIsFavourite(mediaInfo._id)
             setIsFavourite(result.isFavourite)
         }
         checkFavourite()
-    },[mediaInfo.id])
+    },[mediaInfo._id])
 
     const handleFavourites = async() => {
         
         if(isFavourite) {
-            await removeFromFavourites(mediaInfo)
+            const res = await removeFromFavourites(mediaInfo)
+            onFavoritesChange?.(res)
             setIsFavourite(false)
         } else{
             setIsFavourite(true)
-            await addToFavourites(mediaInfo)
+            const res = await addToFavourites(mediaInfo)
+            onFavoritesChange?.(res)
         }
     }
 
@@ -39,12 +48,13 @@ export function HeartButton({mediaInfo}  : any){
         <div className="group">
             <motion.button
                 style={{ 
+                    backdropFilter : isFavourite ? 'blur(0px)' : 'blur(14px)',
                     backgroundColor : isFavourite ? '#FFFFFFE6' : 'transparent',
                     color : isFavourite ? '#E11D48' : '#FFFFFFE6',
-                    borderColor : isFavourite ? '#FFFFFF4D': '#F43F5E80' 
+                    borderColor : isFavourite ? '#FFFFFF4D': '' 
                 }}
                 onClick={handleFavourites}
-                className=" p-3.5 flex items-center justify-center rounded-xs border border-rose-500/50 cursor-pointer group-hover:scale-95 duration-200 "
+                className=" p-3.5 flex items-center justify-center rounded-xs border border-white/20 cursor-pointer group-hover:scale-95 duration-200 "
                 >
                 <FaHeart className="text-2xl  group-hover:scale-120 duration-200"/>
             </motion.button>

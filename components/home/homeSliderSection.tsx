@@ -15,7 +15,7 @@ export function HomeSilderSection({backDropImages} : {backDropImages : string[]}
                     {
                         backDropImages.map((img: string,index : number)=>(
                             <CarouselItem key={index}>
-                                <div className="w-full overflow-hidden h-170   relative" >
+                                <div className="w-full overflow-hidden h-230 bg-blue-100   relative" >
                                         <div className="w-full h-full  ">
                                             <img
                                                 src={img ? `https://image.tmdb.org/t/p/original${img}` : '/placeholder-movie.jpg'}

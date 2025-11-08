@@ -1,42 +1,26 @@
 'use server'
 
 import client from "@/lib/db"
+import { Movies } from "@/lib/models"
 
-import { ObjectId } from "mongodb"
+import { connectToMongoose } from "@/lib/mongoose"
+import { Movie } from "@/schema/type"
 
 
 
-
-export async function getMovie(session : any ){
-
+export async function getMovie(){
     try {
-        await client.connect()
-        const db = client.db('moviedb')
-        const users = db.collection('users')
-        const movies = db.collection('movies')
-        const userData = await users.findOne(
-            {_id : new ObjectId(session?.user?.id)},
-            {projection : {movies : 1 , _id: 0}}
-        )
-
-        const movieIds = Array.isArray(userData?.movies) ? userData.movies.map(m => m._id) : [];
         
-        if (movieIds.length === 0) {
-            return []
-        }
-        
-        const userMovies = await movies.find({ _id: { $in: movieIds } }).toArray()
+        await connectToMongoose()
+        const movies = await Movies.find({} ).lean()
 
-        return userMovies.map((movie) =>({
-                ...movie,
-                _id : movie._id.toString()
-            
-        })) 
-
+       return JSON.parse(JSON.stringify(movies))
     }catch(err){
         console.error('Error fecthing User Data')
         return []
     }
-
     
 }
+
+
+

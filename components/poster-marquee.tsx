@@ -169,6 +169,7 @@ export default function PosterMarqueeStandalone({
             padding: 12px;
           }
           .pm-grid {
+            grid-template-columns: repeat(3, 1fr);
             gap: 12px;
           }
           .pm-figure {

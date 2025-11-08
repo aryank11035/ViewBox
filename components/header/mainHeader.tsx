@@ -4,12 +4,13 @@ import { Search,CircleUser } from "lucide-react";
 import { useEffect, useState } from "react";
 import { AnimatePresence , motion } from "motion/react";
 import { ListVideo } from 'lucide-react';
-import { Session } from "@/schema/type";
+
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import LinkPopUp from "./link-popup";
+import { Input } from "../ui/input";
 
-export  function Header({session} : {session : Session | null}){
+export  function Header({session} : {session : any | null}){
 
     const [showLinkContainers , setShowLinkContainers] = useState<boolean>(false)
 
@@ -37,7 +38,14 @@ export  function Header({session} : {session : Session | null}){
                   <ListVideo strokeWidth={1} size={20} /><p className="mb-0.5">Home</p> 
                 </div>
               </Link>
-              {
+              <div className=" relative w-[300px] flex items-center  h-10">
+                <div className="px-2 w-fit ">
+                  <Search strokeWidth={0.7} size={24}/>
+                </div>
+                  
+                  <Input className="absolute inset-0 h-full border border-[rgba(255,255,255,0.2)] rounded-xs outline-0 pl-10" placeholder="Search Movies...(Ctrl+k)"/>
+              </div>
+              {/* {
                 session ? (
                   <p className=" hidden md:flex">{headerName && `Hello! ${headerName.split('')[0].toUpperCase()}${headerName.slice(1)}` }</p>
                 ) : (
@@ -45,9 +53,9 @@ export  function Header({session} : {session : Session | null}){
                     <p>Sign In</p>
                   </Button>
                 )
-              }
+              } */}
               <div className="flex gap-10 font-bold justify-center items-center  ">
-                  <Link href='/search'><Search strokeWidth={1} size={24}/></Link>
+                  
                   
                       <div
                         className=" hidden 760:block cursor-pointer"
