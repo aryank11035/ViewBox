@@ -178,8 +178,8 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
                             </h1>
                             <p className="text-white/40 text-sm md:text-base leading-snug">{mediaData.overview}</p>
                         </div>
-                        <div className=" space-x-3  flex h-fill mb-8">
-                            <HeartButton mediaInfo = {mediaInfo}/>
+                        <div className=" space-x-3  flex h-fill ">
+                            <HeartButton mediaInfo = {mediaInfo} />
                             <PlaylistButton playlistMediaInfo={playlistMedia}/> 
                             {
                                 isAdmin && (
@@ -189,7 +189,18 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
                                 )
                             }
                         </div>
-                       
+                        {
+                            (mediaData.underrated && mediaData.overrated) && (
+                                <div className="space-x-3 flex h-fill mb-8 text-sm">
+                                        <button className="hover:bg-green-600 rounded-xs px-4 py-1.5 border border-[rgba(255,255,255,0.2)] hover:border-green-60 duration-100 cursor-pointer">
+                                            Underrated <span>0</span>
+                                        </button>
+                                        <button className="hover:bg-red-600 rounded-xs px-4 py-1.5 border border-[rgba(255,255,255,0.2)] hover:border-green-60 duration-100 cursor-pointer">
+                                            Overrated <span>0</span>
+                                        </button>
+                                </div>
+                            )
+                        }
 
 
                         <div className="w-full aspect-video  bg-black/30 rounded-xs relative mb-7 ">

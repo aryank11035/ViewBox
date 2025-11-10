@@ -4,22 +4,6 @@ import { WhereToWatchIcons } from "./whereToWatchIcons"
 
 export function WhereToWatch({whereToWatch , mediaName } : {whereToWatch : any , mediaName : string}){
 
-    // const clips = [
-    //     {
-    //         logo_path: '/pTnn5JwWr4p3pG8H6VrpiQo7Vs0.jpg',
-    //         provider_id: 192,
-    //         provider_name: 'YouTube',
-    //         display_priority: 10
-    //     }
-    // ]   
-        
-
-
-    // // if(!whereToWatch?.flatrate && !whereToWatch?.buy && !whereToWatch?.rent) {
-    // //     whereToWatch.clips = clips
-    // // }
-
-
     return(
         <div className="w-full ">
             {

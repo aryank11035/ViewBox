@@ -86,10 +86,16 @@ const userSchema = new mongoose.Schema({
         type : Boolean, 
         default : false
     },
-    votes : [
+    overrated : [
         {
             type : mongoose.Schema.Types.ObjectId,
-            ref : 'Vote'
+            ref : 'Movie'
+        }
+    ],
+    underrated : [
+        {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'Movie'
         }
     ],
     sugesstions : [String],

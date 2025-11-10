@@ -245,21 +245,3 @@ export async function getSearchMedia(query : string , mediaType: 'movie' | 'tv' 
     return null
   }
 }
-
-
-
-
-export async function getSearchMedia2(){
-  try {
-    const res = await fetch(`https://api.themoviedb.org/3/search/tv?query=dexter}`,options)
-    if(!res.ok){
-      console.error('Error Fetching Data')
-      return {message : 'No results found'}
-    }
-    const data = await res.json()
-    return data.results
-  } catch(err){
-    console.error(err)
-    return null
-  }
-}

@@ -21,7 +21,6 @@ export default async function ShowMedia({params} : Params) {
     const trailerVideo = mediaVideoData.find((video : any) => video.type ===  'Trailer')
     const videoKey =trailerVideo?.key || mediaVideoData[0]?.key || null
     const whereToWatch = await getWheretoWatchById(mediaType,id)
-    const addedMediaData = await getMovie(session)  as any[]
     // addedMediaData.some((item : any) => item.id  == id)
     const isInWatchlist = false  
     const relatedMovies = await getRelatedMedia(mediaType,id)
@@ -42,7 +41,8 @@ export default async function ShowMedia({params} : Params) {
     if(!mediaData) {
             notFound()
     } 
-    
+
+
     return (
         <MediaPage 
             allMediaData = {allMediaData}
