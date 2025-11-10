@@ -86,6 +86,12 @@ const userSchema = new mongoose.Schema({
         type : Boolean, 
         default : false
     },
+    votes : [
+        {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'Vote'
+        }
+    ],
     sugesstions : [String],
     favourites : [
         {
@@ -100,7 +106,16 @@ const userSchema = new mongoose.Schema({
         }
     ],
 })
-
+const votesSchema = new mongoose.Schema({
+    overrated : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Movie'
+    },
+    underrated : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Movie'
+    }
+})
 
 const playlistSchema = new mongoose.Schema({
     playlist_name : {
@@ -161,4 +176,4 @@ const playlistSchema = new mongoose.Schema({
     },
 })
 
-export {movieSchema , userSchema , playlistSchema}
+export {movieSchema , userSchema , playlistSchema , votesSchema}

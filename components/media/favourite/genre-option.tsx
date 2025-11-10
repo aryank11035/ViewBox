@@ -36,7 +36,7 @@ export default function GenreOption({allGenres , selectedGenre} : genreOptionPro
         <>
 
 
-            <div className="flex items-center gap-2 justify-between ">
+            <div className="flex items-center gap-2 justify-between md:justify-center w-full md:w-fit">
                 <label htmlFor="genre-select" className="text-sm font-light  text-white">
                     Select genre:
                 </label>

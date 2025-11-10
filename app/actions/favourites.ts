@@ -4,7 +4,7 @@ import { auth } from "@/auth"
 import { Movies, Users } from "@/lib/models"
 import { connectToMongoose } from "@/lib/mongoose"
 import { Movie } from "@/schema/type"
-import { User } from "lucide-react"
+import { User, Users2 } from "lucide-react"
 import { NextResponse } from "next/server"
 
 
@@ -22,6 +22,7 @@ export async function addToFavourites(mediaInfo : any){
             {$addToSet : { favourites : media._id }},
             {new : true}
         )
+        // console.log('added id' , mediaInfo._id )
         return { success : true , added : 'added to Favourites'}
 
     }catch(error){
@@ -40,7 +41,7 @@ export async function removeFromFavourites(mediaInfo : any){
                 {$pull : { favourites :  mediaInfo._id}},
                 {new : true}
             )
-            
+            // console.log('remove id' , mediaInfo._id )
             return {success : true , removed : 'removed from favourites'}
         }catch(error){
             console.error(error);
@@ -94,6 +95,14 @@ export async function getFavourites(){
     }
 }
 
+export async function getFavouritesIds(){
+    const favs = await getFavourites()
+    const favIds = favs.map((fav : any ) => fav._id)
+    // console.log(favIds)
+    return new Set(favIds) 
+
+}
+
 
 export async function getFavouritesGenres() : Promise<string[]> {
    try {
@@ -104,7 +113,7 @@ export async function getFavouritesGenres() : Promise<string[]> {
             ...new Set (
                 favouritesMovies.flatMap((movie : Movie) => movie.genres.map((genre : {name : string}) => genre.name ))
             )
-        ] as string []
+        ] as any 
 
         return favUserGenres
    }catch(error){

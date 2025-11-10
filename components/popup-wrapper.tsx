@@ -50,11 +50,11 @@ export default function PopupWrapper({
                     initial='hidden'
                     animate='visible'
                     exit='hidden'
-                    className="fixed inset-0 z-50  flex items-center justify-center px-2 "
+                    className="fixed inset-0 z-50  flex items-center justify-center px-2"
                     onClick={onClose}
                 >
                     <div 
-                        className="w-fit h-full relative flex items-center justify-center"
+                        className="w-full h-full relative flex items-center justify-center "
                         onClick={(e) => e.stopPropagation()}
                     >
                         {children}

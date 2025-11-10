@@ -23,7 +23,8 @@ const containerVariants = {
          duration: 0.2,
          ease: [0, 0.71, 0.2, 1.01],
          delay: 0.07
-     }
+     },
+     when : 'beforeChildren'
  }
  },
  visible : {
@@ -32,6 +33,7 @@ const containerVariants = {
      transition : {
          duration: 0.2,
          ease: [0, 0.71, 0.2, 1.01],
+          when : 'afterChildren'
      }
  }
 } as any
@@ -40,7 +42,8 @@ const staggerContainerVariants = {
     opacity: 1,
     transition: {
         staggerChildren: 0.08,
-        staggerDirection: -1 
+        staggerDirection: -1 ,
+        when : 'beforeChildren'
     }
 },
   visible : {
@@ -48,7 +51,8 @@ const staggerContainerVariants = {
     translateY : 0 ,
     transition: {
         staggerChildren: 0.1,
-        delayChildren: 0.1
+        delayChildren: 0.1,
+        when : 'afterChildren'
     }
   }
 }

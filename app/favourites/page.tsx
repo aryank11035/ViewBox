@@ -1,5 +1,5 @@
 
-import { getFavourites, getFavouritesGenres } from "../actions/favourites"
+import { getFavourites, getFavouritesGenres, getFavouritesIds } from "../actions/favourites"
 import FavCard from "@/components/media/favourite/fav-card"
 import { Movie } from "@/schema/type"
 import GenreOption from "@/components/media/favourite/genre-option"
@@ -41,6 +41,7 @@ export default async function FavouritesPage({searchParams} : favPageProps){
 
     const favMovies = await getFavourites()
     const favGenres = await getFavouritesGenres()
+    const favIds = await getFavouritesIds()
 
 
     let filteredMovies  : Movie[] = !selectedGenre || selectedGenre  === 'All Genres' 
@@ -52,7 +53,6 @@ export default async function FavouritesPage({searchParams} : favPageProps){
 
     filteredMovies = sortMovies(filteredMovies , sortBy)
 
-
     return (
          <section className="max-w-full pt-20 mx-auto bg-[#111111] backdrop-blur-2xl text-xl font-bold  min-h-screen   ">
             <div className="max-w-[1450px] min-h-screen  p-4 mx-auto border-l border-r border-white/10 bg-black/30 px-6 relative ">
@@ -60,15 +60,15 @@ export default async function FavouritesPage({searchParams} : favPageProps){
                     <div className="w-full md:text-3xl px-3">
                         <h1>Your Favourites</h1>
                     </div>
-                    <div className="w-full max-w-[1365px] bg-neutral-900 rounded-xs flex items-center justify-between md:flex-row flex-col mx-auto px-4 py-4">
+                    <div className="w-full max-w-[1365px] bg-neutral-900 rounded-xs flex items-center justify-between md:flex-row flex-col mx-auto px-3 py-3 gap-2">
                         <SortOption sortBy={sortBy}/>
                         <GenreOption allGenres={favGenres} selectedGenre={selectedGenre}/>
                     </div>
 
                     <div className="w-fit  grid grid-cols-1 420:grid-cols-2 760:grid-cols-3 1020:grid-cols-4 1435:grid-cols-5 justify-items-center gap-4 mx-auto">
                         {
-                            filteredMovies.map((media : Movie , index : number) =>  (
-                                <FavCard media={media}    key={index} />
+                            filteredMovies.map((media : Movie) =>  (
+                                <FavCard media={media} key={media.id} isFavourite={favIds.has(media._id)} />
                             ))
                         }
                         

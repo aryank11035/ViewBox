@@ -12,6 +12,7 @@ import { RemovedMssg } from "./removed-mssg"
 import PopupPortal from "@/components/popup-wrapper"
 import PopupWrapper from "@/components/popup-wrapper"
 import Link from "next/link"
+import { getFavouritesIds } from "@/app/actions/favourites"
 
 
 const useOutsideClick = (callback : () => void) => {
@@ -76,18 +77,45 @@ export interface handleFavouritesProps {
 
 
 
-export default function FavCard({media} : {media : Movie }){
+export default function FavCard({media , isFavourite} : {media : Movie , isFavourite : boolean }){
 
 
-    const [isHover,setIsHover] = useState(false)
+    const [isHover,setIsHover] = useState(isFavourite)
     const [current , setCurrent] = useState<Movie | null>(null)
     const ref = useOutsideClick(() => setCurrent(null))
+
     const [initialState , setInitialState] = useState<boolean>(true)
     const [favouritesResponse,setFavouriteResponse] = useState<handleFavouritesProps | undefined>(undefined)
-   
-    const onFavoritesChange = (res : handleFavouritesProps) => {
-        setInitialState(false)
+    const onFavoritesChange = (res : handleFavouritesProps , favourite : boolean) => {
+          console.log("🖱️ onFavoritesChange triggered with:", { favourite, res })
+        setInitialState(favourite)
         setFavouriteResponse(res)
+    }
+
+    useEffect(() => {
+        const handleState = async () => {
+            const favIds = await getFavouritesIds()
+            console.log("📦 [FavCard] fetched fav IDs:", favIds)
+    console.log("📦 Does it contain current media?", favIds.has(media._id))
+            setInitialState(favIds.has(media._id))
+        }
+        handleState()
+    },[current])
+
+
+    useEffect(() => {
+  console.log("💾 [FavCard] initialState changed:", initialState)
+}, [initialState])
+    
+    const handleClick = (media : any ) => {
+        setCurrent(media)
+        console.log('pop up like state' , initialState )
+        if(media) {
+
+            console.log('pop up clicked')
+        }
+
+        
     }
 
     return(
@@ -95,9 +123,11 @@ export default function FavCard({media} : {media : Movie }){
 
         <>
          
-                 <PopupWrapper isOpen={!!current} onClose={() => setCurrent(null)}>
+            <PopupWrapper isOpen={!!current} onClose={() => setCurrent(null)}>
             {
-                current && (                    
+                current && (          
+                    
+                                
                                 //pop up div
                                  <motion.div 
                                     variants={containerVariants}
@@ -123,7 +153,7 @@ export default function FavCard({media} : {media : Movie }){
                                                 <p>
                                                     {current.title}   
                                                 </p>
-                                                <motion.button onClick={() => setCurrent(null)} variants={closeButtonVariant} initial='hidden' animate='visible' exit='hidden' className="md:flex justify-end text-white/50  hidden  cursor-pointer w-fit h-fit"><X /></motion.button>
+                                                <motion.button onClick={() => handleClick(null)} variants={closeButtonVariant} initial='hidden' animate='visible' exit='hidden' className="md:flex justify-end text-white/50  hidden  cursor-pointer w-fit h-fit"><X /></motion.button>
                                         </motion.div>
 
                                         <p className="text-sm text-white/30 font-medium">{current.release_date}</p>
@@ -219,7 +249,7 @@ export default function FavCard({media} : {media : Movie }){
                             <AddedMssg added={favouritesResponse?.added} />
                             <RemovedMssg removed={favouritesResponse?.removed} />
 
-                            <div className="absolute inset-0 z-20"   onClick={() => setCurrent(media)}>
+                            <div className="absolute inset-0 z-20"   onClick={() => handleClick(media)}>
 
                             </div>
                             <div 
