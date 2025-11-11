@@ -21,7 +21,7 @@ export default async function Page() {
   const tv = await getShowData('tv') 
   const yourMedia =await getMovie() 
   
-
+// console.log(yourMedia)
  
  
   
@@ -55,7 +55,7 @@ export default async function Page() {
           />
         </div> */}
           
-              <UpdatedSection mediaData={movies} />
+              <UpdatedSection mediaData={yourMedia} />
           
         </section>
         <div className="w-full border-t border-b border-white/10 h-20">

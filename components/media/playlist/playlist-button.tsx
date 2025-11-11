@@ -87,9 +87,9 @@ export function PlaylistButton({playlistMediaInfo} : any){
     return (
        <>
        <Button     
-            onClick={() => setShowMessage(true)}               
-            variant='custom_one'
-            size='custom_one'
+            onClick={() => setShowMessage(true)} 
+            variant='custom_one'   
+            size='custom_one'          
             >
             <ListPlus/>add to playlist
         </Button>

@@ -19,30 +19,29 @@ import { HeartButton } from "./favourite/heart-button";
 import { PlaylistButton } from "./playlist/playlist-button";
 import Link from "next/link"
 import { Button } from "../ui/button"
+import VotesComp from "./votes/votes-comp"
+import { Movie } from "@/schema/type"
 
 
+export default function MediaPage({allMediaData, mediaData  , mediaType , session  , videoKey , whereToWatch , relatedMovies , trendingData , isAdmin , isOverrated , isUnderrated , isFavourite } : {allMediaData : Movie , mediaData : any  ,mediaType : 'movie' | 'tv', session : any | null ,  videoKey : string , whereToWatch : any, relatedMovies : any , trendingData : any , isAdmin : boolean , isOverrated : boolean ,isUnderrated : boolean ,isFavourite :boolean}){
 
-export default function MediaPage({allMediaData, mediaData ,id , mediaType , session , isInWatchList , videoKey , whereToWatch , relatedMovies , trendingData , isAdmin } : {allMediaData : any , mediaData : any ,id : number,mediaType : 'movie' | 'tv', session : any | null , isInWatchList : boolean , videoKey : string , whereToWatch : any, relatedMovies : any , trendingData : any , isAdmin : boolean}){
+
+  
+    const router = useRouter()
 
 
-    const [addedToWatchlist , SetAddedToWatchlist] = useState(isInWatchList)
-    const [loading,setLoading] = useState(false)
+    //animation states
     const [infoMessage , setInfoMessage] = useState(false)
-    const [message,setMessage] = useState(false)
     const [isMobile, setIsMobile] = useState(false);
     const [isHover,setIsHover] = useState(false)
-    const router = useRouter()
-  
-    
 
-    const mediaInfo = {
-        id,
-        type : mediaType,
-        name : mediaData.title ? mediaData.title : mediaData.original_name,
-        img : mediaData.poster_path,
-        votes : mediaData.vote_average,
-        genres : mediaData.genres,
-    }
+
+    //ui render states
+    const [favourite,setFavourite] = useState(isFavourite)
+    const [overratedVote,setOverratedVote] = useState(isOverrated)
+    const [underratedVote,setUnderratedVote] = useState(isUnderrated)
+
+    //this goes the Playlist collection 
     const playlistMedia = {
         id : mediaData.id , 
         type : mediaType,
@@ -53,7 +52,20 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
 
     const mediaName = mediaData.title ? mediaData.title : mediaData.original_name as string
 
-    
+   
+
+    const onFavouriteChange = ( res : boolean , favourite : boolean) => {
+        setFavourite(favourite)
+    }
+
+    const onOverrateVoteChange = ( vote : boolean) => {
+        setOverratedVote(vote)
+    }
+
+    const onUnderateVoteChange  = ( vote : boolean) => {
+        setUnderratedVote(vote)
+    }
+
 
     useEffect(() => {
 
@@ -75,21 +87,14 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
                   onClick: () => router.push('/auth/login')
                 },
               })
-              setMessage(true)
-            SetAddedToWatchlist(false)
             return
         }
-
-        
-
         try {
-            setLoading(true)
+          
             await addMovie(allMediaData)
             
         } catch (error) {
             console.error('Error adding to watchlist',error)   
-        }finally{
-            setLoading(false)
         }
     }
 
@@ -99,7 +104,6 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
             
 
             if(data?.success){
-                SetAddedToWatchlist(false)
                 console.log('Movie removed Sucessfully')
             }else{
                 console.log('Failed to delete movie')
@@ -113,7 +117,7 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
 
     return (
         <>
-        <section className="pt-20 ">
+        <section className="pt-20 mx-auto">
             <div className="h-fit  relative  backdrop-blur-3xl  max-w-[1450px] border-l border-r border-white/10 min-h-screen px-8  py-10 bg-black/30 mx-auto">
                 <Toaster 
                         offset={{ bottom :"100px", right: "16px", left: "16px" }} 
@@ -172,33 +176,37 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
                       
                         <div className="hidden lg:block space-y-3   ">
                             <h1 className="text-4xl md:text-5xl font-bold text-wrap">{mediaData.title ? mediaData.title : mediaData.original_name} 
-                                <span className="text-white/40 text-xl ml-2 font-medium">
+                                <span className="text-white/40 text-xl ml-2 font-medium block md:inline-block">
                                     {`[ ${mediaData.mediaType === 'tv' ? 'Series' : 'Movie'} ]`}
                                 </span>
                             </h1>
                             <p className="text-white/40 text-sm md:text-base leading-snug">{mediaData.overview}</p>
                         </div>
-                        <div className=" space-x-3  flex h-fill ">
-                            <HeartButton mediaInfo = {mediaInfo} />
-                            <PlaylistButton playlistMediaInfo={playlistMedia}/> 
+                        <div className="flex flex-col md:flex-row gap-2  ">
+                            <div className=" space-x-3  flex h-fill ">
+                                <HeartButton mediaInfo = {allMediaData} initialFavourite={favourite} onFavoritesChange={onFavouriteChange}/>
+                                <PlaylistButton playlistMediaInfo={playlistMedia}/> 
+                            </div>
                             {
                                 isAdmin && (
-                                    
+                            
                                         <Button variant='custom_one' size='custom_one' onClick={postMovie}><Plus/> add Movie</Button>
                                         
                                 )
                             }
                         </div>
                         {
-                            (mediaData.underrated && mediaData.overrated) && (
-                                <div className="space-x-3 flex h-fill mb-8 text-sm">
-                                        <button className="hover:bg-green-600 rounded-xs px-4 py-1.5 border border-[rgba(255,255,255,0.2)] hover:border-green-60 duration-100 cursor-pointer">
-                                            Underrated <span>0</span>
-                                        </button>
-                                        <button className="hover:bg-red-600 rounded-xs px-4 py-1.5 border border-[rgba(255,255,255,0.2)] hover:border-green-60 duration-100 cursor-pointer">
-                                            Overrated <span>0</span>
-                                        </button>
-                                </div>
+                            allMediaData.underrated !== undefined && (
+                                <VotesComp votes={{
+                                    id : allMediaData._id ,
+                                    overrated : allMediaData.overrated ?? 0,
+                                    underrated : allMediaData.underrated ?? 0 , 
+                                    overratedVoted : overratedVote ,
+                                    underratedVoted : underratedVote 
+                                   }} 
+                                    onOverrateVoteChange={onOverrateVoteChange}
+                                    onUnderrateVoteChange={onUnderateVoteChange}
+                                   />
                             )
                         }
 
@@ -241,18 +249,18 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
                                     i
                                     </motion.span>
                                     <motion.div 
-                                        className="bg-black/30 backdrop-blur-2xl absolute p-2 right-0 top-0 text-xs rounded-xs "
+                                        className="bg-white/10 backdrop-blur-2xl absolute p-2 right-0 top-0 text-xs rounded-xs "
                                         initial = {{ opacity : 0 }}
                                         animate={infoMessage ? 'hovered' : 'normal'}
                                         variants={{
                                             normal: {
                                                 opacity: 0,
-                                                translateX: isMobile ? 0 : 350,
+                                                translateX: isMobile ? 0 : -20,
                                                 translateY: isMobile ? -60 : -70,
                                             },
                                             hovered: {
                                                 opacity: 1,
-                                                translateX: isMobile ? 0 : 354,
+                                                translateX: isMobile ? 0 : -20,
                                                 translateY: isMobile ? -64 : -74,
                                             },
                                         }}
@@ -339,7 +347,7 @@ export default function MediaPage({allMediaData, mediaData ,id , mediaType , ses
                     </motion.div>
                 </div>
                 
-                <div className="max-w-[1500px] mx-auto lg:mt-15 mt-5 flex flex-col gap-2">
+                <div className="max-w-[1450px] mx-auto lg:mt-15 mt-5 flex flex-col gap-2">
                     <h1 className="text-xl md:text-4xl  font-bold text-wrap flex flex-wrap tracking-tight">You can also Watchlist</h1>
                     <div className="w-full h-fit grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5 grid mx-auto">
                         

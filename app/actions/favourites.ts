@@ -120,3 +120,8 @@ export async function getFavouritesGenres() : Promise<string[]> {
         return ['All Genres']
     }
 } 
+
+export async function getFavMovieIdById(id : string) {
+    const favIds = await getFavouritesIds()
+    return favIds.has(id)
+}

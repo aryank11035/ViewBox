@@ -1,5 +1,6 @@
 'use server'
 
+import { auth } from "@/auth"
 import client from "@/lib/db"
 import { Movies } from "@/lib/models"
 
@@ -24,3 +25,14 @@ export async function getMovie(){
 
 
 
+export async function getMovieWithId(movieId : number) {
+    
+    try {
+        await connectToMongoose()
+        const movie = await Movies.findOne({ id :  Number(movieId)}).lean()
+        // console.log(movie)
+        return JSON.parse(JSON.stringify(movie))
+    }catch(error){
+        console.log(error)
+    }
+}

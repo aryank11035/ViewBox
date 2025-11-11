@@ -72,6 +72,7 @@ export interface handleFavouritesProps {
     removed ? : string,
     added ?: string,
     error ?: string
+
 }
 
 
@@ -80,33 +81,18 @@ export interface handleFavouritesProps {
 export default function FavCard({media , isFavourite} : {media : Movie , isFavourite : boolean }){
 
 
-    const [isHover,setIsHover] = useState(isFavourite)
+    const [isHover,setIsHover] = useState(false)
     const [current , setCurrent] = useState<Movie | null>(null)
     const ref = useOutsideClick(() => setCurrent(null))
+    const [initialState , setInitialState] = useState<boolean>(isFavourite)
 
-    const [initialState , setInitialState] = useState<boolean>(true)
     const [favouritesResponse,setFavouriteResponse] = useState<handleFavouritesProps | undefined>(undefined)
+    
     const onFavoritesChange = (res : handleFavouritesProps , favourite : boolean) => {
-          console.log("🖱️ onFavoritesChange triggered with:", { favourite, res })
         setInitialState(favourite)
         setFavouriteResponse(res)
     }
 
-    useEffect(() => {
-        const handleState = async () => {
-            const favIds = await getFavouritesIds()
-            console.log("📦 [FavCard] fetched fav IDs:", favIds)
-    console.log("📦 Does it contain current media?", favIds.has(media._id))
-            setInitialState(favIds.has(media._id))
-        }
-        handleState()
-    },[current])
-
-
-    useEffect(() => {
-  console.log("💾 [FavCard] initialState changed:", initialState)
-}, [initialState])
-    
     const handleClick = (media : any ) => {
         setCurrent(media)
         console.log('pop up like state' , initialState )

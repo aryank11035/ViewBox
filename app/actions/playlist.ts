@@ -111,7 +111,6 @@ export async function addToPlaylist(selectedPlaylist  : string , selectedMedia :
             playlist_name : selectedPlaylist
         })
         if(!playlist) return {success : false , error : 'Playlist not found'}
-
         const alreadyAdded = playlist.movies.some((movie : any) => movie.id === selectedMedia.id)
         if(alreadyAdded)  return {success : false , error : 'Media already in playlist'}
         

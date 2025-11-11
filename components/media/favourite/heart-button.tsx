@@ -5,14 +5,24 @@ import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import { FaHeart } from "react-icons/fa"
 import { handleFavouritesProps } from "./fav-card"
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton"
 
 
 
 interface HeartButtonProps {
-    mediaInfo: any; 
+    mediaInfo : any; 
     initialFavourite?: boolean;
-    onFavoritesChange ?: (res: handleFavouritesProps , favourite : boolean) => void; 
+    onFavoritesChange ?: (res: any , favourite : boolean) => void; 
 }
+
+
+export const Loading  =() => (
+    <SkeletonTheme baseColor='#111111' highlightColor='#191919'>
+        <div className="w-14 aspect-square bg-[#111111] rounded-xs flex">
+            <Skeleton  containerClassName='block leading-[1px] flex-1' height='100%' borderRadius='0.125rem'/>
+        </div>
+    </SkeletonTheme>
+)
 
 export function HeartButton({mediaInfo , initialFavourite , onFavoritesChange}  : HeartButtonProps){
 
@@ -27,21 +37,20 @@ export function HeartButton({mediaInfo , initialFavourite , onFavoritesChange}  
 //   console.log("❤️ [HeartButton] isFavourite changed:", isFavourite)
 // }, [isFavourite])
 
-
     const handleFavourites = async() => {
-        
+
         if(initialFavourite) {
             // console.log('state before removed ' , isFavourite)
             // setIsFavourite(false)
             const res = await removeFromFavourites(mediaInfo)
-            onFavoritesChange?.(res ,!!false)
-           
+            onFavoritesChange?.(res ,false)
+      
         } else{
             //   console.log('state before added ' , isFavourite)
             // setIsFavourite(true)
             const res = await addToFavourites(mediaInfo)
             onFavoritesChange?.(res ,true)
-           
+    
         }
     }
 

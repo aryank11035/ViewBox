@@ -51,11 +51,13 @@ const movieSchema = new mongoose.Schema({
     },
     overrated : {
         type : Number,
-        default : 0
+        default : 0 , 
+        min : 0
     },
     underrated : {
         type : Number,
-        default : 0
+        default : 0 , 
+        min : 0
     },
     added_by : String,
     videokey : String,

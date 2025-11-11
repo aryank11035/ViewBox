@@ -26,21 +26,21 @@ export  function Header({session} : {session : any | null}){
  
 
     return (
-        <header className="w-full h-20  flex items-center justify-center text-white fixed z-20 border-b border-b-white/10  backdrop-blur-xl top-0 ">
+        <header className="w-full h-20  flex  justify-center text-white fixed z-20 border-b border-b-white/10  backdrop-blur-xl top-0  mx-auto">
         
-          <nav className="w-[1450px] h-full border-l border-r border-white/10 flex justify-between items-center px-6 md:px-10 backdrop-blur-xl z-20 ">
+          <nav className= "h-full border-l border-r border-white/10 flex justify-between items-center px-6  md:px-10 backdrop-blur-xl z-20 w-full mx-auto  max-w-[1450px] ">
             <Link href='/' prefetch={true}>
               <h1 className="text-2xl lg:text-3xl font-bold cursor-pointer tracking-wider">ViewBox</h1>
             </Link>
 
             {/* large screen navbar */}
-            <div className="  gap-5 md:gap-10 items-center justify-center relative hidden md:flex">
+            <div className="  gap-5  items-center justify-center hidden 760:flex">
               <Link href='/home'>
                 <div className=" gap-2 items-center justify-center hover:text-green-600 duration-200 cursor-pointer flex ">
                   <ListVideo strokeWidth={1} size={20} /><p className="mb-0.5">Home</p> 
                 </div>
               </Link>
-              <div className=" relative w-[300px] items-center flex  h-10">
+              <div className=" relative w-[300px] items-center flex  h-10 ">
                   <HeaderSearchBar/>
               </div>
               <div className="flex gap-10 font-bold justify-center items-center ">
