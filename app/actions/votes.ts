@@ -117,7 +117,38 @@ export async function updateUnderrated(mediaId : string) {
     }
 }
 
+export async function getAllOverratedVotes(){
+    const session = await auth()
+    const userId = session?.user?.id
+    
+    await connectToMongoose()
+    const  userVotes = await Users.findById(
+        userId , 
+        { overrated : 1  , _id : 0}
+    ).lean()
 
+    const votes = JSON.parse(JSON.stringify(userVotes))
+    const setVotes = new Set(votes?.overrated || [])
+
+    return setVotes
+}
+
+
+export async function getAllUnderratedVotes(){
+    const session = await auth()
+    const userId = session?.user?.id
+    
+    await connectToMongoose()
+    const  userVotes = await Users.findById(
+        userId , 
+        { underrated : 1  , _id : 0}
+    ).lean()
+
+    const votes = JSON.parse(JSON.stringify(userVotes))
+    const setVotes = new Set(votes?.underrated || [])
+
+    return setVotes
+}
 
 export async function getUserOverratedMoviesIdById(id : string ) {
     const session = await auth() 

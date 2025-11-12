@@ -65,7 +65,7 @@ export default async function Page() {
         </div>
         <section className="w-full mx-auto  bg-black/30 ">
              
-          <UpdatedSection mediaData={tv} />
+          <UpdatedSection mediaData={yourMedia} />
         </section>
         <section className="bg-[#111111] w-full mx-auto border-t border-white/10 ">
           <InfoCardSection />

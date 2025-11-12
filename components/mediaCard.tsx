@@ -18,7 +18,7 @@ export default function MediaCard({mediaData ,  enable } : {mediaData : any , en
             
                 <Link href={`/${mediaData.mediaType ? mediaData.mediaType : mediaData.media_type}/${mediaData.id}`}  key={mediaData.id} > 
                     <motion.div 
-                        className="relative w-67  aspect-[2/3] cursor-pointer mx-auto rounded-xs "
+                        className="relative w-58  aspect-[2/3] cursor-pointer mx-auto rounded-xs "
                         whileHover={{scale: 1.03}}
                         transition={{
                             type : "spring",

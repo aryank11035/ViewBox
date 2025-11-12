@@ -54,7 +54,7 @@ export default function PopupWrapper({
                     onClick={onClose}
                 >
                     <div 
-                        className="w-full h-full relative flex items-center justify-center "
+                        className=" relative flex items-center justify-center w-fit h-fit"
                         onClick={(e) => e.stopPropagation()}
                     >
                         {children}

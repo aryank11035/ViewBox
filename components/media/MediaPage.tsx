@@ -204,6 +204,7 @@ export default function MediaPage({allMediaData, mediaData  , mediaType , sessio
                                     overratedVoted : overratedVote ,
                                     underratedVoted : underratedVote 
                                    }} 
+                                    icon={false}
                                     onOverrateVoteChange={onOverrateVoteChange}
                                     onUnderrateVoteChange={onUnderateVoteChange}
                                    />

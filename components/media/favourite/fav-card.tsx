@@ -13,6 +13,8 @@ import PopupPortal from "@/components/popup-wrapper"
 import PopupWrapper from "@/components/popup-wrapper"
 import Link from "next/link"
 import { getFavouritesIds } from "@/app/actions/favourites"
+import { IoMdThumbsDown, IoMdThumbsUp } from "react-icons/io"
+import VotesComp from "../votes/votes-comp"
 
 
 const useOutsideClick = (callback : () => void) => {
@@ -75,16 +77,25 @@ export interface handleFavouritesProps {
 
 }
 
+interface FavCardProps {
+    media : Movie , 
+    isFavourite : boolean , 
+    isOverrated : boolean , 
+    isUnderrated : boolean
+}
 
 
+export default function FavCard({media , isFavourite , isOverrated , isUnderrated} : FavCardProps){
 
-export default function FavCard({media , isFavourite} : {media : Movie , isFavourite : boolean }){
 
 
     const [isHover,setIsHover] = useState(false)
     const [current , setCurrent] = useState<Movie | null>(null)
     const ref = useOutsideClick(() => setCurrent(null))
+
     const [initialState , setInitialState] = useState<boolean>(isFavourite)
+    const [overratedVote,setOverratedVote] = useState(isOverrated)
+    const [underratedVote,setUnderratedVote] = useState(isUnderrated)
 
     const [favouritesResponse,setFavouriteResponse] = useState<handleFavouritesProps | undefined>(undefined)
     
@@ -93,15 +104,17 @@ export default function FavCard({media , isFavourite} : {media : Movie , isFavou
         setFavouriteResponse(res)
     }
 
+    const onOverrateVoteChange = ( vote : boolean) => {
+        setOverratedVote(vote)
+    }
+
+    const onUnderateVoteChange  = ( vote : boolean) => {
+        setUnderratedVote(vote)
+    }
+
     const handleClick = (media : any ) => {
         setCurrent(media)
-        console.log('pop up like state' , initialState )
-        if(media) {
-
-            console.log('pop up clicked')
-        }
-
-        
+        console.log(media)
     }
 
     return(
@@ -214,12 +227,30 @@ export default function FavCard({media , isFavourite} : {media : Movie , isFavou
                             key={media._id}
                             className="w-67 420:w-45 760:w-50 1435:w-65 aspect-[2/3] relative rounded-xs backdrop-blur-2xl cursor-pointer mx-auto">
 
-                            <motion.div 
-                                 layoutId={`liked-${media._id}`}
-                                className="absolute top-1 right-1 z-40"
-                            >
-                                <HeartButton mediaInfo={media} initialFavourite={initialState} onFavoritesChange={onFavoritesChange}/>
-                            </motion.div>
+
+                            <div className="absolute top-1 right-1 z-40 flex flex-col gap-1 0">
+                                <motion.div 
+                                    layoutId={`liked-${media._id}`}
+                                    className=""
+                                >
+                                    <HeartButton mediaInfo={media} initialFavourite={initialState} onFavoritesChange={onFavoritesChange}/>
+                                </motion.div>
+
+                                <VotesComp 
+                                    icon={true}
+                                    votes={{
+                                        id : media._id ,
+                                        overrated : media.overrated ?? 0,
+                                        underrated : media.underrated ?? 0 , 
+                                        overratedVoted : overratedVote ,
+                                        underratedVoted : underratedVote 
+                                   }} 
+                                   
+                                    onOverrateVoteChange={onOverrateVoteChange}
+                                    onUnderrateVoteChange={onUnderateVoteChange}
+                                   />
+                            
+                            </div>
 
 
                             <motion.div 

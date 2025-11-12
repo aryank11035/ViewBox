@@ -13,10 +13,11 @@ interface VotesCompProps {
 }
 
 
-export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVoteChange } : { votes : VotesCompProps , onOverrateVoteChange ?: ( vote : boolean) => void ,onUnderrateVoteChange ?: ( vote : boolean) => void }){
+export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVoteChange , icon} : { votes : VotesCompProps , onOverrateVoteChange ?: ( vote : boolean) => void ,onUnderrateVoteChange ?: ( vote : boolean) => void  , icon : boolean}){
 
     const [overrateNumber,setOverratedNumber] = useState<number>(votes.overrated)
     const [underrateNumber,setUnderratedNumber] = useState<number>(votes.underrated)
+
     const handleOverrated = async () =>  {
         if(votes.underratedVoted) {
             const res = await updateUnderrated(votes.id)
@@ -52,33 +53,65 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
 
 
     return (
-        <div className="space-x-3 flex h-fill mb-8 text-sm flex-col gap-2 md:flex-row md:gap-0">
-            <button 
-                style={{
-                    backgroundColor : votes.underratedVoted ? '#16A34A' : '',
-                    borderColor : votes.underratedVoted ? '#16A34A' : '#FFFFFF33'
-                }}
-                onClick={handleUnderrated}
-                className=" rounded-xs px-4 py-1.5 border border-[rgba(255,255,255,0.2)] hover:border-green-60 duration-100 cursor-pointer  hover:scale-98 flex gap-2 items-center w-full md:w-fit">
-                <span className=" text-center flex items-center text-base ">
-                    <IoMdThumbsUp />
-                </span>
-                Underrated 
-                <span>{underrateNumber}</span>
-            </button>
-            <button 
-                style={{
-                    backgroundColor : votes.overratedVoted ? '#E11D48' : '',
-                    borderColor : votes.overratedVoted ? '#E11D48   ' : '#FFFFFF33'
-                }}
-                onClick={handleOverrated} 
-                className=" rounded-xs px-4 py-1.5 border border-[rgba(255,255,255,0.2)] hover:border-green-60 duration-100 cursor-pointer hover:scale-98 flex gap-2 items-center w-full md:w-fit">
-                <span className=" text-center flex items-center text-base mt-1">
-                    <IoMdThumbsDown />
-                </span>
-                Overrated 
-                <span>{overrateNumber}</span>
-            </button>
-        </div>
-    )
+
+        
+            icon ? (
+                <div
+                    className=" size-10 self-end flex flex-col h-fit items-center  w-full backdrop-blur-3xl border border-[rgba(255,255,255,0.1)] gap-1 bg-black/30"
+                >
+                    <button 
+                        onClick={handleUnderrated}
+                        className={`text-base flex gap-1 font-light ${votes.underratedVoted ? 'text-green-400' : 'text-white' } rounded-xs hover:bg-black/20 duration-200 w-fit p-1 mt-1 cursor-pointer`}
+                    >
+                        {underrateNumber}
+                        <span className="text-xl ">
+                            <IoMdThumbsUp />
+                        </span>
+                    </button>
+
+                    <div className="w-full px-2">
+                        <div className="w-full border-t border-[rgba(255,255,255,0.1)] rounded-xs"></div>
+                    </div>
+
+                    <button 
+                        onClick={handleOverrated}
+                        className={`text-base flex gap-1 font-light  ${votes.overratedVoted ? 'text-[#E11D48]' : 'text-white'}  rounded-xs hover:bg-black/20 duration-200 w-fit p-1 mb-1 cursor-pointer`}
+                    >
+                            {overrateNumber} 
+                            <span className="text-xl mt-0.5">
+                                <IoMdThumbsDown />
+                            </span>
+                    </button>
+                </div>
+            ) : (
+                <div className="space-x-3 flex h-fill mb-8 text-sm flex-col gap-2 md:flex-row md:gap-0">
+                    <button 
+                        style={{
+                            backgroundColor : votes.underratedVoted ? '#16A34A' : '',
+                            borderColor : votes.underratedVoted ? '#16A34A' : '#FFFFFF33'
+                        }}  
+                        onClick={handleUnderrated}
+                        className=" rounded-xs px-4 py-1.5 border border-[rgba(255,255,255,0.2)] hover:border-green-60 duration-100 cursor-pointer  hover:scale-98 flex gap-2 items-center w-full md:w-fit">
+                        <span className=" text-center flex items-center text-base ">
+                            <IoMdThumbsUp />
+                        </span>
+                        Underrated 
+                        <span>{underrateNumber}</span>
+                    </button>
+                    <button 
+                        style={{
+                            backgroundColor : votes.overratedVoted ? '#E11D48' : '',
+                            borderColor : votes.overratedVoted ? '#E11D48   ' : '#FFFFFF33'
+                        }}
+                        onClick={handleOverrated} 
+                        className=" rounded-xs px-4 py-1.5 border border-[rgba(255,255,255,0.2)] hover:border-green-60 duration-100 cursor-pointer hover:scale-98 flex gap-2 items-center w-full md:w-fit">
+                        <span className=" text-center flex items-center text-base mt-1">
+                            <IoMdThumbsDown />
+                        </span>
+                        Overrated 
+                        <span>{overrateNumber}</span>
+                    </button>
+                </div>
+            )
+        )
 }

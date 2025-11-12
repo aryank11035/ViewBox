@@ -20,7 +20,7 @@ export default function UpdatedSection({mediaData } : {mediaData : any }){
                         speed={50}
                         speedOnHover={1} 
                         gap={15}
-                        className="py-8"
+                        className="py-6"
                     >
                         <SliderMediaCardSection mediaData={mediaData} enable={false} />
                     </InfiniteSlider>

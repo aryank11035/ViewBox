@@ -26,28 +26,13 @@ export const Loading  =() => (
 
 export function HeartButton({mediaInfo , initialFavourite , onFavoritesChange}  : HeartButtonProps){
 
-
-    // const [isFavourite,setIsFavourite] = useState(initialFavourite)
-
-    // useEffect(() => {
-    //     console.log('state value after changed' , isFavourite)
-    // },[isFavourite])
-
-//     useEffect(() => {
-//   console.log("❤️ [HeartButton] isFavourite changed:", isFavourite)
-// }, [isFavourite])
-
     const handleFavourites = async() => {
-
         if(initialFavourite) {
-            // console.log('state before removed ' , isFavourite)
-            // setIsFavourite(false)
             const res = await removeFromFavourites(mediaInfo)
             onFavoritesChange?.(res ,false)
       
         } else{
-            //   console.log('state before added ' , isFavourite)
-            // setIsFavourite(true)
+  
             const res = await addToFavourites(mediaInfo)
             onFavoritesChange?.(res ,true)
     

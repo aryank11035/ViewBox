@@ -5,6 +5,7 @@ import { Movie } from "@/schema/type"
 import GenreOption from "@/components/media/favourite/genre-option"
 import { Suspense } from 'react'
 import SortOption from "@/components/media/favourite/sort-option"
+import { getAllOverratedVotes, getAllUnderratedVotes, getUserOverratedMoviesIdById } from "../actions/votes"
 
 interface favPageProps {
     searchParams : Promise<{ genre ?: string , sortBy ?: string}>
@@ -42,6 +43,8 @@ export default async function FavouritesPage({searchParams} : favPageProps){
     const favMovies = await getFavourites()
     const favGenres = await getFavouritesGenres()
     const favIds = await getFavouritesIds()
+    const overratedVotes = await getAllOverratedVotes()
+    const underratedVotes = await getAllUnderratedVotes()
 
 
     let filteredMovies  : Movie[] = !selectedGenre || selectedGenre  === 'All Genres' 
@@ -68,7 +71,7 @@ export default async function FavouritesPage({searchParams} : favPageProps){
                     <div className="w-fit  grid grid-cols-1 420:grid-cols-2 760:grid-cols-3 1020:grid-cols-4 1435:grid-cols-5 justify-items-center gap-4 mx-auto">
                         {
                             filteredMovies.map((media : Movie) =>  (
-                                <FavCard media={media} key={media.id} isFavourite={favIds.has(media._id)} />
+                                <FavCard media={media} key={media.id} isFavourite={favIds.has(media._id)} isOverrated={overratedVotes.has(media._id)} isUnderrated={underratedVotes.has(media._id)}/>
                             ))
                         }
                         

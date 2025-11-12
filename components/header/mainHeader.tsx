@@ -43,7 +43,7 @@ export  function Header({session} : {session : any | null}){
               <div className=" relative w-[300px] items-center flex  h-10 ">
                   <HeaderSearchBar/>
               </div>
-              <div className="flex gap-10 font-bold justify-center items-center ">
+              <div className="flex gap-10 font-bold justify-center items-center relative">
                   
                   
                       <div
