@@ -89,7 +89,7 @@ export const HomeButton = () => {
     return (
         <Link href='/home'>
             <motion.div 
-                className="bg-green-600 w-fit h-fit flex gap-2 items-center p-3 rounded-xs cursor-pointer hover:text-green-600 hover:bg-white duration-300"
+                className="bg-green-600 w-fit h-fit flex gap-2 items-center p-3 rounded-xs cursor-pointer hover:text-green-600 hover:bg-white duration-300 font-light text-sm"
                 onMouseEnter = {() => setOnHover(true)}
                 onMouseLeave = {() => setOnHover(false)}    
             >

@@ -5,6 +5,8 @@ import { useState } from "react"
 import { AnimatePresence , motion  } from "motion/react"
 import HeaderSearchBar from "./search-bar"
 import { FaHeart } from "react-icons/fa"
+import { Movie } from "@/schema/type"
+import Link from "next/link"
 
 
 const containerVariants = {
@@ -63,10 +65,20 @@ const closeButtonVariant = {
     }
 }
 
-
-export default function HeaderSideBar(){
+interface HeaderSideBarProps {
+    onSearch : (str : string) => void ,
+    cancelSearch : () => void  , 
+    medias : Movie[] | null ,
+    searchString : string
+}
+export default function HeaderSideBar({onSearch  , cancelSearch , medias , searchString} : HeaderSideBarProps){
 
     const [isOpen,setIsOpen] = useState<boolean>(false)
+
+    const closeSidebar= () => {
+        cancelSearch()
+        setIsOpen(false)
+    }
 
     return (
         <>
@@ -102,9 +114,20 @@ export default function HeaderSideBar(){
                                 </div>
                                 <div className="w-full h-20 flex items-center px-6.5 ">
                                     <div className="w-full h-10 relative flex items-center">
-                                        <HeaderSearchBar />
+                                        <HeaderSearchBar onSearch={onSearch} cancelButton={medias} searchString={searchString} cancelSearch={closeSidebar}/>
                                     </div>
                                 </div>
+
+                                {
+                                    medias && (
+                                        <div className="w-full px-6.5">
+                                            <MediaOnSearchSiderbar cancelSearch={closeSidebar} medias={medias}/>
+                                        </div>
+                                    )
+                                }
+                            
+
+
                                 <motion.div 
                                     variants={childContainerVariants}
                                     className="w-full h-20 px-6.5 flex gap-4 text-xl items-center ">
@@ -152,3 +175,65 @@ export default function HeaderSideBar(){
         </>
     )
 }
+
+
+interface MediaOnSearchProps {
+  medias : Movie[] | null ,
+  cancelSearch : () => void 
+}
+export const MediaOnSearchSiderbar = ({medias , cancelSearch} : MediaOnSearchProps) => {
+
+  if(medias === null ) return null
+
+  if(medias.length === 0) {
+    return (
+       <div className=" w-full border top-16 bg-[#111111]/90 text-sm rounded-xs border-[rgba(255,255,255,0.2)]  font-medium  z-10   p-1 max-h-59 overflow-y-auto ">
+          <div className="flex  px-1 p-1 w-full gap-2 h-28   items-center justify-center text-base font-bold flex-col" >
+              No Movies found
+            <button className="w-fit bg-green-600 px-2 text-sm font-light flex gap-2 p-3 rounded-xs hover:bg-white hover:text-green-600 duration-200 cursor-pointer">
+              <ListVideo strokeWidth={1} size={20} />Suggest Movie
+            </button>
+          </div>
+       </div>
+    )
+  }
+  return (
+      <div className="w-full border top-16 bg-[#111111]/90 text-sm rounded-xs border-[rgba(255,255,255,0.2)]  font-medium  z-10  gap-2 p-1 max-h-59 overflow-y-auto ">
+
+          {
+            medias.map((media : Movie) => (
+            
+                <Link className="flex  px-1 p-1 w-full gap-2 h-40 hover:bg-neutral-800 cursor-pointer"  href={`/${media.mediaType}/${media.id}`} key={media._id} onClick={cancelSearch}>
+
+
+                  
+                    <div className="bg-neutral-700 h-full flex-1 aspect-[2/3] relative">
+                      <img
+                          src={media.poster_path ? `https://image.tmdb.org/t/p/w500${media.poster_path}`: '/placeholder-movie.jpg'}
+                          alt={media.title}
+                          className="absolute inset-0"
+                      />
+                    </div>
+                    <div className="flex-3  flex flex-col gap-2 p-1 tracking-tight">
+                        <h1>{media.title}</h1>
+                        <p className="text-xs text-neutral-400 font-light">{media.release_date}</p>
+                        <div className=" w-full">
+                            <div className='flex gap-2  items-center'>
+                                <img 
+                                    src="/logo-imdb.svg" 
+                                    alt="IMDb Logo" 
+                                    className="w-10  h-auto" 
+                                />
+                                <h1 className="text-xs font-light">{media.vote_average ? `${media.vote_average.toFixed(1)}/10`  : 'NA'}</h1>
+                            </div>
+                        </div>
+                    </div>
+
+        
+                </Link>
+  
+            ))
+          }
+      </div>
+  )
+} 

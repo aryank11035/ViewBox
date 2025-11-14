@@ -36,3 +36,19 @@ export async function getMovieWithId(movieId : number) {
         console.log(error)
     }
 }
+
+
+export async function getMovieThroughSearch(str : string ){
+    try{
+
+        if (!str || str.trim() === "") return null;
+        await connectToMongoose()
+        const movie = await Movies.find(
+            { title: { $regex: str, $options: "i" } }
+        ).lean()
+        
+        return JSON.parse(JSON.stringify(movie))
+    }catch(error){
+        return null
+    }
+}
