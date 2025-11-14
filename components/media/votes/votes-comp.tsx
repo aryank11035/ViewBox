@@ -57,28 +57,30 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
         
             icon ? (
                 <div
-                    className=" size-10 self-end flex flex-col h-fit items-center  w-full backdrop-blur-3xl border border-[rgba(255,255,255,0.1)] gap-1 bg-black/30"
+                    className=" size-10 self-end flex flex-col h-fit items-center  w-full backdrop-blur-3xl border border-[rgba(255,255,255,0.1)] gap-1 bg-black/30 px-1"
                 >
                     <button 
                         onClick={handleUnderrated}
-                        className={`text-base flex gap-1 font-light ${votes.underratedVoted ? 'text-green-400' : 'text-white' } rounded-xs hover:bg-black/20 duration-200 w-fit p-1 mt-1 cursor-pointer`}
+                        className={`text-xs flex gap-1 font-light ${votes.underratedVoted ? 'text-green-400' : 'text-white' } rounded-xs hover:bg-black/20 duration-200  p-1 mt-1 cursor-pointer flex items-center justify-center  w-full`}
                     >
                         {underrateNumber}
-                        <span className="text-xl ">
+                        <span className="text-base mb-0.5">
                             <IoMdThumbsUp />
                         </span>
                     </button>
 
-                    <div className="w-full px-2">
-                        <div className="w-full border-t border-[rgba(255,255,255,0.1)] rounded-xs"></div>
+                    <div className="w-full px-1">
+                            <div className="w-full border-t border-[rgba(255,255,255,0.1)] rounded-xs">
+
+                            </div>
                     </div>
 
                     <button 
                         onClick={handleOverrated}
-                        className={`text-base flex gap-1 font-light  ${votes.overratedVoted ? 'text-[#E11D48]' : 'text-white'}  rounded-xs hover:bg-black/20 duration-200 w-fit p-1 mb-1 cursor-pointer`}
+                        className={`text-xs flex gap-1 font-light  ${votes.overratedVoted ? 'text-[#E11D48]' : 'text-white'}  rounded-xs hover:bg-black/20 duration-200 w-full p-1 mb-1 cursor-pointer flex items-center justify-center   `}
                     >
                             {overrateNumber} 
-                            <span className="text-xl mt-0.5">
+                            <span className="text-base mt-0.5">
                                 <IoMdThumbsDown />
                             </span>
                     </button>

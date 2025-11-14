@@ -3,6 +3,7 @@
 import { auth } from "@/auth"
 import { Movies, Users } from "@/lib/models"
 import { connectToMongoose } from "@/lib/mongoose"
+import { Movie } from "@/schema/type"
 
 
 export async function updateOverrated(mediaId : string) {
@@ -128,7 +129,7 @@ export async function getAllOverratedVotes(){
     ).lean()
 
     const votes = JSON.parse(JSON.stringify(userVotes))
-    const setVotes = new Set(votes?.overrated || [])
+    const setVotes = new Set<string>(votes?.overrated || [])
 
     return setVotes
 }
@@ -145,7 +146,7 @@ export async function getAllUnderratedVotes(){
     ).lean()
 
     const votes = JSON.parse(JSON.stringify(userVotes))
-    const setVotes = new Set(votes?.underrated || [])
+    const setVotes = new Set<string>(votes?.underrated || [])
 
     return setVotes
 }
@@ -184,4 +185,110 @@ export async function getUserUnderratedMoviesIdById(id : string ) {
     
     return setVotes.has(id)
 
+}
+
+
+
+export async function getVotes(vote ?: string){
+    try {
+
+        const overratedVotes = await getAllOverratedVotes()
+        const underratedVotes = await getAllUnderratedVotes()
+
+       if(vote === 'overrated') {
+           const allVotes = new Set<string>([
+               ...overratedVotes ,
+               ...underratedVotes
+    
+           ])
+    
+          return allVotes
+       }else if (vote === 'underrated') {
+            const allVotes = new Set<string>([
+               ...underratedVotes
+           ])
+    
+          return allVotes
+       }else {
+            const allVotes = new Set<string>([
+                ...overratedVotes ,
+                ...underratedVotes
+        
+            ])
+        
+            return allVotes
+       }
+
+    } catch (error) {
+        return []
+    }
+}
+
+
+export async function getOverratedMedia(){
+    try {
+
+        const overratedVotes = await getAllOverratedVotes()
+        const overratedArray = Array.from(overratedVotes)
+        const overratedMedias = await Movies.find(
+            {_id : {$in : overratedArray }}
+        ).lean()
+        return JSON.parse(JSON.stringify(overratedMedias))
+    }catch(error){
+        console.log(error)
+        return []
+    }
+}
+
+
+export async function getUnderratedMedia(){
+    try {
+
+        const underratedVotes = await getAllUnderratedVotes()
+        const underratedArray = Array.from(underratedVotes)
+        const underratedMedias = await Movies.find(
+            {_id : {$in : underratedArray }}
+        ).lean()
+        return JSON.parse(JSON.stringify(underratedMedias))
+    }catch(error){
+        console.log(error)
+        return []
+    }
+}
+
+export async function getVotedMedia(vote ?: string){
+    try {
+        const votes = await getVotes(vote)
+        let votesArray = Array.from(votes)
+        const votedMedias = await Movies.find(
+            {_id : {$in : votesArray}}
+        ).lean()
+        return JSON.parse(JSON.stringify(votedMedias))
+    } catch (error) {
+        console.log(error)
+        return []
+    }
+}
+
+
+
+
+
+export async function getVotedGenres() : Promise<string[]>{
+    try {
+        const votedMedias = await getVotedMedia()
+        
+        const genreSet = new Set(
+                votedMedias.flatMap((movie : Movie) => movie.genres.map((genre : {name : string}) => genre.name ))
+        )
+        const votedMediaGenres = [
+            'All Genres',
+            ...Array.from(genreSet)
+        ] as  any
+
+        return votedMediaGenres
+    }catch(error){
+        console.log(error)
+        return ['All Genres']
+    }
 }

@@ -1,10 +1,6 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { AnimatePresence , motion } from "motion/react";
-
-
-
 
 
 export default function SortOption({ 

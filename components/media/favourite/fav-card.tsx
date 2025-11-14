@@ -3,17 +3,13 @@
 import { ProgressiveBlur } from "@/components/motion-primitives/progressive-blur"
 import { Movie } from "@/schema/type"
 import { useEffect, useRef, useState } from "react"
-import { FaHeart } from "react-icons/fa"
-import { AnimatePresence, delay, easeIn, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { X } from "lucide-react"
 import { HeartButton } from "./heart-button"
 import { AddedMssg } from "./added-mssg"
 import { RemovedMssg } from "./removed-mssg"
-import PopupPortal from "@/components/popup-wrapper"
 import PopupWrapper from "@/components/popup-wrapper"
 import Link from "next/link"
-import { getFavouritesIds } from "@/app/actions/favourites"
-import { IoMdThumbsDown, IoMdThumbsUp } from "react-icons/io"
 import VotesComp from "../votes/votes-comp"
 
 

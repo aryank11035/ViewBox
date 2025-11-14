@@ -30,8 +30,8 @@ export interface Movie {
   first_air_date?: string;
   genres: Genre[];
   mediaType: 'movie' | 'tv';
-  overrated?: number;
-  underrated?: number;
+  overrated: number;
+  underrated: number;
   added_by?: string;
   videokey?: string;
   suggested?: string;

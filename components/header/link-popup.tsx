@@ -135,7 +135,7 @@ export default function LinkPopUp({setShowLinkContainers} :any){
                     <FaHeart className="text-sm"/> Favourites
                 </motion.div>
                 </Link>
-                <Link href='/'>
+                <Link href='/votes'>
                 <motion.div 
                     onClick={() => setShowLinkContainers((prev : boolean ) => !prev)}
                     variants={childContainerVariants}

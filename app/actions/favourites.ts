@@ -4,8 +4,6 @@ import { auth } from "@/auth"
 import { Movies, Users } from "@/lib/models"
 import { connectToMongoose } from "@/lib/mongoose"
 import { Movie } from "@/schema/type"
-import { User, Users2 } from "lucide-react"
-import { NextResponse } from "next/server"
 
 
 export async function addToFavourites(mediaInfo : any){
@@ -84,11 +82,7 @@ export async function getFavourites(){
             { _id : { $in : favouriteIds }}  
         ).lean()
 
-        const serializedMovies =  userFavouriteMovies.map((movie) => ({
-            ...movie
-        }))
-
-        return JSON.parse(JSON.stringify(serializedMovies))
+        return JSON.parse(JSON.stringify(userFavouriteMovies))
          
     }catch(error){
         return []
@@ -99,7 +93,7 @@ export async function getFavouritesIds(){
     const favs = await getFavourites()
     const favIds = favs.map((fav : any ) => fav._id)
     // console.log(favIds)
-    return new Set(favIds) 
+    return new Set<string>(favIds) 
 
 }
 
