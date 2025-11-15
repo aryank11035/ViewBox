@@ -23,7 +23,7 @@ import VotesComp from "./votes/votes-comp"
 import { Movie } from "@/schema/type"
 
 
-export default function MediaPage({allMediaData, mediaData  , mediaType , session  , videoKey , whereToWatch , relatedMovies , trendingData , isAdmin , isOverrated , isUnderrated , isFavourite } : {allMediaData : Movie , mediaData : any  ,mediaType : 'movie' | 'tv', session : any | null ,  videoKey : string , whereToWatch : any, relatedMovies : any , trendingData : any , isAdmin : boolean , isOverrated : boolean ,isUnderrated : boolean ,isFavourite :boolean}){
+export default function MediaPage({allMediaData, mediaData  , mediaType , session  , videoKey , whereToWatch , relatedMovies , trendingData , isAdmin , isOverrated  = false, isUnderrated = false, isFavourite = false} : {allMediaData : Movie , mediaData : any  ,mediaType : 'movie' | 'tv', session : any | null ,  videoKey : string , whereToWatch : any, relatedMovies : any , trendingData : any , isAdmin : boolean , isOverrated : boolean ,isUnderrated : boolean ,isFavourite :boolean}){
 
 
   
@@ -43,13 +43,14 @@ export default function MediaPage({allMediaData, mediaData  , mediaType , sessio
 
     //this goes the Playlist collection 
     const playlistMedia = {
+        _id : allMediaData._id , 
         id : mediaData.id , 
         type : mediaType,
         name : mediaData.title ? mediaData.title : mediaData.original_name,
         genres : mediaData.genres,
         img : mediaData.poster_path  
     }
-
+    
     const mediaName = mediaData.title ? mediaData.title : mediaData.original_name as string
 
    

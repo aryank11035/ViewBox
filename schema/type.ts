@@ -22,6 +22,7 @@ export interface Movie {
   id: number;
   title?: string;
   original_name?: string;
+   original_language?: string ,
   backdrop_path?: string;
   poster_path?: string;
   overview: string;

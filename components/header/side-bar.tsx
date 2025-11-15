@@ -114,7 +114,7 @@ export default function HeaderSideBar({onSearch  , cancelSearch , medias , searc
                                 </div>
                                 <div className="w-full h-20 flex items-center px-6.5 ">
                                     <div className="w-full h-10 relative flex items-center">
-                                        <HeaderSearchBar onSearch={onSearch} cancelButton={medias} searchString={searchString} cancelSearch={closeSidebar}/>
+                                        <HeaderSearchBar onSearch={onSearch} cancelButton={medias} searchString={searchString} cancelSearch={cancelSearch}/>
                                     </div>
                                 </div>
 
@@ -203,19 +203,19 @@ export const MediaOnSearchSiderbar = ({medias , cancelSearch} : MediaOnSearchPro
           {
             medias.map((media : Movie) => (
             
-                <Link className="flex  px-1 p-1 w-full gap-2 h-40 hover:bg-neutral-800 cursor-pointer"  href={`/${media.mediaType}/${media.id}`} key={media._id} onClick={cancelSearch}>
+                <Link className="flex  px-1 p-1 w-full gap-2 h-40 hover:bg-neutral-800 cursor-pointer rounded-xs border-b border-[rgba(255,255,255,0.1)]"  href={`/${media.mediaType}/${media.id}`} key={media._id} onClick={cancelSearch}>
 
 
                   
-                    <div className="bg-neutral-700 h-full flex-1 aspect-[2/3] relative">
+                    <div className=" h-full flex-1 aspect-[2/3] relative rounded-xs">
                       <img
                           src={media.poster_path ? `https://image.tmdb.org/t/p/w500${media.poster_path}`: '/placeholder-movie.jpg'}
                           alt={media.title}
-                          className="absolute inset-0"
+                          className="absolute inset-0 rounded-xs"
                       />
                     </div>
                     <div className="flex-3  flex flex-col gap-2 p-1 tracking-tight">
-                        <h1>{media.title}</h1>
+                        <h1 className="text-base  font-bold">{media.title}</h1>
                         <p className="text-xs text-neutral-400 font-light">{media.release_date}</p>
                         <div className=" w-full">
                             <div className='flex gap-2  items-center'>

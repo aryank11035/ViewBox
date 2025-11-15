@@ -85,7 +85,7 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
 
 
 
-    const [isHover,setIsHover] = useState(false)
+    
     const [current , setCurrent] = useState<Movie | null>(null)
     const ref = useOutsideClick(() => setCurrent(null))
 
@@ -137,7 +137,7 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                                         layoutId={`card-${media.poster_path}`}
                                         className="760:w-67 aspect-[2/3] mx-auto md:mx-0 420:w-[300px] w-full"
                                     >
-                                        <img src={ `https://image.tmdb.org/t/p/w500${current.poster_path}`} className="w-full h-full rounded-xs"/>
+                                        <img src={ `https://image.tmdb.org/t/p/w500${current.poster_path}`} className="w-full h-full rounded-xs" />
                                     </motion.div>
                                     <div
                                         className="flex flex-col gap-2" 
@@ -170,33 +170,7 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
 
 
                                             {/* Link */}
-                                            <Link href={`/${media.mediaType}/${media.id}`}  key={media.id}>
-                                                <motion.button 
-                                                    className="bg-white/10 p-4 rounded-xs h-full text-sm font-light hover:bg-[#FFFFFFE6] hover:text-black cursor-pointer duration-100 flex gap-2"
-                                                    onMouseEnter = {() => setIsHover(true)}
-                                                    onMouseLeave = {() => setIsHover(false)}
-                                                >
-
-
-                                                    Find where to watch
-                                                        <motion.div 
-                                                            initial = {{ opacity : 1  }}
-                                                            animate = { isHover ? 'hovered' : 'normal' }
-                                                            variants={{
-                                                                normal : { rotate : 3 , y : -3},
-                                                                hovered : { rotate : 2 , y : -5 , x : 3}, 
-                                                            }}
-                                                            transition={{                                        
-                                                                duration : 0.3,
-                                                                ease: [0, 0.71, 0.2, 1.01],
-                                                            }}
-                                                            className="size-3.5">
-                                                            <svg width="100&" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M6 18L18 6M18 6H10M18 6V14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                                            </svg>
-                                                        </motion.div>
-                                                </motion.button>
-                                            </Link>
+                                            <WhereToWatchButton mediaType={media.mediaType} id={media.id} />
                                         </div>
                                         <motion.div className="bg-white/30 rounded-xs text-xs flex-wrap w-fit p-3 font-medium space-y-1.5">
                                         {
@@ -221,13 +195,12 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                         <motion.div 
                             layoutId={`card-${media._id}`}
                             key={media._id}
-                            className="w-67 420:w-45 760:w-50 1435:w-65 aspect-[2/3] relative rounded-xs backdrop-blur-2xl cursor-pointer mx-auto">
+                            className="w-67 420:w-45 760:w-50 1435:w-65 aspect-[2/3] relative rounded-xs backdrop-blur-2xl cursor-pointer mx-auto ">
 
 
-                            <div className="absolute top-1 right-1 z-40 flex flex-col gap-1 0">
+                            <div className="absolute top-1 right-1 z-40 flex flex-col gap-1">
                                 <motion.div 
-                                    layoutId={`liked-${media._id}`}
-                                    className=""
+                                    layoutId={`liked-${media._id}`} 
                                 >
                                     <HeartButton mediaInfo={media} initialFavourite={initialState} onFavoritesChange={onFavoritesChange}/>
                                 </motion.div>
@@ -251,8 +224,11 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
 
                             <motion.div 
                                 layoutId={`card-${media.poster_path}`}
-                                className="absolute inset-0 rounded-xs">
-                                <img src={ `https://image.tmdb.org/t/p/w500${media.poster_path}`} className="w-full h-full rounded-xs cursor-pointer"/>
+                                className="absolute inset-0 rounded-xs  ">
+                                <motion.img 
+                                    
+                                    src={ `https://image.tmdb.org/t/p/w500${media.poster_path}`} className="w-full h-full rounded-xs cursor-pointer"
+                                />
                             </motion.div>
 
                             <ProgressiveBlur 
@@ -262,7 +238,7 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                             <AddedMssg added={favouritesResponse?.added} />
                             <RemovedMssg removed={favouritesResponse?.removed} />
 
-                            <div className="absolute inset-0 z-20"   onClick={() => handleClick(media)}>
+                            <div className="absolute inset-0 z-20  hover:bg-black/30 duration-200 "   onClick={() => handleClick(media)}>
 
                             </div>
                             <div 
@@ -287,5 +263,45 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                   
        </>
 
+    )
+}
+
+
+interface WhereToWatchButtonProps {
+    mediaType : string , 
+    id : number
+}
+
+export const WhereToWatchButton = ({mediaType , id} : WhereToWatchButtonProps) => {
+
+    const [isHover,setIsHover] = useState(false)
+    return (
+        <Link href={`/${mediaType}/${id}`}  key={id}>
+            <motion.button 
+            className="bg-neutral-800 p-4 rounded-xs h-full text-sm font-light hover:bg-[#FFFFFFE6] hover:text-black cursor-pointer duration-100 flex gap-2"
+            onMouseEnter = {() => setIsHover(true)}
+            onMouseLeave = {() => setIsHover(false)}
+            >
+
+
+            Find where to watch
+            <motion.div 
+                initial = {{ opacity : 1  }}
+                animate = { isHover ? 'hovered' : 'normal' }
+                variants={{
+                    normal : { rotate : 6 , y : 2},
+                    hovered : { rotate : 6 , y : -2 , x : 3}, 
+                }}
+                transition={{                                        
+                    duration : 0.3,
+                    ease: [0, 0.71, 0.2, 1.01],
+                }}
+                className="size-3.5">
+                <svg width="100&" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 18L18 6M18 6H10M18 6V14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+            </motion.div>
+            </motion.button>
+            </Link>
     )
 }

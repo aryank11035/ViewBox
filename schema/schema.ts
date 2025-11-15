@@ -29,6 +29,7 @@ const movieSchema = new mongoose.Schema({
         type : String,
         required : false
     }, 
+    original_language : String,
     backdrop_path : String,
     poster_path : String,
     overview : String,
@@ -146,6 +147,11 @@ const playlistSchema = new mongoose.Schema({
         required : true
     },
     movies : [{
+        media_ref: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Movie",   // or your model name
+            required: true
+        }, 
         id : {
             type : Number,
             required : true

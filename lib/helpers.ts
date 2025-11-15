@@ -22,10 +22,12 @@ export async function getShowData(mediaType : 'movie' | 'tv' =  'movie'){
       return []
     }
     const data = await res.json()
+    // console.log(data)
     return data.results.map((item : any) => ({
       ...item,
       mediaType : mediaType,
     })) as any []
+
   }catch(err){
     console.error(err)
     return []

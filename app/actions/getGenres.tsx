@@ -9,10 +9,12 @@ export async function getGenres(){
 
     const movieGenres = await Movies.find({},{genres : 1 , _id : 0 }).lean()
     const allgenres = [
-        'All Genres',
+        'All',
         ...new Set(
             movieGenres.flatMap(movie => movie.genres.map((g : {name : string}) => g.name))
         )
     ]
-    return JSON.parse(JSON.stringify(allgenres))
+    const genreArray = Array.from(allgenres)
+   
+    return JSON.parse(JSON.stringify(genreArray))
 }

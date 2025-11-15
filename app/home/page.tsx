@@ -1,27 +1,32 @@
-import { BackDropImages } from "@/components/home/backdropImages"
-import { BackDropSlider } from "@/components/home/backdropSilder"
+
 import { HomeSilderSection } from "@/components/home/homeSliderSection"
 import { getBackdrop } from "@/lib/helpers"
+import { getMovie } from "../actions/getMovie"
+import { Movie } from "@/schema/type"
+import { getFavouritesIds } from "../actions/favourites"
+import { getMoviesByLanguage, getMoviesLanguages } from "../actions/home"
+import { getGenres } from "../actions/getGenres"
+import HomePageClient from "@/components/home/home-page"
+import { getAllOverratedVotes, getAllUnderratedVotes } from "../actions/votes"
 
 export default async function HomePage(){
 
-    const backDropImages = await getBackdrop() as string[]
-    const firstImage  = backDropImages[0]
+    const shows = await getMovie() 
+    
+    const languages = await getMoviesLanguages()
 
-   
+
+
+    const favIds = await getFavouritesIds()
+    const underratedVotes = await getAllUnderratedVotes()
+    const overratedVotes = await getAllOverratedVotes()
+    const genres = await getGenres()
+    
     return(
-        <section className="w-full  mx-auto min-h-screen">
-            {/* <HomeSilderSection backDropImages={backDropImages}/> */}
-            {/* <div className="w-full border-t border-b border-[rgba(255,255,255,0.1)] h-17">
-                <div className="w-[1450px] border-l border-r border-[rgba(255,255,255,0.1)] h-full mx-auto">
+        <section className="w-full  mx-auto min-h-screen ">  
 
-                </div>
-            </div>
-          
-                <div className="w-[1450px] border-l border-r border-[rgba(255,255,255,0.1)] min-h-screen mx-auto">
-
-                </div> */}
-           
+            <HomePageClient initialShows={shows} initialGenres={genres} languages={languages} isFavourites={favIds} underratedVotes={underratedVotes} overratedVotes={overratedVotes}/>
+   
         </section>
     )
 }   

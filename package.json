@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.10.0",
+    "@coreui/coreui": "^5.4.3",
+    "@coreui/react": "^5.9.1",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-collapsible": "^1.1.12",
@@ -26,6 +28,7 @@
     "clsx": "^2.1.1",
     "crpyto": "^0.0.1-security",
     "debounce": "^2.2.0",
+    "iso-language-codes": "^2.0.0",
     "jose": "^6.1.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.544.0",

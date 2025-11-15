@@ -1,10 +1,9 @@
 'use client'
 import Link from "next/link";
-import { Search,CircleUser } from "lucide-react";
+import { CircleUser } from "lucide-react";
 import { useEffect, useState } from "react";
 import { AnimatePresence , motion } from "motion/react";
 import { ListVideo } from 'lucide-react';
-import { useRouter } from "next/navigation";
 import LinkPopUp from "./link-popup";
 import HeaderSearchBar from "./search-bar";
 import HeaderSideBar from "./side-bar";
@@ -52,7 +51,7 @@ export  function Header({session} : {session : any | null}){
     }, [searchString]);
 
     return (
-        <header className="w-full h-20  flex  justify-center text-white fixed z-20 border-b border-b-white/10  backdrop-blur-xl top-0  mx-auto">
+        <header className="w-full h-20  flex  justify-center text-white fixed z-100 border-b border-b-white/10  backdrop-blur-xl top-0  mx-auto">
         
           <nav className= "h-full border-l border-r border-white/10 flex justify-between items-center px-6  md:px-10 backdrop-blur-xl z-20 w-full mx-auto  max-w-[1450px] ">
             <Link href='/' prefetch={true}>
@@ -133,15 +132,15 @@ export const MediaOnSearch = ({medias , cancelSearch} : MediaOnSearchProps) => {
           {
             medias.map((media : Movie) => (
             
-                <Link className="flex  px-1 p-1 w-full gap-2 h-28 hover:bg-neutral-800 cursor-pointer"  href={`/${media.mediaType}/${media.id}`} key={media._id} onClick={cancelSearch}>
+                <Link className="flex  px-1 p-1 w-full gap-2 h-28 hover:bg-neutral-800 cursor-pointer rounded-xs"  href={`/${media.mediaType}/${media.id}`} key={media._id} onClick={cancelSearch}>
 
 
                   
-                    <div className="bg-neutral-700 h-full flex-1 aspect-[2/3] relative">
+                    <div className=" h-full flex-1 aspect-[2/3] relative rounded-xs">
                       <img
                           src={media.poster_path ? `https://image.tmdb.org/t/p/w500${media.poster_path}`: '/placeholder-movie.jpg'}
                           alt={media.title}
-                          className="absolute inset-0"
+                          className="absolute inset-0 rounded-xs"
                       />
                     </div>
                     <div className="flex-3  flex flex-col gap-2 p-1 tracking-tight">
@@ -152,7 +151,7 @@ export const MediaOnSearch = ({medias , cancelSearch} : MediaOnSearchProps) => {
                                 <img 
                                     src="/logo-imdb.svg" 
                                     alt="IMDb Logo" 
-                                    className="w-10  h-auto" 
+                                    className="w-8  h-auto" 
                                 />
                                 <h1 className="text-xs font-light">{media.vote_average ? `${media.vote_average.toFixed(1)}/10`  : 'NA'}</h1>
                             </div>

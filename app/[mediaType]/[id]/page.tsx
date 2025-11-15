@@ -27,9 +27,10 @@ export default async function ShowMedia({params} : Params) {
     const relatedMovies = await getRelatedMedia(mediaType,id)
     const isAdmin = await getAdminAcess()
     // const getOverated = getUserOveratedMovies()
-    
+    console.log(mediaData)
     const allMediaData = {
         ...mediaData,
+        language : mediaData.original_language,
         videokey : videoKey,
         whereToWatch :  whereToWatch,
     }
@@ -37,10 +38,10 @@ export default async function ShowMedia({params} : Params) {
   
     
     
-    const selectedMedia = await getMovieWithId(id)
-    const isOverrated = await getUserOverratedMoviesIdById(selectedMedia._id)
-    const isUnderrated = await getUserUnderratedMoviesIdById(selectedMedia._id)
-    const isFavourite = await getFavMovieIdById(selectedMedia._id)
+    const selectedMedia = await getMovieWithId(id) || false
+    const isOverrated = await getUserOverratedMoviesIdById(selectedMedia._id) || false
+    const isUnderrated = await getUserUnderratedMoviesIdById(selectedMedia._id) || false
+    const isFavourite = await getFavMovieIdById(selectedMedia._id) || false
 
    
 
