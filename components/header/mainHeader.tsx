@@ -93,7 +93,7 @@ export  function Header({session} : {session : any | null}){
                   <AnimatePresence mode="wait" propagate> 
                       {
                         showLinkContainers && (
-                          <LinkPopUp setShowLinkContainers={setShowLinkContainers} />
+                          <LinkPopUp setShowLinkContainers={setShowLinkContainers} showLinkContainers={showLinkContainers}/>
                         )
                       }
                   </AnimatePresence>

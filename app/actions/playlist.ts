@@ -115,6 +115,7 @@ export async function addToPlaylist(selectedPlaylist  : string , selectedMedia :
         if(alreadyAdded)  return {success : false , error : 'Media already in playlist'}
         
         playlist.movies.push({
+            media_ref : selectedMedia._id ,
             id: selectedMedia.id,
             type: selectedMedia.type,
             img: selectedMedia.img,

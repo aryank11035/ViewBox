@@ -50,7 +50,7 @@ export const RemovedMssg = ({removed} : RemovedMessageProp) => {
     return (
 
         
-        <div  className="flex justify-center absolute bottom-35   z-20 text-xs tracking-tighter  w-full">
+        <div  className="flex justify-center absolute  bottom-20 md:bottom-35   z-50 md:z-30 text-[0.5rem] md:text-xs tracking-tighter  w-full">
             <AnimatePresence mode='wait'> 
                 {
                     showMessage && (

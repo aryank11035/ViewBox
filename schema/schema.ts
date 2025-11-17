@@ -149,7 +149,7 @@ const playlistSchema = new mongoose.Schema({
     movies : [{
         media_ref: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Movie",   // or your model name
+            ref: "Movie",  
             required: true
         }, 
         id : {

@@ -103,10 +103,15 @@ const staticItemVariants = {
   } as any
 
 
+interface LinkPopUpProps {
+    setShowLinkContainers : any 
+    showLinkContainers : boolean
+}
+
   
-export default function LinkPopUp({setShowLinkContainers} :any){
+export default function LinkPopUp({setShowLinkContainers , showLinkContainers} : LinkPopUpProps){
 
-
+    if(!showLinkContainers) return null
 
     return (
         <motion.div 

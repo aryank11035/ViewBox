@@ -3,7 +3,7 @@
 import {  updateOverrated, updateUnderrated } from "@/app/actions/votes"
 import {  useState } from "react"
 import { IoMdThumbsUp , IoMdThumbsDown } from "react-icons/io";
-
+import { motion } from 'framer-motion'
 interface VotesCompProps {
     id : string ,
     overrated : number , 
@@ -13,24 +13,20 @@ interface VotesCompProps {
 }
 
 
-export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVoteChange , icon} : { votes : VotesCompProps , onOverrateVoteChange ?: ( vote : boolean) => void ,onUnderrateVoteChange ?: ( vote : boolean) => void  , icon : boolean}){
+export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVoteChange , icon , page = true} : { page ?: boolean , votes : VotesCompProps , onOverrateVoteChange ?: ( vote : boolean , number : number) => void ,onUnderrateVoteChange ?: ( vote : boolean , number : number) => void  , icon : boolean}){
 
-    const [overrateNumber,setOverratedNumber] = useState<number>(votes.overrated)
-    const [underrateNumber,setUnderratedNumber] = useState<number>(votes.underrated)
-
+   
     const handleOverrated = async () =>  {
         if(votes.underratedVoted) {
             const res = await updateUnderrated(votes.id)
             if(res?.voted === false) {
-                onUnderrateVoteChange?.(res.voted)
-                setUnderratedNumber(res.count)
+                onUnderrateVoteChange?.(res.voted , res.count)
             }
         }
 
         const result = await updateOverrated(votes.id)
         if(result !== undefined) {
-            onOverrateVoteChange?.(result.voted)
-            setOverratedNumber(result.count)  
+            onOverrateVoteChange?.(result.voted , result.count) 
         }
     }
 
@@ -38,15 +34,13 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
         if(votes.overratedVoted) {
             const res = await updateOverrated(votes.id)
             if(res?.voted === false) {
-                onOverrateVoteChange?.(res.voted)
-                setOverratedNumber(res.count)
+                onOverrateVoteChange?.(res.voted , res.count)
             }
         }
 
         const result = await updateUnderrated(votes.id)
         if(result !== undefined) {
-            onUnderrateVoteChange?.(result.voted)
-            setUnderratedNumber(result.count)  
+            onUnderrateVoteChange?.(result.voted ,result.count)  
         }
     }
 
@@ -57,13 +51,13 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
         
             icon ? (
                 <div
-                    className=" size-10 self-end flex flex-col h-fit items-center  w-full backdrop-blur-3xl border border-[rgba(255,255,255,0.1)] gap-1 bg-black/30 px-1"
+                    className=" size-10 self-end flex flex-col h-fit items-center  w-full backdrop-blur-3xl border border-[rgba(255,255,255,0.2)] gap-1 bg-black/30 px-1"
                 >
                     <button 
                         onClick={handleUnderrated}
                         className={`text-xs flex gap-1 font-light ${votes.underratedVoted ? 'text-green-400' : 'text-white' } rounded-xs hover:bg-black/20 duration-200  p-1 mt-1 cursor-pointer flex items-center justify-center  w-full`}
                     >
-                        {underrateNumber}
+                        {votes.underrated}
                         <span className="text-base mb-0.5">
                             <IoMdThumbsUp />
                         </span>
@@ -77,28 +71,28 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
 
                     <button 
                         onClick={handleOverrated}
-                        className={`text-xs flex gap-1 font-light  ${votes.overratedVoted ? 'text-[#E11D48]' : 'text-white'}  rounded-xs hover:bg-black/20 duration-200 w-full p-1 mb-1 cursor-pointer flex items-center justify-center   `}
+                        className={`text-xs flex gap-1 font-light  ${votes.overratedVoted ? 'text-[#E11D48]' : 'text-white'}  rounded-xs hover:bg-black/20 duration-200 w-full p-1 mb-1 cursor-pointer flex items-center justify-center `}
                     >
-                            {overrateNumber} 
+                            {votes.overrated} 
                             <span className="text-base mt-0.5">
                                 <IoMdThumbsDown />
                             </span>
                     </button>
                 </div>
             ) : (
-                <div className="space-x-3 flex h-fill mb-8 text-sm flex-col gap-2 md:flex-row md:gap-0">
+                <div className={`${page ? 'space-x-3' : 'space-x-2'} flex h-fill  text-sm flex-col gap-2 md:flex-row md:gap-0`}>
                     <button 
                         style={{
                             backgroundColor : votes.underratedVoted ? '#16A34A' : '',
                             borderColor : votes.underratedVoted ? '#16A34A' : '#FFFFFF33'
                         }}  
                         onClick={handleUnderrated}
-                        className=" rounded-xs px-4 py-1.5 border border-[rgba(255,255,255,0.2)] hover:border-green-60 duration-100 cursor-pointer  hover:scale-98 flex gap-2 items-center w-full md:w-fit">
+                        className=" rounded-xs px-4 py-1.5 border border-[rgba(255,255,255,0.2)] hover:border-green-60 duration-100 cursor-pointer  active:scale-98 flex gap-2 items-center w-full md:w-fit ">
                         <span className=" text-center flex items-center text-base ">
                             <IoMdThumbsUp />
                         </span>
                         Underrated 
-                        <span>{underrateNumber}</span>
+                        <span>{votes.underrated}</span>
                     </button>
                     <button 
                         style={{
@@ -106,12 +100,12 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
                             borderColor : votes.overratedVoted ? '#E11D48   ' : '#FFFFFF33'
                         }}
                         onClick={handleOverrated} 
-                        className=" rounded-xs px-4 py-1.5 border border-[rgba(255,255,255,0.2)] hover:border-green-60 duration-100 cursor-pointer hover:scale-98 flex gap-2 items-center w-full md:w-fit">
+                        className=" rounded-xs px-4 py-1.5 border border-[rgba(255,255,255,0.2)] hover:border-green-60 duration-100 cursor-pointer active:scale-98 flex gap-2 items-center w-full md:w-fit">
                         <span className=" text-center flex items-center text-base mt-1">
                             <IoMdThumbsDown />
                         </span>
                         Overrated 
-                        <span>{overrateNumber}</span>
+                        <span>{votes.overrated}</span>
                     </button>
                 </div>
             )

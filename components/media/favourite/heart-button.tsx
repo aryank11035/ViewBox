@@ -49,9 +49,9 @@ export function HeartButton({mediaInfo , initialFavourite , onFavoritesChange}  
                     borderColor : initialFavourite ? '#FFFFFF4D': '' 
                 }}
                 onClick={handleFavourites}
-                className=" p-3.5 flex items-center justify-center rounded-xs border border-white/20 cursor-pointer group-hover:scale-95 duration-200 "
+                className=" p-3 md:p-3.5 flex items-center justify-center rounded-xs border border-white/20 cursor-pointer group-hover:scale-95 duration-200 "
                 >
-                <FaHeart className="text-2xl  group-hover:scale-120 duration-200"/>
+                <FaHeart className="text-xl md:text-2xl group-hover:scale-120 duration-200"/>
             </motion.button>
         </div>
     )

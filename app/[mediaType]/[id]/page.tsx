@@ -23,7 +23,7 @@ export default async function ShowMedia({params} : Params) {
     const trailerVideo = mediaVideoData.find((video : any) => video.type ===  'Trailer')
     const videoKey =trailerVideo?.key || mediaVideoData[0]?.key || null
     const whereToWatch = await getWheretoWatchById(mediaType,id)
-    const isInWatchlist = false  
+     
     const relatedMovies = await getRelatedMedia(mediaType,id)
     const isAdmin = await getAdminAcess()
     // const getOverated = getUserOveratedMovies()

@@ -87,12 +87,14 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
 
     
     const [current , setCurrent] = useState<Movie | null>(null)
+
     const ref = useOutsideClick(() => setCurrent(null))
 
     const [initialState , setInitialState] = useState<boolean>(isFavourite)
     const [overratedVote,setOverratedVote] = useState(isOverrated)
     const [underratedVote,setUnderratedVote] = useState(isUnderrated)
-
+    const [overratedNumber,setOverratedNumber] = useState(media.overrated)
+    const [underratedNumber,setUnderratedNumber] = useState(media.underrated)
     const [favouritesResponse,setFavouriteResponse] = useState<handleFavouritesProps | undefined>(undefined)
     
     const onFavoritesChange = (res : handleFavouritesProps , favourite : boolean) => {
@@ -100,18 +102,23 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
         setFavouriteResponse(res)
     }
 
-    const onOverrateVoteChange = ( vote : boolean) => {
+    const onOverrateVoteChange = ( vote : boolean , number : number) => {
         setOverratedVote(vote)
+        setOverratedNumber(number)
     }
 
-    const onUnderateVoteChange  = ( vote : boolean) => {
+    const onUnderateVoteChange  = ( vote : boolean ,number : number) => {
         setUnderratedVote(vote)
+        setUnderratedNumber(number)
     }
+    const [open,setOpen] = useState(false)
 
     const handleClick = (media : any ) => {
         setCurrent(media)
+        
         console.log(media)
     }
+
 
     return(
 
@@ -130,28 +137,58 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                                     animate='visible'
                                     exit='hidden'
                                     layoutId={`card-${media._id}`}
-                                    className=" bg-[#111111] z-20 rounded-xs flex gap-2 md:gap-4 md:w-180 flex-col md:flex-row md:h-[463px] overflow-hidden border border-[rgba(255,255,255,0.1)] mx-4 w-full mt-50 mb-50" 
-                                    ref={ref}>
-                                    <button onClick={() => setCurrent(null)} className="flex justify-end text-white/50 md:hidden cursor-pointer"><X /></button>
-                                    <motion.div 
-                                        layoutId={`card-${media.poster_path}`}
-                                        className="760:w-67 aspect-[2/3] mx-auto md:mx-0 420:w-[300px] w-full"
-                                    >
-                                        <img src={ `https://image.tmdb.org/t/p/w500${current.poster_path}`} className="w-full h-full rounded-xs" />
-                                    </motion.div>
+                                    className=" bg-[#111111] z-20 rounded-xs flex gap-2 md:gap-4 md:w-180 flex-col md:flex-row md:h-[463px]  overflow-hidden border border-[rgba(255,255,255,0.1)]  w-full mt-20 mx-6 " 
+                                    ref={ref} 
+                                >
+                                    <div className="w-full flex gap-2">
+                                        <motion.div 
+                                            layoutId={`card-${media.poster_path}`}
+                                            className="760:w-67 aspect-[2/3] md:mx-0 flex-3 "
+                                        >
+                                            <img src={ `https://image.tmdb.org/t/p/w500${current.poster_path}`} className="w-full h-full rounded-xs" />
+                                        </motion.div>
+                                        <div
+                                            className="flex flex-col gap-1 md:hidden "
+                                        >
+                                            <div className="w-full h-fit bg-neutral-800 rounded-xs flex justify-center p-2">
+                                                <motion.button onClick={() => setCurrent(null)} variants={closeButtonVariant} initial='hidden' animate='visible' exit='hidden' className="flex justify-end text-white/50 md:hidden  cursor-pointer w-fit h-fit"><X /></motion.button>
+                                            </div>
+                                            <div className="w-full h-full bg-neutral-900 rounded-xs">
+
+                                            </div>
+                                            <motion.div 
+                                                className=' rounded-xs'>
+                                                <HeartButton mediaInfo={media} initialFavourite={initialState} onFavoritesChange={onFavoritesChange}/>
+                                            </motion.div>
+                                            <VotesComp 
+                                            icon={true} 
+                                            votes={{
+                                                id : media._id ,
+                                                overrated : overratedNumber,
+                                                underrated : underratedNumber, 
+                                                overratedVoted : overratedVote ,
+                                                underratedVoted : underratedVote 
+                                            }}
+                                            page={false} 
+                                            onOverrateVoteChange={onOverrateVoteChange}
+                                            onUnderrateVoteChange={onUnderateVoteChange}
+                                            />
+                                        </div>
+
+                                    </div>
                                     <div
                                         className="flex flex-col gap-2" 
                                     >
                                         <motion.div
                                             layoutId={`card-${media.title}`}
-                                            className="text-3xl tracking-tighter w-full flex justify-between">
+                                            className="text-2xl md:text-3xl tracking-tighter w-full flex justify-between ">
                                                 <p>
                                                     {current.title}   
                                                 </p>
                                                 <motion.button onClick={() => handleClick(null)} variants={closeButtonVariant} initial='hidden' animate='visible' exit='hidden' className="md:flex justify-end text-white/50  hidden  cursor-pointer w-fit h-fit"><X /></motion.button>
                                         </motion.div>
 
-                                        <p className="text-sm text-white/30 font-medium">{current.release_date}</p>
+                                        <p className="text-xs   text-white/30 font-medium">{current.release_date}</p>
 
                                         <motion.div className='flex gap-2  items-center'>
                                             <img 
@@ -159,12 +196,12 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                                                 alt="IMDb Logo" 
                                                 className="w-10  h-auto" 
                                             />
-                                            <h1 className="text-xl font-light">{media.vote_average ? `${media.vote_average.toFixed(1)}/10`  : 'NA'}</h1>
+                                            <h1 className="text-sm md:text-xl font-light">{media.vote_average ? `${media.vote_average.toFixed(1)}/10`  : 'NA'}</h1>
                                         </motion.div>
                                         <div className="flex gap-2">
                                             <motion.div 
                                                 layoutId={`liked-${media._id}`}
-                                                className=' rounded-xs'>
+                                                className=' rounded-xs hidden md:flex'>
                                                 <HeartButton mediaInfo={media} initialFavourite={initialState} onFavoritesChange={onFavoritesChange}/>
                                             </motion.div>
 
@@ -172,7 +209,22 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                                             {/* Link */}
                                             <WhereToWatchButton mediaType={media.mediaType} id={media.id} />
                                         </div>
-                                        <motion.div className="bg-white/30 rounded-xs text-xs flex-wrap w-fit p-3 font-medium space-y-1.5">
+                                        <div className="hidden md:block">
+                                            <VotesComp 
+                                                icon={false} 
+                                                votes={{
+                                                    id : media._id ,
+                                                    overrated : overratedNumber,
+                                                    underrated : underratedNumber, 
+                                                    overratedVoted : overratedVote ,
+                                                    underratedVoted : underratedVote 
+                                                }}
+                                                page={false} 
+                                                onOverrateVoteChange={onOverrateVoteChange}
+                                                onUnderrateVoteChange={onUnderateVoteChange}
+                                            />
+                                        </div>
+                                        <motion.div className="bg-white/30 rounded-xs text-xs flex-wrap w-fit p-2 font-medium space-y-1.5">
                                         {
                                             current.genres.map((genre : any,index : number) => (         
                                                 <span key={genre.id}>
@@ -182,7 +234,7 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                                             ))
                                         }
                                         </motion.div>
-                                        <p className="text-wrap text-sm font-medium text-white/30 overflow-auto pb-20 h-30 md:h-full ">
+                                        <p className="text-wrap text-xs font-medium text-white/30 overflow-auto pb-20 h-30 md:h-full mask-b-from-0.5">
                                             {media.overview} 
                                         </p>
                                     </div>
@@ -195,7 +247,7 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                         <motion.div 
                             layoutId={`card-${media._id}`}
                             key={media._id}
-                            className="w-67 420:w-45 760:w-50 1435:w-65 aspect-[2/3] relative rounded-xs backdrop-blur-2xl cursor-pointer mx-auto ">
+                            className="w-35 420:w-45 760:w-50 1435:w-[15.960rem] aspect-[2/3] relative rounded-xs backdrop-blur-2xl cursor-pointer mx-auto ">
 
 
                             <div className="absolute top-1 right-1 z-40 flex flex-col gap-1">
@@ -209,12 +261,11 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                                     icon={true}
                                     votes={{
                                         id : media._id ,
-                                        overrated : media.overrated ?? 0,
-                                        underrated : media.underrated ?? 0 , 
+                                        overrated : overratedNumber,
+                                        underrated : underratedNumber, 
                                         overratedVoted : overratedVote ,
                                         underratedVoted : underratedVote 
                                    }} 
-                                   
                                     onOverrateVoteChange={onOverrateVoteChange}
                                     onUnderrateVoteChange={onUnderateVoteChange}
                                    />
@@ -238,7 +289,7 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                             <AddedMssg added={favouritesResponse?.added} />
                             <RemovedMssg removed={favouritesResponse?.removed} />
 
-                            <div className="absolute inset-0 z-20  hover:bg-black/30 duration-200 "   onClick={() => handleClick(media)}>
+                            <div className="absolute inset-0 z-20  hover:bg-black/30 duration-200 bg-black/30 md:bg-transparent"   onClick={() => handleClick(media)}>
 
                             </div>
                             <div 
@@ -246,7 +297,7 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                             >
                                 <motion.h1 
                                     layoutId={`card-${media.title}`}
-                                    className="420:text-xs 760:text-sm 1020:text-base  text-xl font-bold text-left">
+                                    className=" 760:text-sm 1020:text-base text-xs font-bold text-left">
                                         {media.title}
                                 </motion.h1>
 
@@ -254,9 +305,9 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                                     <img 
                                         src="/logo-imdb.svg" 
                                         alt="IMDb Logo" 
-                                        className="w-10  h-auto" 
+                                        className="w-8 md:w-10  h-auto" 
                                     />
-                                    <h1 className="text-xl font-light">{media.vote_average ? `${media.vote_average.toFixed(1)}/10`  : 'NA'}</h1>
+                                    <h1 className="text-sm md:text-xl font-light">{media.vote_average ? `${media.vote_average.toFixed(1)}/10`  : 'NA'}</h1>
                                 </div>
                             </div>
                         </motion.div>                 
@@ -278,7 +329,7 @@ export const WhereToWatchButton = ({mediaType , id} : WhereToWatchButtonProps) =
     return (
         <Link href={`/${mediaType}/${id}`}  key={id}>
             <motion.button 
-            className="bg-neutral-800 p-4 rounded-xs h-full text-sm font-light hover:bg-[#FFFFFFE6] hover:text-black cursor-pointer duration-100 flex gap-2"
+            className="bg-neutral-800 md:p-4 p-2 items-center  rounded-xs h-full  text-xs md:text-sm font-light hover:bg-[#FFFFFFE6] hover:text-black cursor-pointer duration-100 flex gap-2"
             onMouseEnter = {() => setIsHover(true)}
             onMouseLeave = {() => setIsHover(false)}
             >
