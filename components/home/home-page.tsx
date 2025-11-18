@@ -80,6 +80,7 @@ export default function HomePageClient({initialShows , languages , initialGenres
 
                 </div>
                 <div className="max-w-[1450px]  border-l border-r border-[rgba(255,255,255,0.1)]  mx-auto bg-black/30 py-5 space-y-4 px-1">
+                
                     <div className="w-full px-2">
                         <div className="1435:max-w-[1341px] w-full 1020:max-w-[53rem] 760:max-w-[39.5rem] bg-neutral-900 rounded-xs flex  flex-col mx-auto px-3 py-3 gap-2 ">
                             <LanguageSelect languages={languages} onLanguageSelect={onLanguageSelect} />
@@ -99,7 +100,7 @@ export default function HomePageClient({initialShows , languages , initialGenres
                     </div>
                                 <p className="mx-auto text-neutral-600 text-center w-fit" >{visibleMovies.length} of {filteredMovies.length} Shows & Movies</p>
 
-                    <div className="w-fit grid grid-cols-2 420:grid-cols-2 760:grid-cols-3 1020:grid-cols-4 1435:grid-cols-5 justify-items-center gap-4 mx-auto  ">
+                    <div className="w-fit grid grid-cols-2 420:grid-cols-2 760:grid-cols-3 1020:grid-cols-4 1435:grid-cols-5 justify-items-center gap-4 mx-auto ">
                         {
                             visibleMovies.map((show : Movie) => (
                                 <FavCard 

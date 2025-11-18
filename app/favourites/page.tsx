@@ -55,7 +55,7 @@ export default async function FavouritesPage({searchParams} : favPageProps){
 
     return (
          <section className="max-w-full pt-20 mx-auto bg-[#111111] backdrop-blur-2xl text-xl font-bold  min-h-screen   ">
-            <div className="max-w-[1450px] min-h-screen  p-4 mx-auto border-l border-r border-white/10 bg-black/30 px-6 relative ">
+            <div className="max-w-[1450px] min-h-screen mx-auto border-l border-r border-white/10 bg-black/30  relative ">
                 <FavCardsPage favMovies={filteredMovies} sortBy={sortBy} selectedGenre={selectedGenre} allGenres={favGenres} isFavouriteSet={favIds} isUnderratedSet={underratedVotes} isOverratedSet={overratedVotes}/>
             </div>
         </section >

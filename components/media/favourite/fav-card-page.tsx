@@ -59,19 +59,21 @@ export default function FavCardsPage({favMovies , sortBy , selectedGenre , allGe
                     }
                 </h1>
             </motion.div>
-            <motion.div   className="w-full max-w-[1365px] bg-neutral-900 rounded-xs flex items-center justify-between md:flex-row flex-col mx-auto px-3 py-3 gap-2">
-                <SortOption sortBy={sortBy}/>
-                {
-                    showVote && (
-                        <VoteOption voted={voted}/>
-                    )
-                }
-                {
-                    !showVote && (
-                        <GenreOption allGenres={allGenres} selectedGenre={selectedGenre}/>
-                    )
-                }
-            </motion.div>
+            <div className="px-3">
+                <motion.div   className="w-full max-w-[1340px] bg-neutral-900 rounded-xs flex items-center justify-between md:flex-row flex-col mx-auto px-4 py-3 gap-2">
+                    <SortOption sortBy={sortBy}/>
+                    {
+                        showVote && (
+                            <VoteOption voted={voted}/>
+                        )
+                    }
+                    {
+                        !showVote && (
+                            <GenreOption allGenres={allGenres} selectedGenre={selectedGenre}/>
+                        )
+                    }
+                </motion.div>
+            </div>
             {
                 favMovies.length === 0 ? (
                     <div className="w-full flex flex-col items-center">
@@ -85,7 +87,7 @@ export default function FavCardsPage({favMovies , sortBy , selectedGenre , allGe
                     initial="hidden"
                     animate="visible"
                     variants={childVariants}
-                    className="w-fit grid grid-cols-1 420:grid-cols-2 760:grid-cols-3 1020:grid-cols-4 1435:grid-cols-5 justify-items-center gap-4 mx-auto"
+                    className="w-fit grid grid-cols-2 420:grid-cols-2 760:grid-cols-3 1020:grid-cols-4 1435:grid-cols-5 justify-items-center gap-4 mx-auto"
                 >
                     {favMovies.map((media: Movie) => (
                         <FavCard

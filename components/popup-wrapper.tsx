@@ -51,11 +51,11 @@ export default function PopupWrapper({
                     animate='visible'
                     exit='hidden'
                     className="fixed inset-0 z-50  flex items-center justify-center "
-                    style={{ backdropFilter: "blur(5px)"     }}
+                    style={{ backdropFilter: "blur(5px)"}}
                     onClick={onClose}
                 >
                     <div 
-                        className=" relative flex items-center justify-center w-fit "
+                        className=" relative flex items-center justify-center w-fit mt-20"
                         
                         onClick={(e) => 
                             e.stopPropagation()

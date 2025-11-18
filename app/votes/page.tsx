@@ -43,7 +43,7 @@ export default async function VotesPage({searchParams} : votesPageProps){
         
     return (
         <section className="w-full  pt-20 bg-[#111111]">
-            <div className="max-w-[1450px] mx-auto border-l border-r border-[rgba(255,255,255,0.1)] w-full  min-h-screen px-6 p-4 bg-black/30"> 
+            <div className="max-w-[1450px] mx-auto border-l border-r border-[rgba(255,255,255,0.1)] w-full  min-h-screen   bg-black/30"> 
                <FavCardsPage favMovies={filteredMovies} sortBy={sortBy} selectedGenre={selectedGenre} allGenres={votedGenres} isFavouriteSet={favIds} isUnderratedSet={underratedVotes} isOverratedSet={overratedVotes} showVote={true} voted={voted}/>
             </div>
         </section>

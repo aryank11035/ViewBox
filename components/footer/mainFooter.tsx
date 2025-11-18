@@ -25,8 +25,8 @@ export function Footer(){
                             <div className="flex flex-col gap-3  pt-2">
                                 <h1 className="font-medium text-md md:text-lg">Platfrom</h1>
                                 <div className="flex space-y-1.5 flex-col text-white/40 text-sm md:text-base">
-                                    <Link href="/search" className="hover:text-green-600 duration-200 cursor-pointer">Browse Movies</Link>
-                                    <Link href="/user" className="hover:text-green-600 duration-200 cursor-pointer">Your Favourites</Link>
+                                    <Link href="/home" className="hover:text-green-600 duration-200 cursor-pointer">Browse Movies</Link>
+                                    <Link href="/favourites" className="hover:text-green-600 duration-200 cursor-pointer">Your Favourites</Link>
                                 </div>
                             </div>
                             <div className="flex-1 flex-col flex  items-end pt-2">

@@ -137,7 +137,7 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                                     animate='visible'
                                     exit='hidden'
                                     layoutId={`card-${media._id}`}
-                                    className=" bg-[#111111] z-20 rounded-xs flex gap-2 md:gap-4 md:w-180 flex-col md:flex-row md:h-[463px]  overflow-hidden border border-[rgba(255,255,255,0.1)]  w-full mt-20 mx-6 " 
+                                    className=" bg-[#111111] z-20 rounded-xs flex gap-2 md:gap-4 md:w-180 flex-col md:flex-row md:h-[463px]  overflow-hidden border border-[rgba(255,255,255,0.1)]  w-full  mx-6 " 
                                     ref={ref} 
                                 >
                                     <div className="w-full flex gap-2">

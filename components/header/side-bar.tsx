@@ -126,41 +126,57 @@ export default function HeaderSideBar({onSearch  , cancelSearch , medias , searc
                                     )
                                 }
                             
+                                <Link href='/home'> 
+                                    <motion.button 
+                                        variants={childContainerVariants}
+                                        onClick={() => setIsOpen(false)}
+                                        className="w-full h-20 px-6.5 flex gap-4 text-xl items-center ">
+                                        <ListVideo strokeWidth={1} size={25} /><p className="mb-0.5">Home</p> 
 
-
+                                    </motion.button>
+                                </Link>
+                                <Link href='/'>
+                                    <motion.button 
+                                        variants={childContainerVariants}
+                                         onClick={() => setIsOpen(false)}
+                                        className="w-full h-20 px-6.5 flex gap-4 text-xl items-center ">
+                                        <ListVideo strokeWidth={1} size={25} /><p className="mb-0.5">Suggest Movie or Show</p> 
+                                    </motion.button>
+                                </Link>
+                                <Link href='/favourites'>
+                                    <motion.button 
+                                        variants={childContainerVariants}
+                                         onClick={() => setIsOpen(false)}
+                                        className="w-full h-20 px-6.5 flex gap-4 text-xl items-center ">
+                                        <FaHeart className="text-xl"/> Favourites
+                                    </motion.button>
+                                </Link>
+                                <Link href='/votes'>
+                                    <motion.button 
+                                        variants={childContainerVariants}
+                                         onClick={() => setIsOpen(false)}
+                                        className="w-full h-20 px-6.5 flex gap-4 text-xl items-center ">
+                                        <ThumbsUp size={25}/>My Votes
+                                    </motion.button>
+                                </Link>
+                                <Link href='/playlists'>
+                                    <motion.button 
+                                        variants={childContainerVariants}
+                                         onClick={() => setIsOpen(false)}
+                                        className="w-full h-20 px-6.5 flex gap-4 text-xl items-center ">
+                                        <ListMusic size={25}/> My Playlists
+                                    </motion.button>
+                                </Link>
+                                <Link href='/'>
+                                    <motion.button 
+                                        variants={childContainerVariants}                         
+                                        className="w-full h-20 px-6.5 flex gap-4 text-xl items-center">
+                                        <ListVideo strokeWidth={1} size={25} /><p className="mb-0.5">My Suggestions</p> 
+                                    </motion.button>
+                                </Link>
                                 <motion.div 
                                     variants={childContainerVariants}
-                                    className="w-full h-20 px-6.5 flex gap-4 text-xl items-center ">
-                                    <ListVideo strokeWidth={1} size={25} /><p className="mb-0.5">Home</p> 
-                                </motion.div>
-                                <motion.div 
-                                    variants={childContainerVariants}
-                                    className="w-full h-20 px-6.5 flex gap-4 text-xl items-center ">
-                                    <ListVideo strokeWidth={1} size={25} /><p className="mb-0.5">Suggest Movie or Show</p> 
-                                </motion.div>
-                                <motion.div 
-                                    variants={childContainerVariants}
-                                    className="w-full h-20 px-6.5 flex gap-4 text-xl items-center ">
-                                    <FaHeart className="text-xl"/> Favourites
-                                </motion.div>
-                                <motion.div 
-                                    variants={childContainerVariants}
-                                    className="w-full h-20 px-6.5 flex gap-4 text-xl items-center ">
-                                    <ThumbsUp size={25}/>My Votes
-                                </motion.div>
-                                <motion.div 
-                                    variants={childContainerVariants}
-
-                                    className="w-full h-20 px-6.5 flex gap-4 text-xl items-center ">
-                                    <ListMusic size={25}/> My Playlists
-                                </motion.div>
-                                <motion.div 
-                                    variants={childContainerVariants}                         
-                                    className="w-full h-20 px-6.5 flex gap-4 text-xl items-center">
-                                     <ListVideo strokeWidth={1} size={25} /><p className="mb-0.5">My Suggestions</p> 
-                                </motion.div>
-                                <motion.div 
-                                    variants={childContainerVariants}
+                                     onClick={() => setIsOpen(false)}
                                     className="w-full h-20 px-2 flex gap-4 text-xl items-center  font-bold">
                                      <button className="bg-green-600 rounded-xs flex gap-3 px-4.5 py-3 w-full">
                                          <LogOut size={25}/>Log Out 
