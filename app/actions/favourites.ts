@@ -10,6 +10,8 @@ export async function addToFavourites(mediaInfo : any){
 
     const session = await auth()
     const userId  = session?.user?.id
+    console.log(userId)
+    console.log(mediaInfo)
     try{
         await connectToMongoose()
         const media = await Movies.findOne({

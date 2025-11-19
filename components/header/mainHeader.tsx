@@ -9,102 +9,121 @@ import HeaderSearchBar from "./search-bar";
 import HeaderSideBar from "./side-bar";
 import { getMovieThroughSearch } from "@/app/actions/getMovie";
 import { Movie } from "@/schema/type";
+import Image from "next/image";
+
+import {  signIn } from "next-auth/react"
 
 
-export  function Header({session} : {session : any | null}){
+export  function Header({session} : any){
 
-    const [showLinkContainers , setShowLinkContainers] = useState<boolean>(false)
+  // const { data: session, status } = useSession()
+  const [showLinkContainers , setShowLinkContainers] = useState<boolean>(false)
+  const [headerName,setHeaderName] = useState<string | undefined>(session?.user?.name)
+  const [searchString,setSearchString] =  useState<string>('')
+  const [searchedMedia,setSearchedMedia] = useState<Movie[] | null> (null)
 
-    const [headerName,setHeaderName] = useState<string | undefined>(session?.user?.name)
-    const [searchString,setSearchString] =  useState<string>('')
-    const [searchedMedia,setSearchedMedia] = useState<Movie[] | null> (null)
   
-    
-    useEffect(() => {
-      setHeaderName(session?.user?.name)
-    },[headerName])
-    
-    
-    const onSearch = (str : string) => {
-      setSearchString(str)
-      setShowLinkContainers(false)
+  useEffect(() => {
+    setHeaderName(session?.user?.name)
+  },[headerName])
+  
+  
+  const onSearch = (str : string) => {
+    setSearchString(str)
+    setShowLinkContainers(false)
+  }
+
+  const cancelSearch = () => {
+    setSearchString('')
+    setSearchedMedia(null)
+  }
+
+
+  useEffect(() => {
+    if (!searchString.trim()) {
+        setSearchedMedia(null);
+        return;
     }
- 
-    const cancelSearch = () => {
-      setSearchString('')
-      setSearchedMedia(null)
-    }
 
+    const timeout = setTimeout( async () => {
+      const movies =   await getMovieThroughSearch(searchString);
+      setSearchedMedia(movies)
+    }, 300); 
 
-    useEffect(() => {
-      if (!searchString.trim()) {
-          setSearchedMedia(null);
-          return;
-      }
+    return () => clearTimeout(timeout); 
+  }, [searchString]);
 
-      const timeout = setTimeout( async () => {
-        const movies =   await getMovieThroughSearch(searchString);
-        setSearchedMedia(movies)
-      }, 300); 
+  return (
+      <header className="w-full h-20  flex  justify-center text-white fixed z-100 border-b border-b-white/10  backdrop-blur-xl top-0  mx-auto">
+      
+        <nav className= "h-full border-l border-r border-white/10 flex justify-between items-center px-6  md:px-10 backdrop-blur-xl z-20 w-full mx-auto  max-w-[1450px] ">
+          <Link href='/' prefetch={true}>
+            <h1 className="text-2xl lg:text-3xl font-bold cursor-pointer tracking-wider">ViewBox</h1>
+          </Link>
 
-      return () => clearTimeout(timeout); 
-    }, [searchString]);
-
-    return (
-        <header className="w-full h-20  flex  justify-center text-white fixed z-100 border-b border-b-white/10  backdrop-blur-xl top-0  mx-auto">
-        
-          <nav className= "h-full border-l border-r border-white/10 flex justify-between items-center px-6  md:px-10 backdrop-blur-xl z-20 w-full mx-auto  max-w-[1450px] ">
-            <Link href='/' prefetch={true}>
-              <h1 className="text-2xl lg:text-3xl font-bold cursor-pointer tracking-wider">ViewBox</h1>
-            </Link>
-
-            {/* large screen navbar */}
-            <div className="  gap-5  items-center justify-center hidden 760:flex">
-              <Link href='/home'>
-                <div className=" gap-2 items-center justify-center hover:text-green-600 duration-200 cursor-pointer flex ">
-                  <ListVideo strokeWidth={1} size={20} /><p className="mb-0.5">Home</p> 
-                </div>
-              </Link>
-              <SuggestMovieButton />
-              <div className="relative hidden 760:flex">
-                <div className=" relative w-[300px] items-center flex  h-10 ">
-                    <HeaderSearchBar onSearch={onSearch} cancelButton={searchedMedia} cancelSearch={cancelSearch} searchString={searchString}/>
-                </div>
-                {
-                  searchedMedia && (
-                    <MediaOnSearch medias={searchedMedia} cancelSearch={cancelSearch} disableLink={false} />  
-                  )
-                }
+          {/* large screen navbar */}
+          <div className="  gap-5  items-center justify-center hidden 760:flex">
+            <Link href='/home'>
+              <div className=" gap-2 items-center justify-center hover:text-green-600 duration-200 cursor-pointer flex ">
+                <ListVideo strokeWidth={1} size={20} /><p className="mb-0.5">Home</p> 
               </div>
-              <div className="flex gap-10 font-bold justify-center items-center relative">
-                  
-                  
+            </Link>
+            <SuggestMovieButton />
+            <div className="relative hidden 760:flex">
+              <div className=" relative w-[300px] items-center flex  h-10 ">
+                  <HeaderSearchBar onSearch={onSearch} cancelButton={searchedMedia} cancelSearch={cancelSearch} searchString={searchString}/>
+              </div>
+              {
+                searchedMedia && (
+                  <MediaOnSearch medias={searchedMedia} cancelSearch={cancelSearch} disableLink={false} />  
+                )
+              }
+            </div>
+              {
+                !session?.user && <button className="bg-green-600 hover:bg-white hover:text-green-600 p-2.5 rounded-xs text-sm cursor-pointer" 
+                                          onClick={async () => {
+                                             
+                                          
+                                              await signIn('google', { callbackUrl: '/home' })}
+                                          
+                                            }
+                                           
+                                        >Sign in</button>
+              }
+
+               {
+                  session?.user && (
+                    <div className="flex gap-10 font-bold justify-center items-center relative">
                       <div
                         className="cursor-pointer"
                         onClick={() => {
                           setSearchString('')
                           setSearchedMedia(null)
                           setShowLinkContainers(prev => !prev)
-                        }
-                        }
-                      
+                        }}
                       >
-                        <CircleUser strokeWidth={1} size={24}/>
+                        <UserAvatar userImage={session?.user?.image} userName={session?.user.name} />
                       </div>
-                  <AnimatePresence mode="wait" propagate> 
-                      {
-                        showLinkContainers && (
-                          <LinkPopUp setShowLinkContainers={setShowLinkContainers} showLinkContainers={showLinkContainers}/>
-                        )
-                      }
-                  </AnimatePresence>
-              </div>
-            </div>
 
-            <HeaderSideBar onSearch={onSearch}  cancelSearch={cancelSearch} searchString={searchString}  medias={searchedMedia}/>
-          </nav>  
-      </header>
-    )
+                      <AnimatePresence mode="wait" propagate>
+                        {showLinkContainers && (
+                          <LinkPopUp 
+                            setShowLinkContainers={setShowLinkContainers}
+                            showLinkContainers={showLinkContainers}
+                            username={session.user.name}
+                          />
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  )
+                }
+
+          </div>
+
+          <HeaderSideBar onSearch={onSearch}  cancelSearch={cancelSearch} searchString={searchString}  medias={searchedMedia}/>
+        </nav>  
+    </header>
+  )
 }   
 
 interface MediaOnSearchProps {
@@ -183,7 +202,7 @@ export const MediaOnSearch = ({medias , cancelSearch , forHeaderWidth = true , f
           <MediaItem key={media.id} media={media} />
         ) : (
           <Link
-            href={`/${media.mediaType}/${media.id}`}
+            href={`/${media.mediaType}/${media.id}/${media.title}`}
             key={media._id}
           >
             <MediaItem media={media} />
@@ -200,5 +219,20 @@ export const SuggestMovieButton = () => {
     <Link href='/suggestions' className="w-fit bg-green-600 px-2 text-sm font-light flex gap-2 p-2.5 rounded-xs hover:bg-white hover:text-green-600 duration-200 cursor-pointer">
         <ListVideo strokeWidth={1} size={20} />Suggest 
     </Link>
+  )
+}
+
+export const UserAvatar = ({userImage , userName} : { userImage : string , userName : string }) => {
+  if(!userImage) return null 
+  return (
+    <div>
+        <Image
+          src={userImage}
+          alt={userName}
+          width={35}
+          height={35}
+          className="rounded-full border-1 border-[rgba(255,255,255,0.3)] p-0.5"
+        />
+      </div>
   )
 }

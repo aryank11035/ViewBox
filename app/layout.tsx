@@ -3,11 +3,10 @@ import "./globals.css";
 import { Header } from "@/components/header/mainHeader";
 import { Space_Grotesk } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { getSession } from "@/data/user";
-import { auth } from "@/auth";
-
 import { Footer } from "@/components/footer/mainFooter";
 import { IBM_Plex_Mono } from "next/font/google";
+import { auth } from "@/auth";
+import { SessionProvider } from "next-auth/react";
 
 const font = IBM_Plex_Mono({
     subsets : ['latin'],
@@ -20,7 +19,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const session = (await auth()) as any | null
+  const session = await auth()
 
   return (
   
@@ -29,21 +28,13 @@ export default async function RootLayout({
           "bg-[#111111]  text-white min-h-screen selection:bg-white selection:text-green-600 tracking-normal  ",
           font.className
           )}>
-         <Header session={session}/>
-        <main className="w-full relative  min-h-screen mx-auto">
-        {/* <div className="hidden md:block 
-                      border-l
-                      border-r
-                      border-[rgba(255,255,255,0.1)]
-                      mt-20
-                      absolute inset-0 
-                      bg-[repeating-linear-gradient(45deg,rgba(255,255,255,0.1)_0,rgba(255,255,255,0.1)_1px,transparent_0,transparent_50%)]
-                      bg-[size:10px_10px] 
-                      bg-fixed">
-                  </div> */}
-          {children}
-          </main>
-          <Footer/>
+            {/* <SessionProvider session={session}> */}
+              <Header session={session}/>
+              <main className="w-full relative  min-h-screen mx-auto">
+                {children}
+              </main>
+              <Footer/>
+            {/* </SessionProvider> */}
         </body>
       </html>
   

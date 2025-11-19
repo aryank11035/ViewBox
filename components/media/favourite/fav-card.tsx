@@ -207,7 +207,7 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
 
 
                                             {/* Link */}
-                                            <WhereToWatchButton mediaType={media.mediaType} id={media.id} />
+                                            <WhereToWatchButton mediaType={media.mediaType} id={media.id} name={media?.title || media?.name}/>
                                         </div>
                                         <div className="hidden md:block">
                                             <VotesComp 
@@ -320,14 +320,15 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
 
 interface WhereToWatchButtonProps {
     mediaType : string , 
-    id : number
+    id : number ,
+    name ?: string
 }
 
-export const WhereToWatchButton = ({mediaType , id} : WhereToWatchButtonProps) => {
+export const WhereToWatchButton = ({mediaType , id , name} : WhereToWatchButtonProps) => {
 
     const [isHover,setIsHover] = useState(false)
     return (
-        <Link href={`/${mediaType}/${id}`}  key={id}>
+        <Link href={`/${mediaType}/${id}/${name     }`}  key={id}>
             <motion.button 
             className="bg-neutral-800 md:p-4 p-2 items-center  rounded-xs h-full  text-xs md:text-sm font-light hover:bg-[#FFFFFFE6] hover:text-black cursor-pointer duration-100 flex gap-2"
             onMouseEnter = {() => setIsHover(true)}

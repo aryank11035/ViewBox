@@ -1,6 +1,6 @@
 import { getMovie, getMovieWithId } from "@/app/actions/getMovie"
 import MediaPage from "@/components/media/MediaPage"
-import {  getMovieById, getMovieVideoById, getRelatedMedia, getShowData, getTrendingData, getWheretoWatchById } from "@/lib/helpers"
+import {  getMovieById, getMovieVideoById, getRelatedMedia, getShowData, getWheretoWatchById } from "@/lib/helpers"
 import { auth } from "@/auth"
 import { notFound } from "next/navigation"
 import { getAdminAcess } from "@/data/user"
@@ -10,12 +10,17 @@ import { getUserOverratedMoviesIdById, getUserUnderratedMoviesIdById } from "@/a
 type Params = {
     params : {
         mediaType : 'movie' | 'tv',
-        id : number
+        id : number ,
     }
 }
 
 export default async function ShowMedia({params} : Params) {
     const { mediaType,id } = await params
+
+    if (!id || isNaN(Number(id))) {
+        notFound();
+    }
+
     const session = await auth() as any | null
     const trendingData = (await getShowData(mediaType)).slice(0,6)
     const mediaData = await getMovieById(id,mediaType) as any
@@ -23,7 +28,7 @@ export default async function ShowMedia({params} : Params) {
     const trailerVideo = mediaVideoData.find((video : any) => video.type ===  'Trailer')
     const videoKey =trailerVideo?.key || mediaVideoData[0]?.key || null
     const whereToWatch = await getWheretoWatchById(mediaType,id)
-     
+    
     const relatedMovies = await getRelatedMedia(mediaType,id)
     const isAdmin = await getAdminAcess()
     // const getOverated = getUserOveratedMovies()
@@ -35,7 +40,7 @@ export default async function ShowMedia({params} : Params) {
         whereToWatch :  whereToWatch,
     }
 
-  
+
     
     
     const selectedMedia = await getMovieWithId(id) || false
@@ -43,12 +48,10 @@ export default async function ShowMedia({params} : Params) {
     const isUnderrated = await getUserUnderratedMoviesIdById(selectedMedia._id) || false
     const isFavourite = await getFavMovieIdById(selectedMedia._id) || false
 
-   
 
 
-    if(!mediaData) {
-            notFound()
-    } 
+
+
 
 
     return (
@@ -71,4 +74,4 @@ export default async function ShowMedia({params} : Params) {
     )
 }
 
-                                   
+                                

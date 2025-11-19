@@ -8,6 +8,7 @@ import { ThumbsUp } from 'lucide-react';
 import { ListMusic } from 'lucide-react';
 import { LogOut } from 'lucide-react';
 import { User } from 'lucide-react';
+import { signOut } from "next-auth/react";
 
 
 const containerVariants = {
@@ -106,12 +107,13 @@ const staticItemVariants = {
 interface LinkPopUpProps {
     setShowLinkContainers : any 
     showLinkContainers : boolean
+    username : string
 }
 
   
-export default function LinkPopUp({setShowLinkContainers , showLinkContainers} : LinkPopUpProps){
+export default function LinkPopUp({setShowLinkContainers , showLinkContainers , username} : LinkPopUpProps){
 
-    if(!showLinkContainers) return null
+    if(!showLinkContainers || !username) return null
 
     return (
         <motion.div 
@@ -126,7 +128,7 @@ export default function LinkPopUp({setShowLinkContainers , showLinkContainers} :
                 variants={staticItemVariants}
                 className="p-2 border-b border-[rgba(255,255,255,0.2)] py-4 text-white/30 flex flex-row items-center gap-2"  >
                 <User size={17}/>
-                user menu
+                {username}
             </motion.div>
             {/* Stagges menu items */}
             <motion.div
@@ -171,12 +173,13 @@ export default function LinkPopUp({setShowLinkContainers , showLinkContainers} :
 
             {/* Appaers with the menu  */}
             <Link href='/'>
-                <motion.div 
+                <motion.button 
                 variants={staticItemVariants}
-                className="p-2 border-t border-[rgba(255,255,255,0.2)] py-4 hover:bg-white hover:text-green-600 duration-100 flex flex-row items-center gap-2">
+                onClick={() => signOut()}
+                className="p-2 border-t border-[rgba(255,255,255,0.2)] py-4 hover:bg-white hover:text-green-600 duration-100 flex flex-row items-center gap-2 w-full cursor-pointer">
                 <LogOut size={17}/>
                 log out 
-                </motion.div>
+                </motion.button>
             </Link>
         </motion.div>
     )

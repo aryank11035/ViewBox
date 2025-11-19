@@ -12,11 +12,13 @@ export default function MediaCard({mediaData ,  enable } : {mediaData : any , en
     const [isHover, setIsHover] = useState(false);
     const [ onView, setOnView ] = useState(false)
 
+    const name = mediaData.title ? mediaData.title : mediaData.name
+
     return( 
         <>  
 
             
-                <Link href={`/${mediaData.mediaType ? mediaData.mediaType : mediaData.media_type}/${mediaData.id}`}  key={mediaData.id} > 
+                <Link href={`/${mediaData.mediaType ? mediaData.mediaType : mediaData.media_type}/${mediaData.id}/${name}`}  key={mediaData.id} > 
                     <motion.div 
                         className="relative w-58  aspect-[2/3] cursor-pointer mx-auto rounded-xs "
                         whileHover={{scale: 1.03}}

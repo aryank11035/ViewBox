@@ -6,6 +6,7 @@ export type ExtendedUser = DefaultSession['user']&{
     movies ?: []
     role : 'user' | 'admin'
     isAdmin : boolean
+    image : string
 }
 
 declare module 'next-auth' {
@@ -22,6 +23,7 @@ declare module '@auth/core/jwt' {
         name : string
         movies ?: []
         role : 'user' | 'admin'
-        isAdmin : boolean
+        isAdmin : boolean ,
+        image : string
     }
 }
