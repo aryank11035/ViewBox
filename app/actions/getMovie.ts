@@ -14,8 +14,12 @@ export async function getMovie(){
         
         await connectToMongoose()
         const movies = await Movies.find({} ).lean()
-
-       return JSON.parse(JSON.stringify(movies))
+         const parsedMovies = JSON.parse(JSON.stringify(movies))
+        
+      
+        return parsedMovies.sort((a : any, b : any) => 
+            a.title.localeCompare(b.title)
+        )
     }catch(err){
         console.error('Error fecthing User Data')
         return []

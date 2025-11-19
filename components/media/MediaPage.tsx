@@ -40,6 +40,8 @@ export default function MediaPage({allMediaData, mediaData  , mediaType , sessio
     const [favourite,setFavourite] = useState(isFavourite)
     const [overratedVote,setOverratedVote] = useState(isOverrated)
     const [underratedVote,setUnderratedVote] = useState(isUnderrated)
+    const [overratedNumber,setOverratedNumber] = useState(allMediaData.overrated)
+    const [underratedNumber,setUnderratedNumber] = useState(allMediaData.underrated)
 
     //this goes the Playlist collection 
     const playlistMedia = {
@@ -59,12 +61,14 @@ export default function MediaPage({allMediaData, mediaData  , mediaType , sessio
         setFavourite(favourite)
     }
 
-    const onOverrateVoteChange = ( vote : boolean) => {
+    const onOverrateVoteChange = ( vote : boolean , number : number) => {
         setOverratedVote(vote)
+        setOverratedNumber(number)
     }
 
-    const onUnderateVoteChange  = ( vote : boolean) => {
+    const onUnderateVoteChange  = ( vote : boolean ,  number : number) => {
         setUnderratedVote(vote)
+        setUnderratedNumber(number)
     }
 
 
@@ -200,8 +204,8 @@ export default function MediaPage({allMediaData, mediaData  , mediaType , sessio
                             allMediaData.underrated !== undefined && (
                                 <VotesComp votes={{
                                     id : allMediaData._id ,
-                                    overrated : allMediaData.overrated ?? 0,
-                                    underrated : allMediaData.underrated ?? 0 , 
+                                    overrated : overratedNumber,
+                                    underrated : underratedNumber, 
                                     overratedVoted : overratedVote ,
                                     underratedVoted : underratedVote 
                                    }} 

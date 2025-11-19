@@ -65,13 +65,14 @@ export  function Header({session} : {session : any | null}){
                   <ListVideo strokeWidth={1} size={20} /><p className="mb-0.5">Home</p> 
                 </div>
               </Link>
+              <SuggestMovieButton />
               <div className="relative hidden 760:flex">
                 <div className=" relative w-[300px] items-center flex  h-10 ">
                     <HeaderSearchBar onSearch={onSearch} cancelButton={searchedMedia} cancelSearch={cancelSearch} searchString={searchString}/>
                 </div>
                 {
                   searchedMedia && (
-                    <MediaOnSearch medias={searchedMedia} cancelSearch={cancelSearch} />  
+                    <MediaOnSearch medias={searchedMedia} cancelSearch={cancelSearch} disableLink={false} />  
                   )
                 }
               </div>
@@ -108,61 +109,96 @@ export  function Header({session} : {session : any | null}){
 
 interface MediaOnSearchProps {
   medias : Movie[] | null ,
-  cancelSearch : () => void 
+  cancelSearch : () => void ,
+  forHeaderWidth ?: boolean , 
+  forHeaderAbsolute ?: boolean ,
+  onMediaClick ?: ( media : Movie ) => void ,
+  disableLink : boolean
 }
-export const MediaOnSearch = ({medias , cancelSearch} : MediaOnSearchProps) => {
+export const MediaOnSearch = ({medias , cancelSearch , forHeaderWidth = true , forHeaderAbsolute = true ,onMediaClick , disableLink = false } : MediaOnSearchProps) => {
 
   if(medias === null ) return null
 
+
+  const onHandleMedia = (media : Movie) => {
+    onMediaClick?.(media)
+  }
+
   if(medias.length === 0) {
     return (
-       <div className="absolute w-[300px] border top-16 bg-[#111111]/90 text-sm rounded-xs border-[rgba(255,255,255,0.2)]  font-medium  z-10   p-1 max-h-59 overflow-y-auto ">
+       <div className={`${forHeaderAbsolute && 'absolute'} ${forHeaderWidth ? 'w-[300px]' : 'w-full'} border top-16 bg-[#111111]/90 text-sm rounded-xs border-[rgba(255,255,255,0.2)] font-medium z-10 p-1 max-h-59 overflow-y-auto`}>
           <div className="flex  px-1 p-1 w-full gap-2 h-28   items-center justify-center text-base font-bold flex-col" >
               No Movies found
-            <button className="w-fit bg-green-600 px-2 text-sm font-light flex gap-2 p-3 rounded-xs hover:bg-white hover:text-green-600 duration-200 cursor-pointer">
-              <ListVideo strokeWidth={1} size={20} />Suggest Movie
-            </button>
+              {
+                forHeaderAbsolute && (
+                  <SuggestMovieButton/>
+                )
+              }
           </div>
        </div>
     )
   }
-  return (
-      <div className="absolute w-[300px] border top-16 bg-[#111111]/90 text-sm rounded-xs border-[rgba(255,255,255,0.2)]  font-medium  z-10   p-1 max-h-59 overflow-y-auto ">
-
-          {
-            medias.map((media : Movie) => (
-            
-                <Link className="flex  px-1 p-1 w-full gap-2 h-28 hover:bg-neutral-800 cursor-pointer rounded-xs"  href={`/${media.mediaType}/${media.id}`} key={media._id} onClick={cancelSearch}>
 
 
-                  
-                    <div className=" h-full flex-1 aspect-[2/3] relative rounded-xs">
-                      <img
-                          src={media.poster_path ? `https://image.tmdb.org/t/p/w500${media.poster_path}`: '/placeholder-movie.jpg'}
-                          alt={media.title}
-                          className="absolute inset-0 rounded-xs"
-                      />
-                    </div>
-                    <div className="flex-3  flex flex-col gap-2 p-1 tracking-tight">
-                        <h1>{media.title}</h1>
-                        <p className="text-xs text-neutral-400 font-light">{media.release_date}</p>
-                        <div className=" w-full">
-                            <div className='flex gap-2  items-center'>
-                                <img 
-                                    src="/logo-imdb.svg" 
-                                    alt="IMDb Logo" 
-                                    className="w-8  h-auto" 
-                                />
-                                <h1 className="text-xs font-light">{media.vote_average ? `${media.vote_average.toFixed(1)}/10`  : 'NA'}</h1>
-                            </div>
-                        </div>
-                    </div>
 
-        
-                </Link>
   
-            ))
-          }
+  const MediaItem = ({ media }: { media: Movie }) => (
+    <div
+      className={`flex px-1 p-1 w-full gap-2 h-28 hover:bg-neutral-800 cursor-pointer rounded-xs`}
+      onClick={() => {
+        cancelSearch()
+        onHandleMedia(media)
+      }}
+    >
+      <div className="h-full aspect-[2/3] relative rounded-xs">
+        <img
+          src={media.poster_path ? `https://image.tmdb.org/t/p/w500${media.poster_path}` : '/placeholder-movie.jpg'}
+          alt={media.name ? media.name : media.title  }
+          className="absolute inset-0 rounded-xs"
+        />
       </div>
+      <div className="flex-3 flex flex-col gap-2 p-1 tracking-tight">
+        <h1>{media.name ? media.name : media.title }</h1>
+        <p className="text-xs text-neutral-400 font-light">{media.release_date ? media.release_date : media.first_air_date}</p>
+        <div className="w-full">
+          <div className='flex gap-2 items-center'>
+            <img  
+              src="/logo-imdb.svg"
+              alt="IMDb Logo"
+              className="w-8 h-auto"
+            />
+            <h1 className="text-xs font-light">{media.vote_average ? `${media.vote_average.toFixed(1)}/10` : 'NA'}</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
+
+  return (
+      
+    <div className={`${forHeaderAbsolute && 'absolute'} ${forHeaderWidth ? 'w-[300px]' : 'w-full'} border top-16 bg-[#111111]/90 text-sm rounded-xs border-[rgba(255,255,255,0.2)] font-medium z-10 p-1 max-h-59 overflow-y-auto`}>
+      {medias.map((media: Movie) => (
+        disableLink ? (
+          <MediaItem key={media.id} media={media} />
+        ) : (
+          <Link
+            href={`/${media.mediaType}/${media.id}`}
+            key={media._id}
+          >
+            <MediaItem media={media} />
+          </Link>
+        )
+      ))}
+    </div>
   )
 } 
+
+
+export const SuggestMovieButton = () => {
+  return (
+    <Link href='/suggestions' className="w-fit bg-green-600 px-2 text-sm font-light flex gap-2 p-2.5 rounded-xs hover:bg-white hover:text-green-600 duration-200 cursor-pointer">
+        <ListVideo strokeWidth={1} size={20} />Suggest 
+    </Link>
+  )
+}

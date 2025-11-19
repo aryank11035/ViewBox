@@ -48,10 +48,10 @@ export default function FavCardsPage({favMovies , sortBy , selectedGenre , allGe
 
     return (
         <motion.div 
-            className="max-w-[1500px] mx-auto flex flex-col gap-6"
+            className="max-w-[1500px] mx-auto flex flex-col gap-6 py-13"
         >
 
-            <motion.div  className="w-full md:text-3xl px-3 font-bold">
+            <motion.div  className="w-full max-w-[1340px] mx-auto md:text-3xl  font-bold">
                 <h1>
                     
                     {
@@ -60,7 +60,7 @@ export default function FavCardsPage({favMovies , sortBy , selectedGenre , allGe
                 </h1>
             </motion.div>
             <div className="px-3">
-                <motion.div   className="w-full max-w-[1340px] bg-neutral-900 rounded-xs flex items-center justify-between md:flex-row flex-col mx-auto px-4 py-3 gap-2">
+                <motion.div   className="w-full max-w-[1340px] bg-neutral-900 rounded-xs flex items-center justify-between md:flex-row flex-col mx-auto px-4 py-3 gap-2 ">
                     <SortOption sortBy={sortBy}/>
                     {
                         showVote && (
@@ -87,7 +87,7 @@ export default function FavCardsPage({favMovies , sortBy , selectedGenre , allGe
                     initial="hidden"
                     animate="visible"
                     variants={childVariants}
-                    className="w-fit grid grid-cols-2 420:grid-cols-2 760:grid-cols-3 1020:grid-cols-4 1435:grid-cols-5 justify-items-center gap-4 mx-auto"
+                    className="w-fit grid grid-cols-2 420:grid-cols-2 760:grid-cols-3 1020:grid-cols-4 1435:grid-cols-5 justify-items-center gap-4 mx-auto "
                 >
                     {favMovies.map((media: Movie) => (
                         <FavCard

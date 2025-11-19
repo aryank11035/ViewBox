@@ -62,10 +62,10 @@ const movieSchema = new mongoose.Schema({
     },
     added_by : String,
     videokey : String,
-    suggested : {
-        type : String,
-        required : false
-    },
+    suggested_by : [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'User'
+    }],
     whereToWatch : whereToWatchSchema
 })
 
@@ -101,7 +101,21 @@ const userSchema = new mongoose.Schema({
             ref : 'Movie'
         }
     ],
-    sugesstions : [String],
+    suggestions : [ {
+        suggestions_id:{
+            
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'Suggestion',
+            
+        },
+        reason : String ,
+        status : {
+            type : String ,
+            enum : ['Pending', 'Approved' , 'Rejected'] ,
+            default : 'Pending'
+        }
+    }
+    ],
     favourites : [
         {
         type : mongoose.Schema.Types.ObjectId,
@@ -115,15 +129,17 @@ const userSchema = new mongoose.Schema({
         }
     ],
 })
-const votesSchema = new mongoose.Schema({
-    overrated : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'Movie'
-    },
-    underrated : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'Movie'
-    }
+
+const suggestionsSchema = new mongoose.Schema({
+    suggested_by : [
+        {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'User'
+        }
+    ] ,
+    suggested_Name : String ,
+    suggested_Media : String ,
+    suggested_id : String ,
 })
 
 const playlistSchema = new mongoose.Schema({
@@ -190,4 +206,4 @@ const playlistSchema = new mongoose.Schema({
     },
 })
 
-export {movieSchema , userSchema , playlistSchema , votesSchema}
+export {movieSchema , userSchema , playlistSchema , suggestionsSchema }

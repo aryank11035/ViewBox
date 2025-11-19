@@ -140,10 +140,10 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                                     className=" bg-[#111111] z-20 rounded-xs flex gap-2 md:gap-4 md:w-180 flex-col md:flex-row md:h-[463px]  overflow-hidden border border-[rgba(255,255,255,0.1)]  w-full  mx-6 " 
                                     ref={ref} 
                                 >
-                                    <div className="w-full flex gap-2">
+                                    <div className="w-fit flex gap-2">
                                         <motion.div 
                                             layoutId={`card-${media.poster_path}`}
-                                            className="760:w-67 aspect-[2/3] md:mx-0 flex-3 "
+                                            className="760:w-67 aspect-[2/3] md:mx-0 "
                                         >
                                             <img src={ `https://image.tmdb.org/t/p/w500${current.poster_path}`} className="w-full h-full rounded-xs" />
                                         </motion.div>
@@ -177,7 +177,7 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
 
                                     </div>
                                     <div
-                                        className="flex flex-col gap-2" 
+                                        className="flex flex-col gap-2 " 
                                     >
                                         <motion.div
                                             layoutId={`card-${media.title}`}

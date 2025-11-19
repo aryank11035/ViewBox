@@ -158,6 +158,15 @@ export default function LinkPopUp({setShowLinkContainers , showLinkContainers} :
                     My Playlists
                 </motion.div>
                 </Link>
+                <Link href='/'>
+                    <motion.div 
+                        onClick={() => setShowLinkContainers((prev : boolean ) => !prev)}
+                        variants={childContainerVariants}
+                        className=" overflow-hidden hover:bg-white hover:text-green-600 duration-100 flex flex-row items-center gap-2">
+                        <ListMusic size={17}/>
+                        My Suggestions
+                    </motion.div>
+                </Link>
             </motion.div>
 
             {/* Appaers with the menu  */}

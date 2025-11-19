@@ -6,18 +6,6 @@ import { error } from "console"
 import { getMovie } from "./getMovie"
 import { Movie } from "@/schema/type"
 
-
-export async function getMoviesForHome() {
-    try {
-        await connectToMongoose()
-        const movies = await Movies.find({})
-
-        return movies
-    } catch (error) {
-        return []
-    }
-}
-
 export async function getMoviesLanguages() {
   try {
     await connectToMongoose();

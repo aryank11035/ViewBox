@@ -21,8 +21,9 @@ export interface Movie {
   _id: string;
   id: number;
   title?: string;
+  name ? : string ,
   original_name?: string;
-   original_language?: string ,
+  original_language?: string ,
   backdrop_path?: string;
   poster_path?: string;
   overview: string;

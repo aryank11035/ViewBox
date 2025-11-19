@@ -56,7 +56,7 @@ export default function PlaylistComp(){
     },[])   
     return(
         <section className="max-w-full pt-20 mx-auto bg-[#111111] backdrop-blur-2xl text-xl font-bold  min-h-screen   ">
-            <div className="max-w-[1450px] min-h-screen  p-4 mx-auto border-l border-r border-white/10 bg-black/30 px-8 relative ">
+            <div className="max-w-[1450px] min-h-screen  py-15 mx-auto border-l border-r border-white/10 bg-black/30 px-8 relative ">
                 <div className="max-w-[1500px] mx-auto flex flex-col gap-6">
                     <div className="flex justify-between px-1 ">
                         <h1 className="md:text-3xl">Your Playlists</h1>

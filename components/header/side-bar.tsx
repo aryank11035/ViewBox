@@ -135,7 +135,7 @@ export default function HeaderSideBar({onSearch  , cancelSearch , medias , searc
 
                                     </motion.button>
                                 </Link>
-                                <Link href='/'>
+                                <Link href='/suggestions'>
                                     <motion.button 
                                         variants={childContainerVariants}
                                          onClick={() => setIsOpen(false)}
