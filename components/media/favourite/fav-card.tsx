@@ -77,11 +77,12 @@ interface FavCardProps {
     media : Movie , 
     isFavourite : boolean , 
     isOverrated : boolean , 
-    isUnderrated : boolean
+    isUnderrated : boolean ,
+
 }
 
 
-export default function FavCard({media , isFavourite , isOverrated , isUnderrated} : FavCardProps){
+export default function FavCard({media , isFavourite , isOverrated , isUnderrated } : FavCardProps){
 
 
 
@@ -111,13 +112,14 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
         setUnderratedVote(vote)
         setUnderratedNumber(number)
     }
-    const [open,setOpen] = useState(false)
+    
 
     const handleClick = (media : any ) => {
         setCurrent(media)
         
         console.log(media)
     }
+
 
 
     return(
@@ -182,7 +184,9 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                                         <motion.div
                                             layoutId={`card-${media.title}`}
                                             className="text-2xl md:text-3xl tracking-tighter w-full flex justify-between ">
-                                                <p>
+                                                <p
+                                                >
+                                                
                                                     {current.title}   
                                                 </p>
                                                 <motion.button onClick={() => handleClick(null)} variants={closeButtonVariant} initial='hidden' animate='visible' exit='hidden' className="md:flex justify-end text-white/50  hidden  cursor-pointer w-fit h-fit"><X /></motion.button>

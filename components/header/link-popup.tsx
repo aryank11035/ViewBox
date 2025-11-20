@@ -28,7 +28,7 @@ const containerVariants = {
      when : 'beforeChildren'
  }
  },
- visible : {
+visible : {
      opacity : 1 ,
      y : 0,
      transition : {
@@ -38,6 +38,7 @@ const containerVariants = {
      }
  }
 } as any
+
 const staggerContainerVariants = {
   hidden: { 
     opacity: 1,
@@ -117,7 +118,7 @@ export default function LinkPopUp({setShowLinkContainers , showLinkContainers , 
 
     return (
         <motion.div 
-            className="absolute w-[250px] right-0 top-16 bg-[#111111]/90 text-sm rounded-xs border-[rgba(255,255,255,0.2)] border h-fit font-medium  z-10 "
+            className="absolute w-[250px] right-0 top-16 bg-[#111111]/90 text-sm rounded-xs border-[rgba(255,255,255,0.2)] border h-fit font-medium  "
             variants={containerVariants}
             initial="hidden"
             animate="visible"

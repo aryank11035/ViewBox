@@ -26,11 +26,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if(session.user){
         session.user.isAdmin = token.isAdmin
       }
-      console.log(session.user)
+     
       return session
     },
     async jwt({ token, user }) {
-      if (user) token.sub = user.id;  // set it here
+     
+      if (user) token.sub = user.id;  
 
       if (!token.sub) return token;
 

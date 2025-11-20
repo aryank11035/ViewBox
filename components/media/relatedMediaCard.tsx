@@ -11,9 +11,11 @@ export function RelatedMedia({mediaData} : {mediaData : any}){
             window.addEventListener("resize", handleResize);
             return () => window.removeEventListener("resize", handleResize);
         }, []);
+
+         const name = mediaData.title ? mediaData.title : mediaData.name
     return (
 
-            <Link href={`/${mediaData.mediaType ? mediaData.mediaType : mediaData.media_type}/${mediaData.id}`}  key={mediaData.id} > 
+            <Link href={`/${mediaData.mediaType ? mediaData.mediaType : mediaData.media_type}/${mediaData.id}/${name}`}  key={mediaData.id} > 
                 <motion.div
                     onMouseEnter={() => setOnHover(true)}
                     onMouseLeave={() => setOnHover(false)}

@@ -8,6 +8,7 @@ import { deletePlaylist, getAllPlaylists, getPlaylists } from "@/app/actions/pla
 import LoadingPlaylist from "./loading-playlist"
 import PlaylistCard from "./playlist-card"
 import {  AnimatePresence} from "framer-motion"
+import PopupWrapper from "@/components/popup-wrapper"
 
 export default function PlaylistComp(){
 
@@ -20,11 +21,11 @@ export default function PlaylistComp(){
         setShowMessage(bool)
     }
     
-    const handleDeletePlaylist = async(playlist: any) => {
+    const handleDeletePlaylist = async(playlistId: string) => {
         try {
             setIsLoading(true)
             const [response] = await Promise.all([
-                deletePlaylist(playlist),
+                deletePlaylist(playlistId),
                 new Promise(resolve => setTimeout(resolve , 500)),
                 showPlaylist()
             ])
@@ -97,6 +98,7 @@ export default function PlaylistComp(){
                         }
                         
                     </AnimatePresence>
+                        
                 </div>
             </div>
         </section>
