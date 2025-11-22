@@ -229,8 +229,8 @@ export const UserAvatar = ({userImage , userName} : { userImage : string , userN
         <Image
           src={userImage}
           alt={userName}
-          width={35}
-          height={35}
+          width={40}
+          height={40}
           className="rounded-full border-1 border-[rgba(255,255,255,0.3)] p-0.5"
         />
       </div>
