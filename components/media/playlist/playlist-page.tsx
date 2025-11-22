@@ -34,6 +34,15 @@ export default function PlaylistComp(){
             setIsLoading(false)
         }
     }
+
+    const handleUpdatedPlaylist = (updatedPlaylist : any) => {
+        setAllPlaylists(
+            prev => 
+                prev.map(playlist => 
+                    playlist._id === updatedPlaylist._id ? updatedPlaylist : playlist 
+                )
+        )
+    }
     
     const showPlaylist = async () => {
 
@@ -77,7 +86,7 @@ export default function PlaylistComp(){
 
                                     {
                                         allPlaylists.map((playlist,index) =>(
-                                            <PlaylistCard key={index} playlist={playlist} handleDeletePlaylist={handleDeletePlaylist} />
+                                            <PlaylistCard key={index} playlist={playlist} handleDeletePlaylist={handleDeletePlaylist} handleUpdatedPlaylist={handleUpdatedPlaylist}/>
                                         ))  
                                     }
 

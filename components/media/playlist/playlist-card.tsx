@@ -4,23 +4,28 @@ import { Check, ChevronLeft, ChevronRight, Delete, Share2, Trash2, X } from "luc
 import { AnimatePresence, hover, motion } from "framer-motion"
 import { Eye } from 'lucide-react';
 import { EyeOff } from 'lucide-react';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DeletePlaylist from "./delete-playlist-popup";
 import PopupWrapper from "@/components/popup-wrapper"
 import { ProgressiveBlur } from "@/components/motion-primitives/progressive-blur";
 import { Pen } from 'lucide-react';
 import { Input } from "@/components/ui/input";
+import { closeButtonVariant, containerVariants, deleteButtonVariants, extraButtonsSectionVariants, mediaSectionVariants, YesAndNoButtonVaraiants } from "./playlist-card/animation-variants";
+import { boolean } from "zod";
+import { editPlaylist } from "@/app/actions/playlist";
+import Link from "next/link";
 
 interface PlaylistCardProps {
     playlist : any 
     handleDeletePlaylist: (playlistId : string  ) => void 
+    handleUpdatedPlaylist : (updatedPlaylist : any) =>  void 
 }
 
 
 
 
 
-export default function PlaylistCard({playlist , handleDeletePlaylist } : PlaylistCardProps){
+export default function PlaylistCard({playlist , handleDeletePlaylist , handleUpdatedPlaylist} : PlaylistCardProps){
     
     const date = new Date(playlist.created_at).toLocaleDateString().split('T')[0]
     const playlistMovies = playlist.movies.slice(0,5)
@@ -236,7 +241,7 @@ export default function PlaylistCard({playlist , handleDeletePlaylist } : Playli
             </motion.div>
         </motion.div>
                    
-        <PlayListPopUp setCurrent={setCurrent} current={current}/>
+        <PlayListPopUp setCurrent={setCurrent} current={current} handleUpdatedPlaylist={handleUpdatedPlaylist} handleDeletePlaylist={handleDeletePlaylist}/>
         </>
     )
 }
@@ -244,124 +249,16 @@ export default function PlaylistCard({playlist , handleDeletePlaylist } : Playli
 
 
 
-const containerVariants = {
-    hidden : {
-        
-        transition: {
-            duration: 0.3,
-            staggerChildren : 0.08,
-            ease: [0.4, 0, 0.2, 1] ,
-            when : 'afterChildren'
-        }
-    }, 
-    visible : {
-        opacity : 1 ,
-        transition: {
-            duration: 0.3,
-            staggerChildren: 0.08,
-            when: "beforeChildren",
-            ease: [0.4, 0, 0.2, 1] 
-        }
-    }
-} as any
-
-//for mediasection 
-const mediaSectionVariants = {
-    hidden : {
-        y : '-100%' ,
-        opacity: 0,
-        transition : {
-            duration: 0.3,
-            ease: [0.4, 0, 0.2, 1] 
-        }
-    } ,
-    visible : {
-        y : 0 ,
-        opacity: 1,
-        transition : {
-            duration: 0.4,
-            delay: 0.5, // Appears after container
-            ease: [0.4, 0, 0.2, 1] 
-        }
-    }
-} as any
-
-//for extra buttons in x translate
-const extraButtonsSectionVariants = {
-    hidden : {
-        x : '-100%' ,
-        transition: {
-            duration: 0.5,
-            ease: [0.4, 0, 0.2, 1] 
-        },
-    } ,
-    visible : {
-        x : -62 ,
-        transition: {
-            duration: 0.5,
-            delay: 0.5, // Appears after container
-            ease: [0.4, 0, 0.2, 1] 
-        },
-    },
-    hovered : {
-        x : 0 ,
-        transition: {
-            duration: 0.2,
-            ease: [0.4, 0, 0.2, 1] 
-        },
-    }
-} as any
-
-const YesAndNoButtonVaraiants = {
-    hidden : {
-        x : '100%' ,
-        transition: {
-            duration: 0.5,
-            ease: [0.4, 0, 0.2, 1] 
-        },
-    } ,
-    visible : {
-        x : 0 ,
-        transition: {
-            duration: 0.5,
-            delay: 0.5, // Appears after container
-            ease: [0.4, 0, 0.2, 1] 
-        },
-    },
-    hovered : {
-        x : 0 ,
-        transition: {
-            duration: 0.2,
-            ease: [0.4, 0, 0.2, 1] 
-        },
-    }
-} as any
-
-
-const closeButtonVariant = {
-    hidden : {
-        rotate : 180 , 
-        transition : {
-            duration : 0.2,
-        }
-    },
-    visible : {
-        rotate : 0 , 
-        transition : {
-            duration : 0.2,
-            delay: 0.4
-        }
-    }
-}
-
 
 
 interface PlayListPopUpProps {
-  current: any | null;
-  setCurrent: (value: any | null) => void;
+    current: any | null;
+    setCurrent: (value: any | null) => void;
+    handleUpdatedPlaylist : (updatedPlaylist : any) => void    
+    handleDeletePlaylist: (playlistId : string  ) => void 
 }
 
-export const PlayListPopUp = ({ current , setCurrent }: PlayListPopUpProps) => {
+export const PlayListPopUp = ({ current , setCurrent , handleUpdatedPlaylist , handleDeletePlaylist}: PlayListPopUpProps) => {
    
 
     const date = new Date(current?.created_at).toLocaleDateString().split('T')[0]
@@ -373,13 +270,79 @@ export const PlayListPopUp = ({ current , setCurrent }: PlayListPopUpProps) => {
 
     const [nextStage,setNextStage] = useState<string | null>(null)
 
+    const [selectedCards,setSelectedCards] = useState<Set<string>>(new Set())
+    const [currentDescription,setCurrentDescription] = useState("no description");
+    const [currentName , setCurrentName] = useState('')
+    const [currentType,setCurrentType] = useState('')
+
+    useEffect(() => {
+        if (current?.description) {
+            setCurrentDescription(current.description);
+        }
+        if(current?.playlist_name){
+            setCurrentName(current.playlist_name)
+        }
+        if(current?.playlist_type) {{
+            setCurrentType(current.playlist_type)
+        }}
+    }, [current]);
+
+    const handleSelectedcards = (id : string) => {
+        setSelectedCards(
+            prev => {
+                const updated = new Set(prev)
+                if(updated.has(id)) {
+                    updated.delete(id)
+                } else{
+                    updated.add(id)
+                }
+                return updated
+            }
+        ) 
+    } 
+
+
+    const updatePlaylist = async (id : string) => {
+        const playlist  = {
+            playlist_name : currentName ,
+            playlist_type : currentType ,
+            description : currentDescription
+        }
+        const cards = Array.from(selectedCards)
+        const res = await editPlaylist(id , playlist ,cards)
+        if(res.success) {
+            setCurrent(res.updated)
+            setClickedButton('')
+            defaultCurrent()
+
+            if(handleUpdatedPlaylist) {
+                handleUpdatedPlaylist(res.updated)
+            } 
+        }
+
+        return playlist 
+    } 
+
+    const defaultCurrent = () => {
+        setSelectedCards(new Set())
+        setCurrentName(current?.playlist_name || '');
+        setCurrentDescription(current?.description || 'no description');
+        setCurrentType(current?.playlist_type || 'private');
+    }
+
     const handleClick = (str : string) => {
         if (clickedButton === str) {
             setClickedButton('')
             setClicked(null)
+            defaultCurrent()
         } else {
             setClickedButton(str)
         }
+    }
+
+    const cancelSelected = () => {
+        setClickedButton('')
+        defaultCurrent()
     }
 
 
@@ -387,6 +350,8 @@ export const PlayListPopUp = ({ current , setCurrent }: PlayListPopUpProps) => {
         setCurrent(null)
         setClicked(null )
         setClickedButton('')
+        setSelectedCards(new Set())
+        
     }
 
     return (
@@ -404,11 +369,9 @@ export const PlayListPopUp = ({ current , setCurrent }: PlayListPopUpProps) => {
                 >
                     <div className=" rounded-xs w-full h-72 flex flex-col gap-2  z-100">
                         <div className="flex gap-2 justify-between">
-                            <h1 className="min-w-0 break-words text-3xl font-bold">
-                                {current?.playlist_name}
-                              
-                            </h1>
-                            {/* <Input className='w-full h-10 rounded-xs border border-[rgba(255,255,255,0.1)]'/> */}
+                           
+                            <NameComp currentName={currentName} setCurrentName={setCurrentName} clickedButton={clickedButton}/>
+
                             <div className="flex gap-2 ">
                                 <div className=" w-fit h-fit rounded-xs text-white/50 bg-neutral-800 cursor-pointer" onClick={() => closePopUp()}>
                                     <motion.div 
@@ -423,20 +386,14 @@ export const PlayListPopUp = ({ current , setCurrent }: PlayListPopUpProps) => {
                                 
                             </div>
                         </div>
-                        <p className="overflow-hidden text-ellipsis text-base text-neutral-500 h-full  overflow-y-auto bg-black/40 px-1 rounded-xs z-50">
-                            {current?.description ? current.description : 'no description'}
-                        </p>
+                       
+                        <DescriptionComp clickedButton={clickedButton} setCurrentDescription={setCurrentDescription} currentDescription={currentDescription} />
+                     
                         <div className="flex flex-col h-fit w-fit gap-2     ">
                             <div className="w-fit text-sm font-medium text-white/50 flex gap-3 ">
                                 <p className="tracking-tight">{`${current?.movies?.length} movies`}</p> 
-                                {
-                                    current?.playlist_type === 'public' ? (
-                                        <p className="text-green-600 flex items-center gap-1"><Eye size={17} /><span className="">Public</span></p>
-                                    ) : (
-                                        <p className="text-rose-500 flex items-center gap-1"><EyeOff size={17} /><span className="">Private</span></p>
-                                    )
-                                }
-                                
+                              
+                                <TypeComp clickedButton={clickedButton} currentType={currentType} setCurrentType={setCurrentType} />
                             </div>
                             <p className="text-xs font-light text-white/30">Created on {date}</p>
                         </div>
@@ -445,21 +402,7 @@ export const PlayListPopUp = ({ current , setCurrent }: PlayListPopUpProps) => {
                     {/* this box  */}
                 </motion.div>
 
-                            <motion.div
-                                initial='hidden'
-                                animate={clickedButton === 'edit' || clickedButton === 'delete' ? 'visible' : ' '}
-                                exit='hidden'
-                                variants={YesAndNoButtonVaraiants}
-                                className="absolute -left-8 bottom-1/2 bg-black/40 backdrop-blur-3xl p-2 border-t border-l border-b border-[rgba(255,255,255,0.1)] rounded-l-xs flex flex-col gap-2 text-sm"
-                            >
-                                <button className="bg-green-600 text-white rounded-xs p-1 flex gap-1 items-center">
-                                    <Check strokeWidth={1.1} size={16} /> Save
-                                </button>
-                                <button className="bg-red-600 text-white rounded-xs p-1 gap-1 flex items-center">
-                                    <X strokeWidth={1.1} size={16}/> Cancel
-                                </button>
-                            </motion.div>
-
+                            <YesAndButtons clickedButton={clickedButton} cancelSelected={cancelSelected} updatePlaylist={updatePlaylist} id={current?._id} handleDeletePlaylist={handleDeletePlaylist} closePopUp={closePopUp}/>
                                 {/* this is extra button section  */}
                             <motion.div 
                                 onMouseEnter={() => setOnHover(current)}
@@ -512,28 +455,48 @@ export const PlayListPopUp = ({ current , setCurrent }: PlayListPopUpProps) => {
                         animate='visible'
                         exit='hidden'
                         variants={mediaSectionVariants}
-                        className="w-xl h-72 bg-black/40 backdrop-blur-3xl overflow-y-auto rounded-b-xs grid grid-cols-3 p-2 gap-2  mx-auto  border-l border-r border-b border-[rgba(255,255,255,0.1)] relative "
+                        className="w-xl h-72 bg-black/40 backdrop-blur-3xl   mx-auto  border-l border-r border-b border-[rgba(255,255,255,0.1)] relative "
                     >
                         {
-                            current?.movies.map((movie :  any) => (
-                                <div className="w-full aspect-auto roudned-xs relative" key={movie.id}>
-                                
-                                    <img 
-                                        src={ `https://image.tmdb.org/t/p/w500${movie.img}`} className="w-full h-full rounded-xs cursor-pointer"
-                                    />
-                                    <ProgressiveBlur 
-                                        className="pointer-events-none absolute bottom-0 left-0 h-[40%] w-full rounded-xs z-30"
-                                        blurIntensity={3}
-                                    />
-                                    <div className="w-full absolute bottom-0 z-40 px-2 py-1">
-                                        <h1  
-                                            className=" 760:text-sm 1020:text-base text-xs font-bold text-left">
-                                                {movie.name}
-                                        </h1>
+                            current?.movies.length === 0 ? 
+                                (
+                                    <div className="w-full h-full flex items-center justify-center flex-col gap-2 text-center p-2">
+                                        <h1>This Playlist is empty</h1>
+                                        <p className="text-sm text-neutral-700">Add Movies or Shows to playlist by clicking 'Add to Playlist' </p>
+                                        <Link href='/home' className="text-sm bg-green-600 hover:bg-white hover:text-green-600 duration-200 active:scale-98 p-2 rounded-xs cursor-pointer">
+                                            Browse Movies or Shows
+                                        </Link>
                                     </div>
-                                </div>
-                            ))
+                                ) 
+                                    : 
+                                (
+                                    <div className="w-full h-full overflow-y-auto rounded-b-xs grid grid-cols-3 p-2 gap-2">
+                                        {
+                                             current?.movies.map((movie :  any) => (
+                                                <div className="w-full aspect-auto roudned-xs relative" key={movie.id}>
+                                                    
+                                                    <DeleteCard isSelected={selectedCards.has(movie._id)} handleSelectedcards={handleSelectedcards} media_id={movie._id} clickedButton={clickedButton}/>
+                                                
+                                                    <img 
+                                                        src={ `https://image.tmdb.org/t/p/w500${movie.img}`} className="w-full h-full rounded-xs cursor-pointer"
+                                                    />
+                                                    <ProgressiveBlur 
+                                                        className="pointer-events-none absolute bottom-0 left-0 h-[40%] w-full rounded-xs z-30"
+                                                        blurIntensity={3}
+                                                    />
+                                                    <div className="w-full absolute bottom-0 z-40 px-2 py-1">
+                                                        <h1  
+                                                            className=" 760:text-sm 1020:text-base text-xs font-bold text-left">
+                                                                {movie.name}
+                                                        </h1>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                )
                         }
+
                     </motion.div> 
                     
                 </div>
@@ -541,3 +504,158 @@ export const PlayListPopUp = ({ current , setCurrent }: PlayListPopUpProps) => {
         </PopupWrapper>
     );
 };
+
+
+interface YesAndNoButtonsProps  {
+    clickedButton : string ,
+    cancelSelected : () => void ,
+    updatePlaylist : (id : string) =>  void ,
+    id :string 
+    handleDeletePlaylist: (playlistId : string  ) => void 
+    closePopUp : () => void 
+}
+
+const YesAndButtons = ({clickedButton , cancelSelected , updatePlaylist , id ,handleDeletePlaylist ,closePopUp} : YesAndNoButtonsProps) => {
+    const [onHover , setOnHover] = useState<boolean>(false)
+
+
+    const handleAction = () => {
+        if(clickedButton === 'edit'){
+            updatePlaylist(id) 
+        } else if(clickedButton === 'delete') {
+            handleDeletePlaylist(id) 
+            closePopUp() 
+        }
+        setOnHover(false)
+    }
+
+    return (
+        <motion.div
+            initial='hidden'
+            animate={
+                onHover ? 
+                    clickedButton === 'edit' ? 'editHovered' : 'deleteHovered'  
+                    :
+               (clickedButton === 'edit' || clickedButton === 'delete') ? 'visible' : 'hidden'
+            }
+            onMouseEnter={() => setOnHover(true)}
+            onMouseLeave={() => setOnHover(false)}
+            exit='hidden'
+            variants={YesAndNoButtonVaraiants}
+            className="absolute -left-8 bottom-1/2 bg-black/40 backdrop-blur-3xl p-2 border-t border-l border-b border-[rgba(255,255,255,0.1)] rounded-l-xs flex flex-col gap-2 text-sm"
+        >
+            <button className="bg-green-600 text-white rounded-xs p-1 flex gap-1 items-center active:scale-98 hover:bg-green-700 duration-100 cursor-pointer" 
+                onClick={() =>{
+                    handleAction()
+                    setOnHover(false)
+                }}
+            >
+                <Check strokeWidth={1.1} size={16} /> {clickedButton !== 'delete' ? 'Save' : 'Yes'}
+            </button>
+            <button className="bg-red-600 text-white rounded-xs p-1 gap-1 flex items-center active:scale-98 hover:bg-red-700 duration-100 cursor-pointer"
+                 onClick={() =>{ 
+                    cancelSelected()
+                    setOnHover(false)
+                }}>
+                <X strokeWidth={1.1} size={16}/> {clickedButton !== 'delete' ? 'Cancel' : 'No'}
+            </button>
+        </motion.div>
+    )
+}
+
+interface DeleteCardProps{
+    isSelected : boolean ,
+    handleSelectedcards : ( id : string ) => void 
+    media_id : string 
+    clickedButton : string 
+}
+
+const DeleteCard = ({isSelected , handleSelectedcards , media_id , clickedButton} : DeleteCardProps) => {
+
+    if(clickedButton !== 'edit') return null
+    
+    return (
+        <motion.div 
+            onClick={() => handleSelectedcards(media_id)}
+            className="inset-0 absolute bg-black/30 p-1 cursor-pointer"
+        >
+            <motion.div
+                animate={{
+                    backgroundColor: isSelected ? "#dc2626" : "rgba(0,0,0,0.2)", 
+                    color: isSelected ? "#fff" : "#e5e5e5",
+                }}
+                transition={{ duration: 0.1, ease: "easeInOut" }}
+                className="w-fit h-fit p-1 rounded-xs backdrop-blur-2xl"
+            >
+                <X strokeWidth={1.1} size={28}/>
+            </motion.div>
+        </motion.div>
+    )
+}
+
+
+interface DescriptionCompProps {
+    clickedButton  : string ,
+    currentDescription : string ,
+    setCurrentDescription : React.Dispatch<React.SetStateAction<string>>
+}
+
+const DescriptionComp = ({clickedButton ,  currentDescription , setCurrentDescription} : DescriptionCompProps) => {
+    return clickedButton === 'edit' ? (
+                 <textarea name="" id="" className="w-full rounded-xs overflow-hidden h-full text-neutral-500 bg-black/70 px-1 z-50 text-ellipsis" value={currentDescription} onChange={(e) => setCurrentDescription(e.target.value)}></textarea>
+            ) : (
+                <p className="overflow-hidden text-ellipsis text-base text-neutral-500 h-full  overflow-y-auto bg-black/40 px-1 rounded-xs z-50">
+                            {currentDescription}
+                </p>
+            )
+    
+}
+
+interface NameCompProps {
+    clickedButton  : string ,
+    currentName : string ,
+    setCurrentName : React.Dispatch<React.SetStateAction<string>>
+}
+
+const NameComp = ({clickedButton ,  currentName , setCurrentName} : NameCompProps) => {
+    return clickedButton === 'edit' ? (
+        <Input className='w-full h-10 rounded-xs border border-[rgba(255,255,255,0.1)] ' value={currentName} onChange={(e) => setCurrentName(e.target.value)}/> 
+    ) : (
+        <h1 className="min-w-0 break-words text-3xl font-bold">
+            {currentName}
+        </h1>
+    )
+}
+
+
+interface TypeCompProps {
+    clickedButton : string ,
+    currentType : string ,
+    setCurrentType : React.Dispatch<React.SetStateAction<string>>
+}
+
+const TypeComp = ({clickedButton , currentType ,setCurrentType} : TypeCompProps) => {
+    return clickedButton === 'edit' ? (
+        <>
+             <label className="flex items-center gap-2 cursor-pointer text-neutral-300">
+            <input
+                type="checkbox"
+                checked={currentType === "public"}
+                onChange={() =>
+                    setCurrentType(currentType === "public" ? "private" : "public")
+                }
+                className="cursor-pointer"
+            />
+            <span>Make this Playlist public</span>
+        </label>
+        </>
+    ) : (
+          
+        currentType === 'public' ? (
+            <p className="text-green-600 flex items-center gap-1"><Eye size={17} /><span className="">Public</span></p>
+        ) : (
+            <p className="text-rose-500 flex items-center gap-1"><EyeOff size={17} /><span className="">Private</span></p>
+        )
+    
+    )
+}

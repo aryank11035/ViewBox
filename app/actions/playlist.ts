@@ -154,3 +154,32 @@ export async function deletePlaylist(id : any) {
         return {success : false , error : 'something happened'}
     }
 }   
+
+
+export async function editPlaylist(id : string , playlist : { playlist_name : string , playlist_type : string , description : string  } , cards : string [] ){
+   
+    try {
+        await connectToMongoose()
+        const updatedPlaylist = await Playlists.findByIdAndUpdate(
+            id,
+            {
+                $set : {
+                    playlist_name : playlist.playlist_name,
+                    playlist_type : playlist.playlist_type,
+                    description : playlist.description
+                },
+                $pull : {
+                    movies : {
+                        _id : {$in : cards}
+                    }
+                }
+            },
+            {new : true}
+        ).lean()
+        
+        return {success : true , updated : JSON.parse(JSON.stringify(updatedPlaylist)) }
+    } catch (error) {
+        console.log(error)
+        return {success : false , updated : playlist}
+    }
+}
