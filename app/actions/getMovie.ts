@@ -14,7 +14,7 @@ export async function getMovie(){
         
         await connectToMongoose()
         const movies = await Movies.find({} ).lean()
-         const parsedMovies = JSON.parse(JSON.stringify(movies))
+        const parsedMovies = JSON.parse(JSON.stringify(movies))
         
       
         return parsedMovies.sort((a : any, b : any) => 

@@ -82,7 +82,7 @@ export default function HeaderSideBar({onSearch  , cancelSearch , medias , searc
 
     return (
         <>
-            <div className="md:hidden flex">
+            <div className="800:hidden flex">
               <button onClick={() => setIsOpen(true)}>
                   <Menu strokeWidth={1} size={25} />
               </button>
@@ -96,7 +96,7 @@ export default function HeaderSideBar({onSearch  , cancelSearch , medias , searc
                             initial='hidden'
                             animate='visible'
                             exit='hidden'
-                            className="fixed inset-0 bg-black/90  w-full min-h-screen md:hidden flex flex-col z-50"
+                            className="fixed inset-0 bg-black/90  w-full min-h-screen 800:hidden flex flex-col z-50 border border-black/50"
                         >
                                 <div className="w-full h-20 flex justify-between px-6.5 ">
                                     <button>
@@ -167,7 +167,7 @@ export default function HeaderSideBar({onSearch  , cancelSearch , medias , searc
                                         <ListMusic size={25}/> My Playlists
                                     </motion.button>
                                 </Link>
-                                <Link href='/'>
+                                <Link href='/my-suggestions'>
                                     <motion.button 
                                         variants={childContainerVariants}                         
                                         className="w-full h-20 px-6.5 flex gap-4 text-xl items-center">

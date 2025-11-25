@@ -140,10 +140,10 @@ const LoadButton = ({showsLength , displayCount , setDisplayCount , visibleMovie
         <>
             <p className="text-sm text-center text-neutral-600 mx-auto">{`(${visibleMoviesLength} of ${showsLength})`}</p>
             <div className="w-fit flex items-center justify-center space-x-3 mx-auto">
-                <button className="bg-green-600 p-2 rounded-xs cursor-pointer" onClick={() =>setDisplayCount((count : number) => count+5)}>
+                <button className="bg-green-600 p-2 rounded-xs cursor-pointer active:scale-95 duration-200" onClick={() =>setDisplayCount((count : number) => count+5)}>
                     Load More
                 </button>
-                <button className="p-2 rounded-xs cursor-pointer border border-[rgba(255,255,255,0.2)]" onClick={() => setDisplayCount(showsLength)}>
+                <button className="p-2 rounded-xs cursor-pointer border border-[rgba(255,255,255,0.2)]  active:scale-95 duration-200" onClick={() => setDisplayCount(showsLength)}>
                     Load All
                 </button>
             </div>

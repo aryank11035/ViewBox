@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { addMovie } from "../../app/actions/addMovie"
 import { deleteMovie } from "../../app/actions/deleteMovie"
 import { Libre_Franklin } from "next/font/google"
+import { Sparkles } from 'lucide-react';
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { Frown, Plus } from 'lucide-react';
@@ -21,6 +22,7 @@ import Link from "next/link"
 import { Button } from "../ui/button"
 import VotesComp from "./votes/votes-comp"
 import { Movie } from "@/schema/type"
+import AIGenerateInsightsComp from "../ai-insights-comp"
 
 
 export default function MediaPage({allMediaData, mediaData  , mediaType , session  , videoKey , whereToWatch , relatedMovies , trendingData , isAdmin , isOverrated  = false, isUnderrated = false, isFavourite = false} : {allMediaData : Movie , mediaData : any  ,mediaType : 'movie' | 'tv', session : any | null ,  videoKey : string , whereToWatch : any, relatedMovies : any , trendingData : any , isAdmin : boolean , isOverrated : boolean ,isUnderrated : boolean ,isFavourite :boolean}){
@@ -54,8 +56,8 @@ export default function MediaPage({allMediaData, mediaData  , mediaType , sessio
     }
     
     const mediaName = mediaData.title ? mediaData.title : mediaData.original_name as string
-
-   
+    
+    
 
     const onFavouriteChange = ( res : boolean , favourite : boolean) => {
         setFavourite(favourite)
@@ -123,7 +125,7 @@ export default function MediaPage({allMediaData, mediaData  , mediaType , sessio
     return (
         <>
         <section className="pt-20 mx-auto">
-            <div className="h-fit  relative  backdrop-blur-3xl  max-w-[1450px] border-l border-r border-white/10 min-h-screen px-8  py-10 bg-black/30 mx-auto">
+            <div className="h-fit  relative  backdrop-blur-3xl  max-w-[1450px] border-l border-r border-white/10 min-h-screen   py-13 bg-black/30 mx-auto px-2">
                 <Toaster 
                         offset={{ bottom :"100px", right: "16px", left: "16px" }} 
                         mobileOffset={{ bottom: '100px' }} 
@@ -136,7 +138,7 @@ export default function MediaPage({allMediaData, mediaData  , mediaType , sessio
                             }
                         }}
                 />
-                <div className="max-w-[1450px] mx-auto h-fit  mb-6 ">
+                <div className="max-w-[1340px] mx-auto h-fit  mb-6 ">
                     <Link className=' bg-white/10 flex w-fit gap-2 hover:text-black/80 hover:bg-white duration-300 rounded-xs ' href='/'>
                         <motion.div
                             className="flex w-full h-full gap-2 p-3 rounded-xs items-center"
@@ -165,7 +167,7 @@ export default function MediaPage({allMediaData, mediaData  , mediaType , sessio
                         </motion.div>
                     </Link>
                 </div>
-                <div className="flex flex-col-reverse lg:flex-row-reverse max-w-[1500px] mx-auto lg:gap-8 gap-5 ">
+                <div className="flex flex-col-reverse lg:flex-row-reverse max-w-[1340px] mx-auto lg:gap-8 gap-5 ">
 
                     <motion.div 
                         className="space-y-3 flex-2 relative"
@@ -241,6 +243,7 @@ export default function MediaPage({allMediaData, mediaData  , mediaType , sessio
                             ) 
                             }
                         </div>
+                        <AIGenerateInsightsComp allMediaData={allMediaData}/>
                         <div  className="flex flex-col gap-3">
                             <div className="text-4xl font-bold text-wrap flex gap-3 items-end  w-fit relative">
                                 <h1 className="">
@@ -262,12 +265,12 @@ export default function MediaPage({allMediaData, mediaData  , mediaType , sessio
                                             normal: {
                                                 opacity: 0,
                                                 translateX: isMobile ? 0 : -20,
-                                                translateY: isMobile ? -60 : -70,
+                                                translateY: isMobile ? -40 : -70,
                                             },
                                             hovered: {
                                                 opacity: 1,
                                                 translateX: isMobile ? 0 : -20,
-                                                translateY: isMobile ? -64 : -74,
+                                                translateY: isMobile ? -44 : -74,
                                             },
                                         }}
                                         transition={{
@@ -353,7 +356,7 @@ export default function MediaPage({allMediaData, mediaData  , mediaType , sessio
                     </motion.div>
                 </div>
                 
-                <div className="max-w-[1450px] mx-auto lg:mt-15 mt-5 flex flex-col gap-2">
+                <div className="max-w-[1340px] mx-auto lg:mt-15 mt-5 flex flex-col gap-2">
                     <h1 className="text-xl md:text-4xl  font-bold text-wrap flex flex-wrap tracking-tight">You can also Watchlist</h1>
                     <div className="w-full h-fit grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5 grid mx-auto">
                         

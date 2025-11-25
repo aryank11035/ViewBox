@@ -1,6 +1,7 @@
 'use server'
 
 import { auth } from "@/auth"
+import { getPosterAndBackDrop } from "@/lib/helpers"
 import { Movies, Suggestions, Users } from "@/lib/models"
 import { connectToMongoose } from "@/lib/mongoose"
 import { success } from "zod"
@@ -11,7 +12,7 @@ export async function addToSugestions(suggestedInfo : any ){
 
     const session = await auth()
     const userId = session?.user?.id
-
+    console.log(suggestedInfo)
     try {
         await connectToMongoose()
         
@@ -31,7 +32,9 @@ export async function addToSugestions(suggestedInfo : any ){
         const existingSuggestion = await Suggestions.findOne({
             suggested_id: suggestedInfo.id,
             suggested_Name: suggestedInfo.name,
-            suggested_Media: suggestedInfo.type
+            suggested_Media: suggestedInfo.type,
+            poster: suggestedInfo.poster ,
+            backdrop : suggestedInfo.backdrop
         });
 
      
@@ -68,7 +71,10 @@ export async function addToSugestions(suggestedInfo : any ){
             suggested_by: [userId],
             suggested_Name: suggestedInfo.name,
             suggested_Media: suggestedInfo.type,
-            suggested_id: suggestedInfo.id
+            suggested_id: suggestedInfo.id,
+            poster: suggestedInfo.poster ,
+            backdrop : suggestedInfo.backdrop,
+            release_date : suggestedInfo.release_date
         });
 
     
@@ -88,4 +94,32 @@ export async function addToSugestions(suggestedInfo : any ){
         return { success : false , error : 'failed to add media' }
     }
 
+}
+
+
+
+
+export async function getSuggestions(){
+    const session = await auth()
+    const userId = session?.user.id
+
+
+    try{
+        await connectToMongoose()
+       
+        const suggestedMedia = await Users.findById(
+            userId ,
+            { suggestions : 1 , _id : 0  }
+        ).populate({
+            path : 'suggestions.suggestions_id',
+            model : 'Suggestion'
+        }).lean() as { suggestions?: any[] } | null;
+
+
+     
+        return JSON.parse(JSON.stringify(suggestedMedia?.suggestions ?? []))
+    }catch(error){
+        console.log(error)
+        return []
+    }
 }

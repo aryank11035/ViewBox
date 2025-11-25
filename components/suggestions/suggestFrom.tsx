@@ -65,7 +65,10 @@ export function SuggestFrom(){
         const suggestedMedia = {
             id : clickedMedia?.id ,
             name : clickedMedia?.original_name || clickedMedia?.title ,
+            poster : clickedMedia?.poster_path ,
+            backdrop : clickedMedia?.backdrop_path,
             type : clickedMedia?.mediaType ,
+            release_date : clickedMedia?.first_air_date ? clickedMedia.first_air_date : clickedMedia?.release_date ,
             reason
         }
 

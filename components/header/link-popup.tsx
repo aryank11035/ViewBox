@@ -161,7 +161,7 @@ export default function LinkPopUp({setShowLinkContainers , showLinkContainers , 
                     My Playlists
                 </motion.div>
                 </Link>
-                <Link href='/'>
+                <Link href='/my-suggestions'>
                     <motion.div 
                         onClick={() => setShowLinkContainers((prev : boolean ) => !prev)}
                         variants={childContainerVariants}

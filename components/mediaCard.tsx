@@ -20,7 +20,7 @@ export default function MediaCard({mediaData ,  enable } : {mediaData : any , en
             
                 <Link href={`/${mediaData.mediaType ? mediaData.mediaType : mediaData.media_type}/${mediaData.id}/${name}`}  key={mediaData.id} > 
                     <motion.div 
-                        className="relative w-58  aspect-[2/3] cursor-pointer mx-auto rounded-xs "
+                        className="relative w-58  aspect-[2/3] cursor-pointer mx-auto rounded-xs"
                         whileHover={{scale: 1.03}}
                         transition={{
                             type : "spring",
@@ -55,7 +55,7 @@ export default function MediaCard({mediaData ,  enable } : {mediaData : any , en
                                                 <img
                                                     src={mediaData.poster_path ? `https://image.tmdb.org/t/p/w500${mediaData.poster_path}`: '/placeholder-movie.jpg'}
                                                     alt={mediaData.title}
-                                                    className="absolute inset-0"
+                                                    className="w-full h-full"
                                                     />
                                           
 

@@ -87,8 +87,8 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
                             borderColor : votes.underratedVoted ? '#16A34A' : '#FFFFFF33'
                         }}  
                         onClick={handleUnderrated}
-                        className=" rounded-xs px-4 py-1.5 border border-[rgba(255,255,255,0.2)] hover:border-green-60 duration-100 cursor-pointer  active:scale-98 flex gap-2 items-center w-full md:w-fit ">
-                        <span className=" text-center flex items-center text-base ">
+                        className=" rounded-xs px-4 py-1.5 border border-[rgba(255,255,255,0.2)]  duration-100 cursor-pointer  active:scale-98 flex gap-2 items-center w-full md:w-fit group hover:scale-98 ">
+                        <span className=" text-center flex items-center text-base group-hover:scale-120 duration-200">
                             <IoMdThumbsUp />
                         </span>
                         Underrated 
@@ -100,8 +100,8 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
                             borderColor : votes.overratedVoted ? '#E11D48   ' : '#FFFFFF33'
                         }}
                         onClick={handleOverrated} 
-                        className=" rounded-xs px-4 py-1.5 border border-[rgba(255,255,255,0.2)] hover:border-green-60 duration-100 cursor-pointer active:scale-98 flex gap-2 items-center w-full md:w-fit">
-                        <span className=" text-center flex items-center text-base mt-1">
+                        className=" rounded-xs px-4 py-1.5 border border-[rgba(255,255,255,0.2)] duration-100 cursor-pointer active:scale-98 flex gap-2 items-center w-full md:w-fit group hover:scale-98">
+                        <span className=" text-center flex items-center text-base mt-1 group-hover:scale-120 duration-200">
                             <IoMdThumbsDown />
                         </span>
                         Overrated 

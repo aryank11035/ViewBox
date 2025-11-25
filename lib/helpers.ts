@@ -247,3 +247,22 @@ export async function getSearchMedia(query : string , mediaType: 'movie' | 'tv' 
     return null
   }
 }
+
+
+export async function getPosterAndBackDrop(){
+  try{
+    const res = await fetch(`https://api.themoviedb.org/3/movie/920`,options)
+    if(!res.ok){
+      console.error('Error Fetching Data')
+      return {message : 'No results found'}
+    }
+
+    const data = await res.json()
+    // const images = data.results?.map((media : { poster_path : string , backdrop_path : string}) => media.poster_path && media.backdrop_path)
+    
+    return data
+  }catch(err){
+    console.error(err)
+    return []
+  }
+}

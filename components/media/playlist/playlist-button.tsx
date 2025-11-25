@@ -97,7 +97,7 @@ export function PlaylistButton({playlistMediaInfo} : any){
         {
             showMessage && (
                 <>
-                    <PopUpWrapper items_center={true}>
+                    <PopUpWrapper items_center={false}>
 
                         <div className="w-full flex justify-between">
                             <h1 className="text-2xl font-bold">Add to Playlist</h1>

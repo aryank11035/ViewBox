@@ -110,6 +110,10 @@ const userSchema = new mongoose.Schema({
             type : String ,
             enum : ['Pending', 'Approved' , 'Rejected'] ,
             default : 'Pending'
+        } ,
+        suggested_on : {
+            type : Date,
+            default : Date.now
         }
     }
     ],
@@ -134,9 +138,12 @@ const suggestionsSchema = new mongoose.Schema({
             ref : 'User'
         }
     ] ,
+    poster : String ,
+    backdrop : String,
     suggested_Name : String ,
     suggested_Media : String ,
     suggested_id : String ,
+    release_date : String,
 })
 
 const playlistSchema = new mongoose.Schema({
