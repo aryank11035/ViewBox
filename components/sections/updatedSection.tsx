@@ -2,7 +2,7 @@
 
 import { InfiniteSlider } from "../motion-primitives/infinite-slider"
 import { SliderMediaCardSection } from "../mediaCardsSection"
-import { ProgressiveBlur } from "../motion-primitives/progressive-blur"
+
 import {  motion } from "framer-motion"
 import { useState } from "react"
 export default function UpdatedSection({mediaData } : {mediaData : any }){

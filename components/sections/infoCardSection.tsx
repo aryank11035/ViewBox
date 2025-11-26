@@ -89,14 +89,13 @@ export const HomeButton = () => {
     return (
         <Link href='/home'>
             <motion.div 
-                className="bg-green-600 w-fit h-fit flex gap-2 items-center p-3 rounded-xs cursor-pointer hover:text-green-600 hover:bg-white duration-300 font-light text-sm"
+                className="bg-green-600 w-fit h-fit flex gap-2 items-center p-3 rounded-xs cursor-pointer hover:text-green-600 hover:bg-white duration-300 font-light text-sm active:scale-95 "
                 onMouseEnter = {() => setOnHover(true)}
                 onMouseLeave = {() => setOnHover(false)}    
             >
                 
                 <motion.div 
-                    className="h-fit w-fit flex items-center justify-center gap-2"
-                    
+                    className="h-fit w-fit flex items-center justify-center gap-2 "
                 >
                     <p >Start Discovering</p> 
                     <motion.div

@@ -11,9 +11,28 @@ const backgroundVariants = {
   },
   visible: { 
     opacity: 1,
-    pointerEvents: "auto"
+    pointerEvents: "auto",
+    transition: {
+      duration: 0.3,
+      staggerChildren: 0.08,
+      ease: [0.4, 0, 0.2, 1],
+      when: "beforeChildren",
+    }
+  },
+  exit: {
+    opacity: 0,
+    pointerEvents: "none",
+    transition: {
+      duration: 0.3,
+      staggerChildren: 0.08 ,
+      staggerDirection: -1 ,
+      ease: [0.4, 0, 0.2, 1],
+      when: "afterChildren"
+    }
   }
-}
+} as any 
+
+
 export default function PopupWrapper({
   children,
   isOpen,
@@ -33,23 +52,23 @@ export default function PopupWrapper({
   if (!mounted) return null
 
   return createPortal(
-    <AnimatePresence>
+    <AnimatePresence mode='wait'>
       {isOpen && (
         <motion.div
           key="popup-bg"
-          className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/50 pointer-events-auto "
+          className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/50 pointer-events-auto "
           variants={backgroundVariants}
           initial="hidden"
           animate="visible"
-          exit="hidden"
+          exit="exit"
           onClick={onClose}
         >
-          <div
+          <motion.div
             className="relative flex items-center justify-center"
             onClick={(e) => e.stopPropagation()}
           >
             {children}
-          </div>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>,

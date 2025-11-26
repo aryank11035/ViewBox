@@ -332,7 +332,7 @@ export const WhereToWatchButton = ({mediaType , id , name} : WhereToWatchButtonP
 
     const [isHover,setIsHover] = useState(false)
     return (
-        <Link href={`/${mediaType}/${id}/${name     }`}  key={id}>
+        <Link href={`/${mediaType}/${id}/${name}`}  key={id}>
             <motion.button 
             className="bg-neutral-800 md:p-4 p-2 items-center  rounded-xs h-full  text-xs md:text-sm font-light hover:bg-[#FFFFFFE6] hover:text-black cursor-pointer duration-100 flex gap-2"
             onMouseEnter = {() => setIsHover(true)}
@@ -345,8 +345,8 @@ export const WhereToWatchButton = ({mediaType , id , name} : WhereToWatchButtonP
                 initial = {{ opacity : 1  }}
                 animate = { isHover ? 'hovered' : 'normal' }
                 variants={{
-                    normal : { rotate : 6 , y : 2},
-                    hovered : { rotate : 6 , y : -2 , x : 3}, 
+                    normal : { rotate : 2 , y : -2},
+                    hovered : { rotate : 2 , y : -5 , x : 4}, 
                 }}
                 transition={{                                        
                     duration : 0.3,

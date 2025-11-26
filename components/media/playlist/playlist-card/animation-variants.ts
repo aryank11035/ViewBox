@@ -20,6 +20,15 @@ export const containerVariants = {
             when: "beforeChildren",
             ease: [0.4, 0, 0.2, 1] 
         }
+    },
+    exit : {
+        transition: {
+            duration: 0.3,
+            staggerChildren: 0.08,
+            delay : 3 ,
+             when : 'afterChildren',
+            ease: [0.4, 0, 0.2, 1] 
+        }
     }
 } as any
 
@@ -38,6 +47,14 @@ export const mediaSectionVariants = {
         transition : {
             duration: 0.4,
             delay: 0.5, // Appears after container
+            ease: [0.4, 0, 0.2, 1] 
+        }
+    },
+    exit: {
+        y : '-100%' ,
+        opacity: 0,
+        transition : {
+            duration: 0.3,
             ease: [0.4, 0, 0.2, 1] 
         }
     }
@@ -115,7 +132,14 @@ export const closeButtonVariant = {
             duration : 0.2,
             delay: 0.4
         }
+    } ,
+    exit : {
+        rotate : 180 , 
+        transition : {
+            duration : 0.2,
+        }
     }
+
 }
 
 export const deleteButtonVariants = {

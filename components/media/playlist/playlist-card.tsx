@@ -363,7 +363,7 @@ export const PlayListPopUp = ({ current , setCurrent , handleUpdatedPlaylist , h
                 <motion.div 
                     initial='hidden'
                     animate='visible'
-                    exit='hidden'
+                    exit='exit'
                     variants={containerVariants}
                     className="w-full h-fit flex flex-row gap-2 bg-[#111111] p-4 border border-[rgba(255,255,255,0.1)]  rounded-xs z-300 " 
                 >
