@@ -11,6 +11,7 @@ import { RemovedMssg } from "./removed-mssg"
 import PopupWrapper from "@/components/popup-wrapper"
 import Link from "next/link"
 import VotesComp from "../votes/votes-comp"
+import { PopUpStatesProvider } from "@/components/custom-hooks/hooks"
 
 
 const useOutsideClick = (callback : () => void) => {
@@ -126,7 +127,7 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
 
 
         <>
-         
+         <PopUpStatesProvider>
             <PopupWrapper isOpen={!!current} onClose={() => setCurrent(null)}>
             {
                 current && (          
@@ -314,7 +315,8 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                                     <h1 className="text-sm md:text-xl font-light">{media.vote_average ? `${media.vote_average.toFixed(1)}/10`  : 'NA'}</h1>
                                 </div>
                             </div>
-                        </motion.div>                 
+                        </motion.div>      
+        </PopUpStatesProvider>           
                   
        </>
 

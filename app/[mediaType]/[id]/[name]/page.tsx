@@ -6,6 +6,7 @@ import { notFound } from "next/navigation"
 import { getAdminAcess } from "@/data/user"
 import { getFavMovieIdById, getFavouritesIds } from "@/app/actions/favourites"
 import { getUserOverratedMoviesIdById, getUserUnderratedMoviesIdById } from "@/app/actions/votes"
+import { PopUpStatesProvider } from "@/components/custom-hooks/hooks"
 
 type Params = {
     params : {
@@ -14,7 +15,7 @@ type Params = {
     }
 }
 
-export default async function ShowMedia({params} : Params) {
+export default async function ShowMediaPage({params} : Params) {
     const { mediaType,id } = await params
 
     if (!id || isNaN(Number(id))) {
@@ -32,7 +33,7 @@ export default async function ShowMedia({params} : Params) {
     const relatedMovies = await getRelatedMedia(mediaType,id)
     const isAdmin = await getAdminAcess()
     // const getOverated = getUserOveratedMovies()
-    console.log(mediaData)
+    
     const allMediaData = {
         ...mediaData,
         language : mediaData.original_language,
@@ -55,22 +56,25 @@ export default async function ShowMedia({params} : Params) {
 
 
     return (
+        <PopUpStatesProvider>
 
+            <MediaPage 
+                allMediaData = {selectedMedia ? selectedMedia : allMediaData}
+                isOverrated={isOverrated}
+                isUnderrated={isUnderrated}
+                isFavourite={isFavourite}
+                mediaData={mediaData}
+                mediaType={mediaType} 
+                session={session} 
+                videoKey={videoKey} 
+                whereToWatch={whereToWatch}
+                relatedMovies={relatedMovies}
+                trendingData={trendingData}
+                isAdmin={isAdmin}
+            /> 
+
+        </PopUpStatesProvider>
     
-        <MediaPage 
-            allMediaData = {selectedMedia ? selectedMedia : allMediaData}
-            isOverrated={isOverrated}
-            isUnderrated={isUnderrated}
-            isFavourite={isFavourite}
-            mediaData={mediaData}
-            mediaType={mediaType} 
-            session={session} 
-            videoKey={videoKey} 
-            whereToWatch={whereToWatch}
-            relatedMovies={relatedMovies}
-            trendingData={trendingData}
-            isAdmin={isAdmin}
-        /> 
     )
 }
 

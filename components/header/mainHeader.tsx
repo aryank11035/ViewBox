@@ -12,21 +12,17 @@ import { Movie } from "@/schema/type";
 import Image from "next/image";
 
 import {  signIn } from "next-auth/react"
+import { CircularProgress } from "@mui/material";
 
 
 export  function Header({session} : any){
 
   // const { data: session, status } = useSession()
   const [showLinkContainers , setShowLinkContainers] = useState<boolean>(false)
-  const [headerName,setHeaderName] = useState<string | undefined>(session?.user?.name)
+  const [loading,setLoading] = useState(false)
   const [searchString,setSearchString] =  useState<string>('')
   const [searchedMedia,setSearchedMedia] = useState<Movie[] | null> (null)
 
-  
-  useEffect(() => {
-    setHeaderName(session?.user?.name)
-  },[headerName])
-  
   
   const onSearch = (str : string) => {
     setSearchString(str)
@@ -54,10 +50,10 @@ export  function Header({session} : any){
   }, [searchString]);
 
   return (
-      <header className="w-full h-20  flex  justify-center text-white fixed z-100 border-b border-b-white/10  backdrop-blur-xl top-0  mx-auto">
+      <header className="w-full h-20  flex  justify-center text-white fixed z-100 border-b border-b-white/10  backdrop-blur-2xl top-0  mx-auto ">
       
         <nav className= "h-full border-l border-r border-white/10 flex justify-between items-center px-6  md:px-14 backdrop-blur-xl z-20 w-full mx-auto  max-w-[1450px] ">
-          <Link href='/' prefetch={true}>
+          <Link href='/' >
             <h1 className="text-2xl lg:text-3xl font-bold cursor-pointer tracking-wider">ViewBox</h1>
           </Link>
 
@@ -80,15 +76,20 @@ export  function Header({session} : any){
               }
             </div>
               {
-                !session?.user && <button className="bg-green-600 hover:bg-white hover:text-green-600 p-2.5 rounded-xs text-sm cursor-pointer" 
+                !session?.user && <button className="bg-green-600 hover:bg-white hover:text-green-600 w-25 px-2.5 py-2.5 rounded-xs text-sm cursor-pointer duration-200 hover:scale-98 active:scale-95" 
                                           onClick={async () => {
-                                             
-                                          
-                                              await signIn('google', { callbackUrl: '/home' })}
-                                          
-                                            }
+                                              setLoading(true)
+                                              await signIn('google', { callbackUrl: '/home' })
+                                              setLoading(false)
+                                            }}
                                            
-                                        >Sign in</button>
+                                        >
+                                         {loading ? (
+                                              <CircularProgress size={16} color="inherit" />
+                                          ) : (
+                                              "sign in"
+                                          )}
+                                        </button>
               }
 
                {
@@ -216,7 +217,7 @@ export const MediaOnSearch = ({medias , cancelSearch , forHeaderWidth = true , f
 
 export const SuggestMovieButton = () => {
   return (
-    <Link href='/suggestions' className="w-fit bg-green-600 px-2 text-sm font-light flex gap-2 p-2.5 rounded-xs hover:bg-white hover:text-green-600 duration-200 cursor-pointer">
+    <Link href='/suggestions' className="w-fit bg-green-600 px-2 text-sm font-light flex gap-2 p-2.5 rounded-xs hover:bg-white hover:text-green-600 duration-200 cursor-pointer hover:scale-98 active:scale-95">
         <ListVideo strokeWidth={1} size={20} />Suggest 
     </Link>
   )
@@ -231,7 +232,7 @@ export const UserAvatar = ({userImage , userName} : { userImage : string , userN
           alt={userName}
           width={40}
           height={40}
-          className="rounded-full border-1 border-[rgba(255,255,255,0.3)] p-0.5"
+          className="rounded-full border-1 border-[rgba(255,255,255,0.3)] p-0.5 hover:border-green-600 duration-500"
         />
       </div>
   )

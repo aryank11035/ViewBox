@@ -9,6 +9,8 @@ import { ListMusic } from 'lucide-react';
 import { LogOut } from 'lucide-react';
 import { User } from 'lucide-react';
 import { signOut } from "next-auth/react";
+import { CircularProgress } from "@mui/material";
+import { useState } from "react";
 
 
 const containerVariants = {
@@ -115,7 +117,8 @@ interface LinkPopUpProps {
 export default function LinkPopUp({setShowLinkContainers , showLinkContainers , username} : LinkPopUpProps){
 
     if(!showLinkContainers || !username) return null
-
+    const [loading,setLoading] = useState(false)
+  
     return (
         <motion.div 
             className="absolute w-[250px] right-0 top-16 bg-[#111111]/90 text-sm rounded-xs border-[rgba(255,255,255,0.2)] border h-fit font-medium  "
@@ -139,7 +142,7 @@ export default function LinkPopUp({setShowLinkContainers , showLinkContainers , 
                 exit='hidden'
             >
                 <Link href='/favourites'>
-                <motion.div variants={childContainerVariants} className=" overflow-hidden hover:bg-white hover:text-green-600 duration-100 flex flex-row items-center gap-2"  onClick={() => setShowLinkContainers((prev : boolean ) => !prev)} >
+                <motion.div variants={childContainerVariants} className=" overflow-hidden hover:bg-white active:bg-white active:text-green-600 hover:text-green-600 duration-100 flex flex-row items-center gap-2"  onClick={() => setShowLinkContainers((prev : boolean ) => !prev)} >
                     <FaHeart className="text-sm"/> Favourites
                 </motion.div>
                 </Link>
@@ -147,7 +150,7 @@ export default function LinkPopUp({setShowLinkContainers , showLinkContainers , 
                 <motion.div 
                     onClick={() => setShowLinkContainers((prev : boolean ) => !prev)}
                     variants={childContainerVariants}
-                    className=" overflow-hidden hover:bg-white hover:text-green-600 duration-100 flex flex-row items-center gap-2">
+                    className=" overflow-hidden hover:bg-white hover:text-green-600 duration-100 flex flex-row items-center gap-2 active:bg-white active:text-green-600">
                     <ThumbsUp size={17}/>
                     My Votes
                 </motion.div>
@@ -156,7 +159,7 @@ export default function LinkPopUp({setShowLinkContainers , showLinkContainers , 
                 <motion.div 
                     onClick={() => setShowLinkContainers((prev : boolean ) => !prev)}
                     variants={childContainerVariants}
-                    className=" overflow-hidden hover:bg-white hover:text-green-600 duration-100 flex flex-row items-center gap-2">
+                    className=" overflow-hidden hover:bg-white hover:text-green-600 duration-100 flex flex-row items-center gap-2 active:bg-white active:text-green-600">
                     <ListMusic size={17}/>
                     My Playlists
                 </motion.div>
@@ -165,7 +168,7 @@ export default function LinkPopUp({setShowLinkContainers , showLinkContainers , 
                     <motion.div 
                         onClick={() => setShowLinkContainers((prev : boolean ) => !prev)}
                         variants={childContainerVariants}
-                        className=" overflow-hidden hover:bg-white hover:text-green-600 duration-100 flex flex-row items-center gap-2">
+                        className=" overflow-hidden hover:bg-white hover:text-green-600 duration-100 flex flex-row items-center gap-2 active:bg-white active:text-green-600">
                         <ListMusic size={17}/>
                         My Suggestions
                     </motion.div>
@@ -176,9 +179,17 @@ export default function LinkPopUp({setShowLinkContainers , showLinkContainers , 
             <Link href='/'>
                 <motion.button 
                 variants={staticItemVariants}
-                onClick={() => signOut()}
-                className="p-2 border-t border-[rgba(255,255,255,0.2)] py-4 hover:bg-white hover:text-green-600 duration-100 flex flex-row items-center gap-2 w-full cursor-pointer">
-                <LogOut size={17}/>
+                onClick={async () =>{
+                    setLoading(true)
+                    const res = await signOut({ callbackUrl: '/' })
+                    setLoading(false)
+                }}
+                className="p-2 border-t border-[rgba(255,255,255,0.2)] py-4 hover:bg-white hover:text-green-600 duration-100 flex flex-row items-center gap-2 w-full cursor-pointer active:bg-white active:text-green-600">
+                    {loading ? (
+                        <CircularProgress size={17} color="inherit" />
+                    ) : (
+                            <LogOut size={17}/>
+                    )}
                 log out 
                 </motion.button>
             </Link>

@@ -44,7 +44,6 @@ export default function MediaPage({allMediaData, mediaData  , mediaType , sessio
     const [underratedVote,setUnderratedVote] = useState(isUnderrated)
     const [overratedNumber,setOverratedNumber] = useState(allMediaData.overrated)
     const [underratedNumber,setUnderratedNumber] = useState(allMediaData.underrated)
-
     //this goes the Playlist collection 
     const playlistMedia = {
         _id : allMediaData._id , 
@@ -123,7 +122,9 @@ export default function MediaPage({allMediaData, mediaData  , mediaType , sessio
     }
 
     return (
-        <>
+        <>  
+
+
         <section className="pt-20 mx-auto">
             <div className="h-fit  relative  backdrop-blur-3xl  max-w-[1450px] border-l border-r border-white/10 min-h-screen   py-13 bg-black/30 mx-auto px-2">
                 <Toaster 
@@ -313,7 +314,7 @@ export default function MediaPage({allMediaData, mediaData  , mediaType , sessio
                         </div>
                         <div className="w-full aspect-2/3 bg-white/10 rounded-xs">
                             {mediaData.poster_path ? (
-                                    <a className="cursor-pointer " href={mediaData.homepage} target="_blank">
+                                    <a className="cursor-pointer "  target="_blank">
                                         <img
                                             src={mediaData.poster_path ? `https://image.tmdb.org/t/p/w500${mediaData.poster_path}` : '/placeholder-movie.jpg'}
                                             alt={mediaData.title}

@@ -11,6 +11,8 @@ import { FormSucess } from "@/components/formSucess";
 import { strict } from "node:assert";
 import PopUpWrapper from "./popup-wrapper";
 import { AnimatePresence } from "motion/react";
+import { useSession } from "next-auth/react";
+import { SignInPopUp, UsePopUp } from "@/components/custom-hooks/hooks";
 
 
 interface ResponseProps {
@@ -21,6 +23,10 @@ interface ResponseProps {
 
 export function PlaylistButton({playlistMediaInfo} : any){
     
+    const {data : session  , status} = useSession()
+    const { openPopup } = UsePopUp()
+    
+
     const [showMessage,setShowMessage] = useState(false)
     const [response, setResponse] = useState<ResponseProps | undefined>(undefined);
     const [newPlaylist,setNewPlayist] = useState(false)
@@ -86,8 +92,14 @@ export function PlaylistButton({playlistMediaInfo} : any){
 
     return (
        <>
+       <SignInPopUp />
+
        <Button     
-            onClick={() => setShowMessage(true)} 
+            onClick={() => {
+                if(!session) return openPopup('Sign in to add movies to your playlists')
+                setShowMessage(true)
+                
+            } } 
             variant='custom_one'   
             size='custom_one'          
             >

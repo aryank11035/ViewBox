@@ -7,6 +7,7 @@ import { Footer } from "@/components/footer/mainFooter";
 import { IBM_Plex_Mono } from "next/font/google";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
+import { getMovie } from "./actions/getMovie";
 
 const font = IBM_Plex_Mono({
     subsets : ['latin'],
@@ -20,7 +21,7 @@ export default async function RootLayout({
 }>) {
 
   const session = await auth()
-
+const yourMedia =await getMovie() 
   return (
   
       <html>
@@ -28,13 +29,13 @@ export default async function RootLayout({
           "bg-[#111111]  text-white min-h-screen selection:bg-white selection:text-green-600 tracking-normal  ",
           font.className
           )}>
-            {/* <SessionProvider session={session}> */}
+            <SessionProvider session={session}>
               <Header session={session}/>
               <main className="w-full relative  min-h-screen mx-auto">
                 {children}
               </main>
               <Footer/>
-            {/* </SessionProvider> */}
+            </SessionProvider>
         </body>
       </html>
   

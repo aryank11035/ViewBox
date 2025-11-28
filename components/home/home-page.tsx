@@ -6,6 +6,7 @@ import { HomeSilderSection } from "./homeSliderSection"
 import LanguageSelect from "./language-option"
 import {  getMoviesByLanguage } from "@/app/actions/home"
 import FavCard from "../media/favourite/fav-card"
+import { PopUpStatesProvider } from "../custom-hooks/hooks"
 
 interface HomePageProps {
     initialShows : Movie[],
@@ -74,12 +75,14 @@ export default function HomePageClient({initialShows , languages , initialGenres
 
     return (
         <>
+
+        <PopUpStatesProvider>
             <HomeSilderSection medias={shows.slice(0,5)} isFavourites={isFavourites}/>
             
                 <div className="border-b w-full border-[rgba(255,255,255,0.1)]">
 
                 </div>
-                <div className="max-w-[1450px]  border-l border-r border-[rgba(255,255,255,0.1)]  mx-auto bg-black/30 py-5 space-y-4 px-1">
+                <div className="max-w-[1450px]  border-l border-r border-[rgba(255,255,255,0.1)]  mx-auto bg-black/30 py-5 space-y-4 ">
                 
                     <div className="w-full px-2">
                         <div className="1435:max-w-[1341px] w-full 1020:max-w-[53rem] 760:max-w-[39.5rem] bg-neutral-900 rounded-xs flex  flex-col mx-auto px-3 py-3 gap-2 ">
@@ -119,7 +122,7 @@ export default function HomePageClient({initialShows , languages , initialGenres
 
                         </div>
                 </div> 
-        
+        </PopUpStatesProvider>
         </>
     )
 }

@@ -7,6 +7,7 @@ import GenreOption from "./genre-option"
 import { motion } from 'framer-motion'
 import VoteOption from "../votes/vote-option"
 import { HomeButton } from "@/components/sections/infoCardSection"
+import { PopUpStatesProvider } from "@/components/custom-hooks/hooks"
 interface favMediaProps {
     favMovies : Movie[] , 
     isFavouriteSet :   Set<string> , 
@@ -49,61 +50,64 @@ export default function FavCardsPage({favMovies , sortBy , selectedGenre , allGe
 
 
     return (
-        <motion.div 
-            className="max-w-[1500px] mx-auto flex flex-col gap-6 py-13"
-        >
+        <PopUpStatesProvider>
 
-            <motion.div  className="w-full max-w-[1340px] mx-auto md:text-3xl  font-bold">
-                <h1>
-                    
-                    {
-                        showVote ? 'Your Votes' : 'Your Favourites '
-                    }
-                </h1>
-            </motion.div>
-            <div className="px-3">
-                <motion.div   className="w-full max-w-[1340px] bg-neutral-900 rounded-xs flex items-center justify-between md:flex-row flex-col mx-auto px-4 py-3 gap-2 ">
-                    <SortOption sortBy={sortBy}/>
-                    {
-                        showVote && (
-                            <VoteOption voted={voted}/>
-                        )
-                    }
-                    {
-                        !showVote && (
-                            <GenreOption allGenres={allGenres} selectedGenre={selectedGenre}/>
-                        )
-                    }
-                </motion.div>
-            </div>
-            {
-                favMovies.length === 0 ? (
-                    <div className="w-full flex flex-col items-center">
-                        <div className="text-center text-neutral-400 text-xl py-10 font-bold">
-                            No {showVote ? 'Votes'  : 'Favourites'} found
-                        </div>
-                        <HomeButton />
-                    </div>
-                ) : (
-                <motion.div
-                    initial="hidden"
-                    animate="visible"
-                    variants={childVariants}
-                    className="w-fit grid grid-cols-2 420:grid-cols-2 760:grid-cols-3 1020:grid-cols-4 1435:grid-cols-5 justify-items-center gap-4 mx-auto "
+            <motion.div 
+                className="max-w-[1500px] mx-auto flex flex-col gap-6 py-13 px-6 md:px-13"
                 >
-                    {favMovies.map((media: Movie) => (
-                        <FavCard
-                            media={media}
-                            key={media.id}
-                            isFavourite={isFavouriteSet.has(media._id)}
-                            isOverrated={isOverratedSet.has(media._id)}
-                            isUnderrated={isUnderratedSet.has(media._id)}
-                        />
-                    ))}
-                </motion.div>
-                    )
-            }
 
-        </motion.div>
+                <motion.div  className="w-full max-w-[1340px] mx-auto md:text-3xl  font-bold ">
+                    <h1>
+                        
+                        {
+                            showVote ? 'Your Votes' : 'Your Favourites '
+                        }
+                    </h1>
+                </motion.div>
+                <div className="">
+                    <motion.div   className="w-full max-w-[1340px] bg-neutral-900 rounded-xs flex items-center justify-between md:flex-row flex-col mx-auto px-4 py-3 gap-2 ">
+                        <SortOption sortBy={sortBy}/>
+                        {
+                            showVote && (
+                                <VoteOption voted={voted}/>
+                            )
+                        }
+                        {
+                            !showVote && (
+                                <GenreOption allGenres={allGenres} selectedGenre={selectedGenre}/>
+                            )
+                        }
+                    </motion.div>
+                </div>
+                {
+                    favMovies.length === 0 ? (
+                        <div className="w-full flex flex-col items-center">
+                            <div className="text-center text-neutral-400 text-xl py-10 font-bold">
+                                No {showVote ? 'Votes'  : 'Favourites'} found
+                            </div>
+                            <HomeButton />
+                        </div>
+                    ) : (
+                        <motion.div
+                        initial="hidden"
+                        animate="visible"
+                        variants={childVariants}
+                        className="w-fit grid grid-cols-2 420:grid-cols-2 760:grid-cols-3 1020:grid-cols-4 1435:grid-cols-5 justify-items-center gap-4 mx-auto "
+                    >
+                        {favMovies.map((media: Movie) => (
+                            <FavCard
+                                media={media}
+                                key={media.id}
+                                isFavourite={isFavouriteSet.has(media._id)}
+                                isOverrated={isOverratedSet.has(media._id)}
+                                isUnderrated={isUnderratedSet.has(media._id)}
+                            />
+                        ))}
+                    </motion.div>
+                        )
+                    }
+
+            </motion.div>
+        </PopUpStatesProvider>
     )
 }

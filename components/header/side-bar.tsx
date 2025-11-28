@@ -1,12 +1,14 @@
 'use client'
 
-import { ListMusic, ListVideo, LogOut, Menu, ThumbsUp, X } from "lucide-react"
+import { ListMusic, ListVideo, LogOut, Menu, ThumbsUp, User, X } from "lucide-react"
 import { useState } from "react"
 import { AnimatePresence , motion  } from "motion/react"
 import HeaderSearchBar from "./search-bar"
 import { FaHeart } from "react-icons/fa"
 import { Movie } from "@/schema/type"
 import Link from "next/link"
+import { CircularProgress } from "@mui/material"
+import { signIn, signOut, useSession } from "next-auth/react"
 
 
 const containerVariants = {
@@ -73,8 +75,10 @@ interface HeaderSideBarProps {
 }
 export default function HeaderSideBar({onSearch  , cancelSearch , medias , searchString} : HeaderSideBarProps){
 
+    const {data : session , status} = useSession()
+ 
     const [isOpen,setIsOpen] = useState<boolean>(false)
-
+    const [loading,setLoading] = useState(false)
     const closeSidebar= () => {
         cancelSearch()
         setIsOpen(false)
@@ -140,7 +144,7 @@ export default function HeaderSideBar({onSearch  , cancelSearch , medias , searc
                                         variants={childContainerVariants}
                                          onClick={() => setIsOpen(false)}
                                         className="w-full h-20 px-6.5 flex gap-4 text-xl items-center ">
-                                        <ListVideo strokeWidth={1} size={25} /><p className="mb-0.5">Suggest Movie or Show</p> 
+                                        <ListVideo strokeWidth={1} size={25} /><p className="mb-0.5">Suggest </p> 
                                     </motion.button>
                                 </Link>
                                 <Link href='/favourites'>
@@ -174,14 +178,46 @@ export default function HeaderSideBar({onSearch  , cancelSearch , medias , searc
                                         <ListVideo strokeWidth={1} size={25} /><p className="mb-0.5">My Suggestions</p> 
                                     </motion.button>
                                 </Link>
-                                <motion.div 
-                                    variants={childContainerVariants}
-                                     onClick={() => setIsOpen(false)}
-                                    className="w-full h-20 px-2 flex gap-4 text-xl items-center  font-bold">
-                                     <button className="bg-green-600 rounded-xs flex gap-3 px-4.5 py-3 w-full">
-                                         <LogOut size={25}/>Log Out 
-                                     </button>
-                                </motion.div>
+                                {
+                                    session ? (
+                                        
+                                        <motion.div 
+                                            variants={childContainerVariants}
+                                            className="w-full h-20 px-2 flex gap-4 text-xl items-center  font-bold">
+                                            <button className="bg-green-600 rounded-xs flex gap-3 px-4.5 py-3 w-full" onClick={async () => {
+                                                setLoading(true)
+                                                await signOut({ callbackUrl: '/' })
+                                                setLoading(false)
+                                            }}>
+                                                
+                                                    {loading ? (
+                                                        <CircularProgress size={25} color="inherit" />
+                                                    ) : (
+                                                            <LogOut size={25}/>
+                                                    )}
+                                                Log Out 
+                                            </button>
+                                        </motion.div>
+                                    ) : (
+                                        <motion.div 
+                                            variants={childContainerVariants}
+                                            className="w-full h-20 px-2 flex gap-4 text-xl items-center  font-bold">
+                                            <button className="bg-green-600 rounded-xs flex gap-3 px-4.5 py-3 w-full" onClick={async () => {
+                                                setLoading(true)
+                                                await signIn('google')
+                                                setLoading(false)
+                                            }}>
+                                                
+                                                    {loading ? (
+                                                        <CircularProgress size={25} color="inherit" />
+                                                    ) : (
+                                                            <User size={25}/>
+                                                    )}
+                                                Sign In
+                                            </button>
+                                        </motion.div>
+                                    )
+                                }
                         </motion.div>
                     )
                 }

@@ -182,7 +182,7 @@ export function HomePageMediaCard({mediaData, enable}: {mediaData: any, enable: 
 
                         <motion.div 
                             variants={leftSectionVariants}
-                            className="w-30 absolute right-79.5 py-2 -z-20 flex flex-col items-end justify-between h-fit gap-6">
+                            className="w-40 absolute right-79.5 py-2 -z-20 flex flex-col items-end justify-between h-fit gap-6 pointer-events-none">
                             <motion.div 
                                 variants={infoCardVariants}
                                 className="p-2 -z-10 bg-black rounded-xs border-l border-t border-b border-[rgba(255,255,255,0.1)] w-fit h-fit flex justify-end">
@@ -214,10 +214,10 @@ export function HomePageMediaCard({mediaData, enable}: {mediaData: any, enable: 
 
                         <motion.div 
                             variants={rightSectionVariants}
-                            className="flex flex-col absolute left-79.5 py-2 -z-10 justify-between h-full">
+                            className="flex flex-col absolute left-79.5 py-2 -z-10 justify-between h-full pointer-events-none">
                             <div className="bg-black/80 backdrop-blur-3xl border-t border-r border-b border-[rgba(255,255,255,0.1)] rounded-xs p-2 pl-2.5 -z-10 w-fit">
                                 <div
-                                    className="rounded-xs  bg-neutral-700  cursor-pointer"
+                                    className="rounded-xs  bg-neutral-700  cursor-pointer pointer-events-auto"
                                 >
                                     <motion.div 
                                             onClick={() => setCurrent(null)}
@@ -231,7 +231,7 @@ export function HomePageMediaCard({mediaData, enable}: {mediaData: any, enable: 
                                 </div>
                             </div>
                             <div className="text-sm -z-10 w-fit h-fit bg-black text-neutral-500 backdrop-blur-3xl border-r border-t border-b border-[rgba(255,255,255,0.1)]">
-                                <div className="pb-20 font-medium px-4 py-2 overflow-y-auto w-70 h-91.5 mask-b-from-70%">
+                                <div className="pb-20 font-medium px-4 py-2 overflow-y-auto w-70 h-91.5 mask-b-from-70% pointer-events-auto">
                                     {current.overview}
                                 </div>
                             </div>
@@ -253,11 +253,13 @@ export function HomePageMediaCard({mediaData, enable}: {mediaData: any, enable: 
                     stiffness: 400,
                     damping: 20
                 }}>
-
+                
                 <div 
                     className="group relative w-full h-full rounded-[0.20rem] overflow-hidden shadow-xs bg-black/50 duration-300 transform"
                     onMouseEnter={() => setIsHover(true)}
-                    onMouseLeave={() => setIsHover(false)}>
+                    onMouseLeave={() => setIsHover(false)}
+                    onClick={() => setCurrent(mediaData)}
+                    >
                     
                     {mediaData.poster_path ? 
                         <motion.div
@@ -267,7 +269,7 @@ export function HomePageMediaCard({mediaData, enable}: {mediaData: any, enable: 
                                 normal: { scale: 1, opacity: 1 },
                                 hovered: { scale: 1.08, opacity: 1 }
                             }}
-                            onClick={() => setCurrent(mediaData)}
+
                             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}>
                             <img
                                 src={mediaData.poster_path ? `https://image.tmdb.org/t/p/w500${mediaData.poster_path}` : '/placeholder-movie.jpg'}
@@ -276,7 +278,7 @@ export function HomePageMediaCard({mediaData, enable}: {mediaData: any, enable: 
                             />
                         </motion.div>
                         :
-                        <div className="absolute inset-0 w-full h-full backdrop-blur-lg hover:scale-105 duration-200"></div>
+                        <div className="absolute inset-0 w-full h-full backdrop-blur-lg hover:scale-105 duration-200 "></div>
                     }
 
                     <ProgressiveBlur
@@ -298,7 +300,7 @@ export function HomePageMediaCard({mediaData, enable}: {mediaData: any, enable: 
                             visible: { opacity: 1, y: 0 }
                         }}
                         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}>
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
+                        
                         
                         <div className="absolute bottom-0 p-4 space-y-2 w-full">
                             <motion.h1 
