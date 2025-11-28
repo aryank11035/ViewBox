@@ -56,3 +56,17 @@ export async function getMovieThroughSearch(str : string ){
         return null
     }
 }
+export async function getRelatedMovies() {
+    try {
+        await connectToMongoose();
+
+        const movies = await Movies.find({}).lean();
+        const shuffled = movies.sort(() => 0.5 - Math.random());
+        const randomSix = shuffled.slice(0, 6);
+        return JSON.parse(JSON.stringify(randomSix))
+
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}

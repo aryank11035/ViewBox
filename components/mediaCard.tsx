@@ -7,47 +7,46 @@ import { ProgressiveBlur } from "./motion-primitives/progressive-blur";
 import { useState } from "react";
 import { motion, scale } from "motion/react";
 import { HeartButton } from "./media/favourite/heart-button";
-export default function MediaCard({mediaData ,  enable } : {mediaData : any , enable : boolean } ){
+export default function MediaCard({mediaData  } : {mediaData : any  } ){
   
     const [isHover, setIsHover] = useState(false);
     const [ onView, setOnView ] = useState(false)
-
+    const [isActive, setIsActive] = useState(false);
     const name = mediaData.title ? mediaData.title : mediaData.name
-
+    const showOverlay = isHover || isActive;
     return( 
         <>  
 
             
                 <Link href={`/${mediaData.mediaType ? mediaData.mediaType : mediaData.media_type}/${mediaData.id}/${name}`}  key={mediaData.id} > 
                     <motion.div 
-                        className="relative w-58  aspect-[2/3] cursor-pointer mx-auto rounded-xs"
-                        whileHover={{scale: 1.03}}
-                        transition={{
-                            type : "spring",
-                            stiffness : 400,
-                            damping : 15
-                        }}
+                        className="relative w-full  aspect-[2/3] cursor-pointer mx-auto rounded-xs"
+                       
                         >
        
 
 
                         <div className="group relative w-full h-full rounded-[0.20rem] overflow-hidden shadow-xs 
-                                        bg-black/50
+                                        bg-black 
                                         duration-300 transform"
                                             onMouseEnter={() => setIsHover(true)}
                                             onMouseLeave={() => setIsHover(false)}
+                                            onMouseDown={() => setIsActive(true)}
+                                            onMouseUp={() => setIsActive(false)}
                                             >
                                     
                             {
                                 mediaData.poster_path ? 
 
                                     <motion.div
-                                        className="absolute inset-0"
-                                        animate={isHover ? 'hovered' : 'normal'}
-                                        variants={{
-                                            normal: { scale: 1, opacity: 1 },
-                                            hovered: { scale: 1.05, opacity: 1},
-                                        }}
+                                        className="absolute inset-0 overflow-hidden"
+                                        animate= {isActive
+                                                ? { scale: 1.17 }     // pressed
+                                                : isHover
+                                                ? { scale : 1.1 }    // hover
+                                                : { scale : 1 }      // normal
+                                            }
+                                        
                                         transition={{ duration: 0.2, ease: 'easeOut' }}
                                     >
 
@@ -64,23 +63,33 @@ export default function MediaCard({mediaData ,  enable } : {mediaData : any , en
                                         <div className="absoulte inset-0 w-full h-full  backdrop-blur-lg hover:scale-105 duration-200"></div>
                                     }         
 
+                                    <motion.div
+                                        className="absolute inset-0 bg-black/40 pointer-events-none"
+                                        animate={
+                                            isActive
+                                                ? { opacity: 1 }     // pressed
+                                                : isHover
+                                                ? { opacity: 1 }    // hover
+                                                : { opacity: 0 }      // normal
+                                            }
+                                        transition={{ duration: 0.2, ease: "easeOut" }}
+                                    />
 
 
                             <ProgressiveBlur
                                         className='pointer-events-none absolute bottom-0 left-0 h-[50%] w-full'
                                         blurIntensity={0.8}
-                                        animate={isHover ? 'visible' : 'hidden'}
+                                        animate={ 'visible' }
                                         variants={{
-                                            hidden: { opacity: 0 },
                                             visible: { opacity: 1 },
                                         }}
                                         transition={{ duration: 0.2, ease: 'easeOut' }}
                                         />  
                             <motion.div
                                 className='absolute bottom-0 left-0  w-full'
-                                animate={isHover ? 'visible' : 'hidden'}
+                                animate={ 'visible' }
                                 variants={{
-                                    hidden: { opacity: 0 },
+            
                                     visible: { opacity: 1 },
                                 }}
                                 transition={{ duration: 0.2, ease: 'easeOut' }}

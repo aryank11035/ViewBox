@@ -1,4 +1,4 @@
-import { getMovie, getMovieWithId } from "@/app/actions/getMovie"
+import { getMovie, getMovieWithId, getRelatedMovies } from "@/app/actions/getMovie"
 import MediaPage from "@/components/media/MediaPage"
 import {  getMovieById, getMovieVideoById, getRelatedMedia, getShowData, getWheretoWatchById } from "@/lib/helpers"
 import { auth } from "@/auth"
@@ -30,7 +30,7 @@ export default async function ShowMediaPage({params} : Params) {
     const videoKey =trailerVideo?.key || mediaVideoData[0]?.key || null
     const whereToWatch = await getWheretoWatchById(mediaType,id)
     
-    const relatedMovies = await getRelatedMedia(mediaType,id)
+    const relatedMovies = await getRelatedMovies()
     const isAdmin = await getAdminAcess()
     // const getOverated = getUserOveratedMovies()
     

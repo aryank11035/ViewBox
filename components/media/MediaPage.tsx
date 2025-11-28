@@ -23,6 +23,7 @@ import { Button } from "../ui/button"
 import VotesComp from "./votes/votes-comp"
 import { Movie } from "@/schema/type"
 import AIGenerateInsightsComp from "../ai-insights-comp"
+import MediaCard from "../mediaCard"
 
 
 export default function MediaPage({allMediaData, mediaData  , mediaType , session  , videoKey , whereToWatch , relatedMovies , trendingData , isAdmin , isOverrated  = false, isUnderrated = false, isFavourite = false} : {allMediaData : Movie , mediaData : any  ,mediaType : 'movie' | 'tv', session : any | null ,  videoKey : string , whereToWatch : any, relatedMovies : any , trendingData : any , isAdmin : boolean , isOverrated : boolean ,isUnderrated : boolean ,isFavourite :boolean}){
@@ -374,7 +375,7 @@ export default function MediaPage({allMediaData, mediaData  , mediaType , sessio
                                             }}
                                             key={index}
                                         >
-                                                <RelatedMedia mediaData={mediaData} key={index}/>
+                                                <MediaCard mediaData={mediaData} />
                                         </motion.div>
                                     )) 
                                 :
