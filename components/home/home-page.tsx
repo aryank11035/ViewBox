@@ -15,6 +15,7 @@ interface HomePageProps {
     isFavourites : Set<string> ,
     underratedVotes : Set<string> ,
     overratedVotes : Set<string>
+    showPosters : Movie[]
 }
 
 
@@ -35,7 +36,7 @@ function getMovieByGenre(genre: string, movies: Movie[]): Movie[] {
     )
 }
 
-export default function HomePageClient({initialShows , languages , initialGenres , isFavourites , underratedVotes ,overratedVotes} : HomePageProps){
+export default function HomePageClient({initialShows , languages , initialGenres , isFavourites , underratedVotes ,overratedVotes ,showPosters} : HomePageProps){
 
     const [shows,setShows] = useState(initialShows)
     const [genres,setGenres] = useState(initialGenres)
@@ -77,7 +78,7 @@ export default function HomePageClient({initialShows , languages , initialGenres
         <>
 
         <PopUpStatesProvider>
-            <HomeSilderSection medias={shows.slice(0,5)} isFavourites={isFavourites}/>
+            <HomeSilderSection medias={showPosters} isFavourites={isFavourites}/>
             
                 <div className="border-b w-full border-[rgba(255,255,255,0.1)]">
 

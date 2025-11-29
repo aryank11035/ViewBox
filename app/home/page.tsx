@@ -1,7 +1,7 @@
 
 import { HomeSilderSection } from "@/components/home/homeSliderSection"
 import { getBackdrop } from "@/lib/helpers"
-import { getMovie } from "../actions/getMovie"
+import { getMovie, getRelatedMovies } from "../actions/getMovie"
 import { Movie } from "@/schema/type"
 import { getFavouritesIds } from "../actions/favourites"
 import { getMoviesByLanguage, getMoviesLanguages } from "../actions/home"
@@ -12,7 +12,7 @@ import { getAllOverratedVotes, getAllUnderratedVotes } from "../actions/votes"
 export default async function HomePage(){
 
     const shows = await getMovie() 
-    
+    const showPosters = await getRelatedMovies()
     const languages = await getMoviesLanguages()
 
 
@@ -25,7 +25,7 @@ export default async function HomePage(){
     return(
         <section className="w-full  mx-auto min-h-screen ">  
 
-            <HomePageClient initialShows={shows} initialGenres={genres} languages={languages} isFavourites={favIds} underratedVotes={underratedVotes} overratedVotes={overratedVotes}/>
+            <HomePageClient initialShows={shows} initialGenres={genres} languages={languages} isFavourites={favIds} underratedVotes={underratedVotes} overratedVotes={overratedVotes} showPosters={showPosters}/>
    
         </section>
     )

@@ -76,7 +76,7 @@ export  function Header({session} : any){
               }
             </div>
               {
-                !session?.user && <button className="bg-green-600 hover:bg-white hover:text-green-600 w-25 px-2.5 py-2.5 rounded-xs text-sm cursor-pointer duration-200 hover:scale-98 active:scale-95" 
+                !session?.user && <button className="bg-green-600 hover:bg-white hover:text-green-600 w-25 px-2.5 py-2.5 rounded-xs text-sm cursor-pointer duration-200 hover:scale-98 active:scale-95 shadow-lg shadow-green-600/50" 
                                           onClick={async () => {
                                               setLoading(true)
                                               await signIn('google', { callbackUrl: '/home' })
@@ -217,7 +217,7 @@ export const MediaOnSearch = ({medias , cancelSearch , forHeaderWidth = true , f
 
 export const SuggestMovieButton = () => {
   return (
-    <Link href='/suggestions' className="w-fit bg-green-600 px-2 text-sm font-light flex gap-2 p-2.5 rounded-xs hover:bg-white hover:text-green-600 duration-200 cursor-pointer hover:scale-98 active:scale-95">
+    <Link href='/suggestions' className="w-fit bg-green-600 px-2 text-sm font-light flex gap-2 p-2.5 rounded-xs hover:bg-white hover:text-green-600 duration-200 cursor-pointer hover:scale-95 active:scale-90 ">
         <ListVideo strokeWidth={1} size={20} />Suggest 
     </Link>
   )

@@ -10,7 +10,7 @@ import PopupWrapper from "@/components/popup-wrapper"
 import { ProgressiveBlur } from "@/components/motion-primitives/progressive-blur";
 import { Pen } from 'lucide-react';
 import { Input } from "@/components/ui/input";
-import { closeButtonVariant, containerVariants, deleteButtonVariants, extraButtonsSectionVariants, mediaSectionVariants, YesAndNoButtonVaraiants } from "./playlist-card/animation-variants";
+import { closeButtonVariant, containerVariants, deleteButtonVariants, extraButtonsSectionMobileVariants, extraButtonsSectionVariants, mediaSectionVariants, YesAndNoButtonMobileVaraiants, YesAndNoButtonVaraiants } from "./playlist-card/animation-variants";
 import { boolean } from "zod";
 import { editPlaylist } from "@/app/actions/playlist";
 import Link from "next/link";
@@ -356,7 +356,19 @@ export const PlayListPopUp = ({ current , setCurrent , handleUpdatedPlaylist , h
 
     return (
         <PopupWrapper isOpen={!!current} onClose={() => closePopUp()}>
-            <div className="w-2xl  flex flex-col ">
+
+            {/* <div className="flex 800:hidden bg-blue-100 h-170 w-[290px] 370:w-[350px] 420:w-[400px] 760:w-2xl rounded-xs flex-col">
+                <div className="w-full flex-1 bg-blue-200 rounded-xs">
+
+                </div>
+                <div className="w-full  bg-blue-300 h-full p-2 flex-1">
+                    <div className="w-full h-full bg-blue-400">
+
+                    </div>
+                </div>
+            </div> */}
+
+            <div className="w-[290px] 370:w-[350px] 420:w-[400px] 760:w-2xl flex-col flex relative">
 
 
                 {/* OTUSIDE BORDER OF THIS BOX */}
@@ -367,7 +379,7 @@ export const PlayListPopUp = ({ current , setCurrent , handleUpdatedPlaylist , h
                     variants={containerVariants}
                     className="w-full h-fit flex flex-row gap-2 bg-[#111111] p-4 border border-[rgba(255,255,255,0.1)]  rounded-xs z-300 " 
                 >
-                    <div className=" rounded-xs w-full h-72 flex flex-col gap-2  z-100">
+                    <div className=" rounded-xs w-full h-72 flex flex-col   z-100">
                         <div className="flex gap-2 justify-between">
                            
                             <NameComp currentName={currentName} setCurrentName={setCurrentName} clickedButton={clickedButton}/>
@@ -389,7 +401,7 @@ export const PlayListPopUp = ({ current , setCurrent , handleUpdatedPlaylist , h
                        
                         <DescriptionComp clickedButton={clickedButton} setCurrentDescription={setCurrentDescription} currentDescription={currentDescription} />
                      
-                        <div className="flex flex-col h-fit w-fit gap-2     ">
+                        <div className="flex flex-col h-fit w-fit gap-2  mt-2">
                             <div className="w-fit text-sm font-medium text-white/50 flex gap-3 ">
                                 <p className="tracking-tight">{`${current?.movies?.length} movies`}</p> 
                               
@@ -404,6 +416,41 @@ export const PlayListPopUp = ({ current , setCurrent , handleUpdatedPlaylist , h
 
                             <YesAndButtons clickedButton={clickedButton} cancelSelected={cancelSelected} updatePlaylist={updatePlaylist} id={current?._id} handleDeletePlaylist={handleDeletePlaylist} closePopUp={closePopUp}/>
                                 {/* this is extra button section  */}
+                             <motion.div 
+                                onMouseEnter={() => setOnHover(current)}
+                                onMouseLeave={() => setOnHover(null)}
+                                initial='hidden'
+                                animate='visible'
+                                exit='hidden'
+                                variants={extraButtonsSectionMobileVariants}
+                                className=" rounded-xs flex 800:hidden flex-row   absolute  -top-8 right-4 bg-black/40 backdrop-blur-3xl  border-t border-r border-l border-[rgba(255,255,255,0.1)] rounded-r-xs  text-left text-neutral-500 " 
+                            >
+                                <button 
+                                    className="px-3 text-sm py-2  text-center flex gap-2 items-center cursor-pointer justify-between hover:text-green-600 duration-200" 
+                                    onClick={() => {
+                                        setClicked(current)
+                                        handleClick('edit')
+                                        defaultCurrent()
+                                    }} 
+                                    style = {{color : clickedButton === 'edit' ?'#16A34A' : '#737373'}}>
+                              <Pen strokeWidth={1.1} size={16} className=""/>
+                                </button>
+                                
+                                <div className="border-l w-full border-[rgba(255,255,255,0.1)]"></div>
+                                <button 
+                                    className="px-3 text-sm py-2 text-center  flex gap-2 items-center justify-between cursor-pointer hover:text-rose-600 duration-200"  
+                                    onClick={() =>{ 
+                                        setClicked(current)
+                                        handleClick('delete')
+                                        setCurrentDescription('Do you want to delete the playlist ')
+                                    }}
+                                     style = {{color : clickedButton === 'delete' ?'#E11D48' : '#737373'}}
+                                >
+                                    <Trash2 strokeWidth={1.1} size={16} className="" />
+                                </button>
+                            </motion.div> 
+
+
                             <motion.div 
                                 onMouseEnter={() => setOnHover(current)}
                                 onMouseLeave={() => setOnHover(null)}
@@ -412,13 +459,14 @@ export const PlayListPopUp = ({ current , setCurrent , handleUpdatedPlaylist , h
                                 animate={onHover || clicked  ? 'hovered' : 'visible'}
                                 exit='hidden'
                                 variants={extraButtonsSectionVariants}
-                                className=" rounded-xs  flex flex-col   absolute  bottom-1/2 -right-24 bg-black/40 backdrop-blur-3xl  border-t border-r border-b border-[rgba(255,255,255,0.1)] rounded-r-xs  text-left text-neutral-500" 
+                                className=" rounded-xs hidden 800:flex flex-col   absolute  bottom-1/2 -right-24 bg-black/40 backdrop-blur-3xl  border-t border-r border-b border-[rgba(255,255,255,0.1)] rounded-r-xs  text-left text-neutral-500 " 
                             >
                                 <button 
                                     className="px-2 text-sm py-2  text-center flex gap-2 items-center cursor-pointer justify-between hover:text-green-600 duration-200" 
                                     onClick={() => {
                                         setClicked(current)
                                         handleClick('edit')
+                                        defaultCurrent()
                                     }} 
                                     style = {{color : clickedButton === 'edit' ?'#16A34A' : '#737373'}}>
                                 Edit  <Pen strokeWidth={1.1} size={16} className=""/>
@@ -429,6 +477,7 @@ export const PlayListPopUp = ({ current , setCurrent , handleUpdatedPlaylist , h
                                     onClick={() => {
                                         setClicked(current)
                                         handleClick('share')
+                                        defaultCurrent()
                                     }}
                                      style = {{color : clickedButton === 'share' ?'#9333EA' : '#737373'}}    
                                 >
@@ -441,21 +490,23 @@ export const PlayListPopUp = ({ current , setCurrent , handleUpdatedPlaylist , h
                                     onClick={() =>{ 
                                         setClicked(current)
                                         handleClick('delete')
+                                        setCurrentDescription('Do you want to delete the playlist?')
                                     }}
                                      style = {{color : clickedButton === 'delete' ?'#E11D48' : '#737373'}}
                                 >
                                     Delete <Trash2 strokeWidth={1.1} size={16} className="" />
                                 </button>
                             </motion.div> 
-                <div className="w-full mx-auto z-10 ">
+                <div className="w-full mx-auto z-10 px-2 760:px-0">
 
+                       
                     {/* this media cards section */}
                     <motion.div 
                         initial='hidden'
                         animate='visible'
                         exit='hidden'
                         variants={mediaSectionVariants}
-                        className="w-xl h-72 bg-black/40 backdrop-blur-3xl   mx-auto  border-l border-r border-b border-[rgba(255,255,255,0.1)] relative "
+                        className=" w-full h-full 760:w-xl 760:h-72 bg-black/40 backdrop-blur-3xl   mx-auto  border-l border-r border-b border-[rgba(255,255,255,0.1)] relative "
                     >
                         {
                             current?.movies.length === 0 ? 
@@ -470,7 +521,7 @@ export const PlayListPopUp = ({ current , setCurrent , handleUpdatedPlaylist , h
                                 ) 
                                     : 
                                 (
-                                    <div className="w-full h-full overflow-y-auto rounded-b-xs grid grid-cols-3 p-2 gap-2">
+                                    <div className="w-full h-72 760:h-full overflow-y-auto rounded-b-xs grid grid-cols-2 760:grid-cols-3 p-2 gap-2">
                                         {
                                              current?.movies.map((movie :  any) => (
                                                 <div className="w-full aspect-auto roudned-xs relative" key={movie.id}>
@@ -530,6 +581,35 @@ const YesAndButtons = ({clickedButton , cancelSelected , updatePlaylist , id ,ha
     }
 
     return (
+        <>
+        <motion.div
+            initial='hidden'
+            animate={
+                (clickedButton === 'edit' || clickedButton === 'delete') ? 'visible' : 'hidden'
+            }
+            onMouseEnter={() => setOnHover(true)}
+            onMouseLeave={() => setOnHover(false)}
+            exit='hidden'
+            variants={YesAndNoButtonMobileVaraiants}
+            className="absolute left-4 -top-8  bg-black/40 backdrop-blur-3xl p-1.5 mb-2 border-t border-l border-r border-[rgba(255,255,255,0.1)] rounded-l-xs flex 800:hidden flex-row gap-1.5 text-sm "
+        >
+            <button className="bg-green-600 text-white rounded-xs p-1 flex gap-1 items-center active:scale-98 hover:bg-green-700 duration-100 cursor-pointer " 
+                onClick={() =>{
+                    handleAction()
+                    setOnHover(false)
+                }}
+            >
+                <Check strokeWidth={1.1} size={16} /> {clickedButton !== 'delete' ? 'Save' : 'Yes'}
+            </button>
+            <button className="bg-red-600 text-white rounded-xs p-1 gap-1 flex items-center active:scale-98 hover:bg-red-700 duration-100 cursor-pointer"
+                 onClick={() =>{ 
+                    cancelSelected()
+                    setOnHover(false)
+                }}>
+                <X strokeWidth={1.1} size={16}/> {clickedButton !== 'delete' ? 'Cancel' : 'No'}
+            </button>
+        </motion.div>
+        
         <motion.div
             initial='hidden'
             animate={
@@ -542,7 +622,7 @@ const YesAndButtons = ({clickedButton , cancelSelected , updatePlaylist , id ,ha
             onMouseLeave={() => setOnHover(false)}
             exit='hidden'
             variants={YesAndNoButtonVaraiants}
-            className="absolute -left-8 bottom-1/2 bg-black/40 backdrop-blur-3xl p-2 border-t border-l border-b border-[rgba(255,255,255,0.1)] rounded-l-xs flex flex-col gap-2 text-sm"
+            className="absolute -left-8 bottom-1/2 bg-black/40 backdrop-blur-3xl p-2 border-t border-l border-b border-[rgba(255,255,255,0.1)] rounded-l-xs hidden 800:flex flex-col gap-2 text-sm "
         >
             <button className="bg-green-600 text-white rounded-xs p-1 flex gap-1 items-center active:scale-98 hover:bg-green-700 duration-100 cursor-pointer" 
                 onClick={() =>{
@@ -560,6 +640,7 @@ const YesAndButtons = ({clickedButton , cancelSelected , updatePlaylist , id ,ha
                 <X strokeWidth={1.1} size={16}/> {clickedButton !== 'delete' ? 'Cancel' : 'No'}
             </button>
         </motion.div>
+        </>
     )
 }
 
@@ -602,9 +683,9 @@ interface DescriptionCompProps {
 
 const DescriptionComp = ({clickedButton ,  currentDescription , setCurrentDescription} : DescriptionCompProps) => {
     return clickedButton === 'edit' ? (
-                 <textarea name="" id="" className="w-full rounded-xs overflow-hidden h-full text-neutral-500 bg-black/70 px-1 z-50 text-ellipsis" value={currentDescription} onChange={(e) => setCurrentDescription(e.target.value)}></textarea>
+                 <textarea name="" id="" className="w-full rounded-xs overflow-hidden h-full text-neutral-500 bg-black/70 px-1 z-50 text-ellipsis mt-2" value={currentDescription} onChange={(e) => setCurrentDescription(e.target.value)}></textarea>
             ) : (
-                <p className="overflow-hidden text-ellipsis text-base text-neutral-500 h-full  overflow-y-auto bg-black/40 px-1 rounded-xs z-50">
+                <p className="overflow-hidden text-ellipsis text-base text-neutral-500 h-full  overflow-y-auto bg-black/40 px-1 rounded-xs z-50 mt-2">
                             {currentDescription}
                 </p>
             )

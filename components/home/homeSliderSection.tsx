@@ -112,7 +112,7 @@ export const CarouselItems = ({media , i , activeIndex , isFavourite} : Carousel
                         />
 
                     </div>   
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-black/70 to-transparent z-30" ></div>     
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-black/50 to-transparent z-30" ></div>     
                     <div className="absolute inset-0 p-8 flex items-end z-40 ">
                         <AnimatePresence mode="wait">
                         {
