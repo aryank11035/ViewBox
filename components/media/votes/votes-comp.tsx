@@ -12,13 +12,13 @@ interface VotesCompProps {
     overrated : number , 
     underrated : number ,
     overratedVoted ?: boolean , 
-    underratedVoted ?: boolean ,  
+    underratedVoted ?: boolean , 
 }
 
 
-export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVoteChange , icon , page = true} : { page ?: boolean , votes : VotesCompProps , onOverrateVoteChange ?: ( vote : boolean , number : number) => void ,onUnderrateVoteChange ?: ( vote : boolean , number : number) => void  , icon : boolean}){
+export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVoteChange , icon , page = true , session } : { page ?: boolean , votes : VotesCompProps , onOverrateVoteChange ?: ( vote : boolean , number : number) => void ,onUnderrateVoteChange ?: ( vote : boolean , number : number) => void  , icon : boolean , session : any }){
 
-    const {data : session  , status} = useSession()
+    
     const { openPopup } = UsePopUp()
 
 

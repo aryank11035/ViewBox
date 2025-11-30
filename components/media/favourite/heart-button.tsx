@@ -16,14 +16,15 @@ interface HeartButtonProps {
     mediaInfo : any; 
     initialFavourite?: boolean;
     onFavoritesChange ?: (res: any , favourite : boolean) => void; 
+    session : any 
 }
 
 
 
 
-export function HeartButton({mediaInfo , initialFavourite , onFavoritesChange}  : HeartButtonProps){
+export function HeartButton({mediaInfo , initialFavourite , onFavoritesChange , session }  : HeartButtonProps){
 
-    const {data : session  , status} = useSession()
+    
   
     const [current,setCurrent] = useState(false)
     const { openPopup } = UsePopUp()

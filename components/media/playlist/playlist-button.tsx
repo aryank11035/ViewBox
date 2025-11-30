@@ -21,9 +21,9 @@ interface ResponseProps {
     success ?: boolean
 }
 
-export function PlaylistButton({playlistMediaInfo} : any){
+export function PlaylistButton({playlistMediaInfo , session } : any){
     
-    const {data : session  , status} = useSession()
+
     const { openPopup } = UsePopUp()
     
 

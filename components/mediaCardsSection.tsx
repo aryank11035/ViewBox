@@ -240,14 +240,16 @@ export function HomePageMediaCard({mediaData, enable}: {mediaData: any, enable: 
                         <motion.div
                             variants={mediaSectionVariants}
                             className="absolute -bottom-12 right-12 -z-10">
-                            <WhereToWatchButton mediaType={mediaData.mediaType} id={mediaData.id} name={name}/>
+                            <WhereToWatchButton mediaType={mediaData.mediaType} id={mediaData.id} name={name} forHomePage={true}/>
                         </motion.div>
                     </motion.div>
                 )}
             </PopupWrapper>
 
+            <MediaCard mediaData={mediaData} forHomepage={true}/>
+
             <motion.div 
-                className="relative w-58 aspect-[2/3] cursor-pointer mx-auto rounded-xs"
+                className="relative w-58 aspect-[2/3] cursor-pointer mx-auto rounded-xs hidden 800:flex "
                 transition={{
                     type: "spring",
                     stiffness: 400,

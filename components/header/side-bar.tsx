@@ -71,11 +71,12 @@ interface HeaderSideBarProps {
     onSearch : (str : string) => void ,
     cancelSearch : () => void  , 
     medias : Movie[] | null ,
-    searchString : string
+    searchString : string , 
+    session : any 
 }
-export default function HeaderSideBar({onSearch  , cancelSearch , medias , searchString} : HeaderSideBarProps){
+export default function HeaderSideBar({onSearch  , cancelSearch , medias , searchString , session} : HeaderSideBarProps){
 
-    const {data : session , status} = useSession()
+    
  
     const [isOpen,setIsOpen] = useState<boolean>(false)
     const [loading,setLoading] = useState(false)

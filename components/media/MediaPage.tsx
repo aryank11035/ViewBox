@@ -26,7 +26,7 @@ import AIGenerateInsightsComp from "../ai-insights-comp"
 import MediaCard from "../mediaCard"
 
 
-export default function MediaPage({allMediaData, mediaData  , mediaType , session  , videoKey , whereToWatch , relatedMovies , trendingData , isAdmin , isOverrated  = false, isUnderrated = false, isFavourite = false} : {allMediaData : Movie , mediaData : any  ,mediaType : 'movie' | 'tv', session : any | null ,  videoKey : string , whereToWatch : any, relatedMovies : any , trendingData : any , isAdmin : boolean , isOverrated : boolean ,isUnderrated : boolean ,isFavourite :boolean}){
+export default function MediaPage({allMediaData, mediaData  , mediaType  , videoKey , whereToWatch , relatedMovies , trendingData , isAdmin , isOverrated  = false, isUnderrated = false, isFavourite = false , session } : { allMediaData : Movie , mediaData : any  ,mediaType : 'movie' | 'tv', session : any | null ,  videoKey : string , whereToWatch : any, relatedMovies : any , trendingData : any , isAdmin : boolean , isOverrated : boolean ,isUnderrated : boolean ,isFavourite :boolean}){
 
 
   
@@ -45,6 +45,7 @@ export default function MediaPage({allMediaData, mediaData  , mediaType , sessio
     const [underratedVote,setUnderratedVote] = useState(isUnderrated)
     const [overratedNumber,setOverratedNumber] = useState(allMediaData.overrated)
     const [underratedNumber,setUnderratedNumber] = useState(allMediaData.underrated)
+
     //this goes the Playlist collection 
     const playlistMedia = {
         _id : allMediaData._id , 
@@ -193,8 +194,8 @@ export default function MediaPage({allMediaData, mediaData  , mediaType , sessio
                         </div>
                         <div className="flex flex-col md:flex-row gap-2  ">
                             <div className=" space-x-3  flex h-fill ">
-                                <HeartButton mediaInfo = {allMediaData} initialFavourite={favourite} onFavoritesChange={onFavouriteChange}/>
-                                <PlaylistButton playlistMediaInfo={playlistMedia}/> 
+                                <HeartButton mediaInfo = {allMediaData} initialFavourite={favourite} onFavoritesChange={onFavouriteChange} session={session}/>
+                                <PlaylistButton playlistMediaInfo={playlistMedia} session={session}/> 
                             </div>
                             {
                                 isAdmin && (
@@ -216,6 +217,7 @@ export default function MediaPage({allMediaData, mediaData  , mediaType , sessio
                                     icon={false}
                                     onOverrateVoteChange={onOverrateVoteChange}
                                     onUnderrateVoteChange={onUnderateVoteChange}
+                                    session={session}
                                    />
                             )
                         }

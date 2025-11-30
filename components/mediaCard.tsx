@@ -7,7 +7,7 @@ import { ProgressiveBlur } from "./motion-primitives/progressive-blur";
 import { useState } from "react";
 import { motion, scale } from "motion/react";
 import { HeartButton } from "./media/favourite/heart-button";
-export default function MediaCard({mediaData  } : {mediaData : any  } ){
+export default function MediaCard({mediaData , forHomepage = false } : {mediaData : any ,forHomepage ?: boolean } ){
   
     const [isHover, setIsHover] = useState(false);
     const [ onView, setOnView ] = useState(false)
@@ -20,7 +20,7 @@ export default function MediaCard({mediaData  } : {mediaData : any  } ){
             
                 <Link href={`/${mediaData.mediaType ? mediaData.mediaType : mediaData.media_type}/${mediaData.id}/${name}`}  key={mediaData.id} > 
                     <motion.div 
-                        className="relative w-full  aspect-[2/3] cursor-pointer mx-auto rounded-xs"
+                        className={`relative ${forHomepage ? 'w-58 800:hidden flex' : 'w-full'}  aspect-[2/3] cursor-pointer mx-auto rounded-xs  `}
                        
                         >
        

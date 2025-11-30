@@ -3,6 +3,7 @@ import { getAllOverratedVotes, getAllUnderratedVotes, getOverratedMedia, getVote
 import { getFavouritesIds } from "../actions/favourites"
 import { sortMovies } from "../favourites/page"
 import { Movie } from "@/schema/type"
+import { auth } from "@/auth"
 
 interface votesPageProps {
     searchParams : Promise<{ genre ?: string , sortBy ?: string , voted ?: string }>
@@ -10,6 +11,9 @@ interface votesPageProps {
 
 
 export default async function VotesPage({searchParams} : votesPageProps){
+
+    const session = await auth()
+
     const params = await searchParams
     const selectedGenre = params.genre || 'All Genres'
     const sortBy = params.sortBy || 'title'
@@ -44,7 +48,7 @@ export default async function VotesPage({searchParams} : votesPageProps){
     return (
         <section className="w-full  pt-20 bg-[#111111]">
             <div className="max-w-[1450px] mx-auto border-l border-r border-[rgba(255,255,255,0.1)] w-full  min-h-screen   bg-black/30"> 
-               <FavCardsPage favMovies={filteredMovies} sortBy={sortBy} selectedGenre={selectedGenre} allGenres={votedGenres} isFavouriteSet={favIds} isUnderratedSet={underratedVotes} isOverratedSet={overratedVotes} showVote={true} voted={voted}/>
+               <FavCardsPage favMovies={filteredMovies} sortBy={sortBy} selectedGenre={selectedGenre} allGenres={votedGenres} isFavouriteSet={favIds} isUnderratedSet={underratedVotes} isOverratedSet={overratedVotes} showVote={true} voted={voted} session={session}/>
             </div>
         </section>
     )

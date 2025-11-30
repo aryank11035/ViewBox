@@ -471,7 +471,7 @@ export const PlayListPopUp = ({ current , setCurrent , handleUpdatedPlaylist , h
                                     style = {{color : clickedButton === 'edit' ?'#16A34A' : '#737373'}}>
                                 Edit  <Pen strokeWidth={1.1} size={16} className=""/>
                                 </button>
-                                <div className="border-t w-full border-[rgba(255,255,255,0.1)]"></div>
+                                {/* <div className="border-t w-full border-[rgba(255,255,255,0.1)]"></div>
                                 <button 
                                     className="px-2 text-sm py-2 text-center  flex gap-2 items-center cursor-pointer justify-between hover:text-indigo-600 duration-200"  
                                     onClick={() => {
@@ -483,7 +483,7 @@ export const PlayListPopUp = ({ current , setCurrent , handleUpdatedPlaylist , h
                                 >
 
                                     Share <Share2 strokeWidth={1.1} size={16} className="" />
-                                </button>
+                                </button> */}
                                 <div className="border-t w-full border-[rgba(255,255,255,0.1)]"></div>
                                 <button 
                                     className="px-2 text-sm py-2 text-center  flex gap-2 items-center justify-between cursor-pointer hover:text-rose-600 duration-200"  

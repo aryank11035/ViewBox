@@ -17,7 +17,8 @@ interface favMediaProps {
     voted ?: string ,
     selectedGenre : string ,
     allGenres : string [],
-    showVote ? : boolean 
+    showVote ? : boolean ,
+    session : any 
 }
 
 
@@ -42,7 +43,7 @@ const childVariants = {
   }
 } as any;
 
-export default function FavCardsPage({favMovies , sortBy , selectedGenre , allGenres , isFavouriteSet ,isOverratedSet ,isUnderratedSet , showVote = false    , voted} : favMediaProps){
+export default function FavCardsPage({favMovies , sortBy , selectedGenre , allGenres , isFavouriteSet ,isOverratedSet ,isUnderratedSet , showVote = false    , voted , session } : favMediaProps){
 
 
 
@@ -101,6 +102,7 @@ export default function FavCardsPage({favMovies , sortBy , selectedGenre , allGe
                                 isFavourite={isFavouriteSet.has(media._id)}
                                 isOverrated={isOverratedSet.has(media._id)}
                                 isUnderrated={isUnderratedSet.has(media._id)}
+                                session={session}
                             />
                         ))}
                     </motion.div>

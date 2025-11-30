@@ -76,7 +76,7 @@ export  function Header({session} : any){
               }
             </div>
               {
-                !session?.user && <button className="bg-green-600 hover:bg-white hover:text-green-600 w-25 px-2.5 py-2.5 rounded-xs text-sm cursor-pointer duration-200 hover:scale-98 active:scale-95 shadow-lg shadow-green-600/50" 
+                !session?.user && <button className="bg-green-600 hover:bg-white hover:text-green-600 w-25 px-2.5 py-2.5 rounded-xs text-sm cursor-pointer duration-200 hover:scale-98 active:scale-95 " 
                                           onClick={async () => {
                                               setLoading(true)
                                               await signIn('google', { callbackUrl: '/home' })
@@ -121,7 +121,7 @@ export  function Header({session} : any){
 
           </div>
 
-          <HeaderSideBar onSearch={onSearch}  cancelSearch={cancelSearch} searchString={searchString}  medias={searchedMedia}/>
+          <HeaderSideBar onSearch={onSearch}  cancelSearch={cancelSearch} searchString={searchString}  medias={searchedMedia} session={session}/>
         </nav>  
     </header>
   )

@@ -48,8 +48,7 @@ export default async function ShowMediaPage({params} : Params) {
     const isOverrated = await getUserOverratedMoviesIdById(selectedMedia._id) || false
     const isUnderrated = await getUserUnderratedMoviesIdById(selectedMedia._id) || false
     const isFavourite = await getFavMovieIdById(selectedMedia._id) || false
-
-
+    
 
 
 

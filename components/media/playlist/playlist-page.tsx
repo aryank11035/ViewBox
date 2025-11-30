@@ -12,9 +12,9 @@ import PopupWrapper from "@/components/popup-wrapper"
 import { PopUpStatesProvider, SignInPopUp, UsePopUp } from "@/components/custom-hooks/hooks"
 import { useSession } from "next-auth/react"
 
-export default function PlaylistComp(){
+export default function PlaylistComp({session} : {session : any }){
 
-    const {data :  session ,  status} = useSession()
+    
     const { openPopup } = UsePopUp()
     const [showMessage,setShowMessage] = useState(false)
     const [playlistNames , setPlaylistNames] = useState<string[]>([])

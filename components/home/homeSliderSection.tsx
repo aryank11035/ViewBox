@@ -30,9 +30,10 @@ const infoCardVaraints = {
 interface HomeSliderSectionProps {
     medias : Movie []
     isFavourites : Set<string>
+    session : any 
 }
 
-export function HomeSilderSection({medias , isFavourites} : HomeSliderSectionProps){
+export function HomeSilderSection({medias , isFavourites , session} : HomeSliderSectionProps){
 
 
     const [index, setIndex] = useState(0);
@@ -72,7 +73,7 @@ export function HomeSilderSection({medias , isFavourites} : HomeSliderSectionPro
                 <CarouselContent>
                     {
                         medias.map((media: Movie, i : number)=>(
-                            <CarouselItems media={media} i={i} activeIndex={activeIndex} isFavourite={isFavourites.has(media._id)} key={i}/>
+                            <CarouselItems media={media} i={i} activeIndex={activeIndex} isFavourite={isFavourites.has(media._id)} key={i} session={session}/>
                         ))
                     }
                     
@@ -94,8 +95,9 @@ interface CarouselItemsProps {
     i : number ,
     activeIndex : number ,
     isFavourite : boolean
+    session : any 
 }
-export const CarouselItems = ({media , i , activeIndex , isFavourite} : CarouselItemsProps) => {
+export const CarouselItems = ({media , i , activeIndex , isFavourite , session} : CarouselItemsProps) => {
 
     const [initialState , setInitialState] = useState<boolean>(isFavourite)
 
@@ -148,7 +150,7 @@ export const CarouselItems = ({media , i , activeIndex , isFavourite} : Carousel
                                                 <h1 className="font-bold">{media.vote_average.toFixed(1)}</h1>
                                             </div>
                                             <div className="flex gap-1">
-                                                <HeartButton mediaInfo={media} initialFavourite={initialState} onFavoritesChange={onFavouriteChange}/>
+                                                <HeartButton mediaInfo={media} initialFavourite={initialState} onFavoritesChange={onFavouriteChange} session={session}/>
                                                 <WhereToWatchButton mediaType={media.mediaType} id={media.id} />
                                             </div>
                                         </motion.div>

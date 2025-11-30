@@ -79,11 +79,11 @@ interface FavCardProps {
     isFavourite : boolean , 
     isOverrated : boolean , 
     isUnderrated : boolean ,
-
+    session : any , 
 }
 
 
-export default function FavCard({media , isFavourite , isOverrated , isUnderrated } : FavCardProps){
+export default function FavCard({media , isFavourite , isOverrated , isUnderrated , session} : FavCardProps){
 
 
 
@@ -161,7 +161,7 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                                             </div>
                                             <motion.div 
                                                 className=' rounded-xs'>
-                                                <HeartButton mediaInfo={media} initialFavourite={initialState} onFavoritesChange={onFavoritesChange}/>
+                                                <HeartButton mediaInfo={media} initialFavourite={initialState} onFavoritesChange={onFavoritesChange} session={session}/>
                                             </motion.div>
                                             <VotesComp 
                                             icon={true} 
@@ -175,6 +175,7 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                                             page={false} 
                                             onOverrateVoteChange={onOverrateVoteChange}
                                             onUnderrateVoteChange={onUnderateVoteChange}
+                                            session={session}
                                             />
                                         </div>
 
@@ -207,7 +208,7 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                                             <motion.div 
                                                 layoutId={`liked-${media._id}`}
                                                 className=' rounded-xs hidden md:flex'>
-                                                <HeartButton mediaInfo={media} initialFavourite={initialState} onFavoritesChange={onFavoritesChange}/>
+                                                <HeartButton mediaInfo={media} initialFavourite={initialState} onFavoritesChange={onFavoritesChange} session={session}/>
                                             </motion.div>
 
 
@@ -227,6 +228,7 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                                                 page={false} 
                                                 onOverrateVoteChange={onOverrateVoteChange}
                                                 onUnderrateVoteChange={onUnderateVoteChange}
+                                                session={session}
                                             />
                                         </div>
                                         <motion.div className="bg-white/30 rounded-xs text-xs flex-wrap w-fit p-2 font-medium space-y-1.5">
@@ -259,7 +261,7 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                                 <motion.div 
                                     layoutId={`liked-${media._id}`} 
                                 >
-                                    <HeartButton mediaInfo={media} initialFavourite={initialState} onFavoritesChange={onFavoritesChange}/>
+                                    <HeartButton mediaInfo={media} initialFavourite={initialState} onFavoritesChange={onFavoritesChange} session={session}/>
                                 </motion.div>
 
                                 <VotesComp 
@@ -273,6 +275,7 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                                    }} 
                                     onOverrateVoteChange={onOverrateVoteChange}
                                     onUnderrateVoteChange={onUnderateVoteChange}
+                                    session={session}
                                    />
                             
                             </div>
@@ -327,16 +330,17 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
 interface WhereToWatchButtonProps {
     mediaType : string , 
     id : number ,
-    name ?: string
+    name ?: string 
+    forHomePage ?: boolean
 }
 
-export const WhereToWatchButton = ({mediaType , id , name} : WhereToWatchButtonProps) => {
+export const WhereToWatchButton = ({mediaType , id , name , forHomePage = false} : WhereToWatchButtonProps) => {
 
     const [isHover,setIsHover] = useState(false)
     return (
         <Link href={`/${mediaType}/${id}/${name}`}  key={id}>
             <motion.button 
-            className="bg-neutral-800 md:p-4 p-2 items-center  rounded-xs h-full  text-xs md:text-sm font-light hover:bg-[#FFFFFFE6] hover:text-black cursor-pointer duration-100 flex gap-2"
+            className={` ${forHomePage ? 'border border-[rgba(255,255,255,0.1)] bg-black' : 'bg-neutral-800'}  md:p-4 p-2 items-center  rounded-xs h-full  text-xs md:text-sm font-light hover:bg-[#FFFFFFE6] hover:text-black cursor-pointer duration-100 flex gap-2 backdrop-blur-3xl`}
             onMouseEnter = {() => setIsHover(true)}
             onMouseLeave = {() => setIsHover(false)}
             >

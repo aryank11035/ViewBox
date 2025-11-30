@@ -25,17 +25,20 @@ const yourMedia =await getMovie()
   return (
   
       <html>
+        <head>
+        <title>ViewBox</title>
+      </head>
         <body className={cn(
           "bg-[#111111]  text-white min-h-screen selection:bg-white selection:text-green-600 tracking-normal  ",
           font.className
           )}>
-            <SessionProvider session={session}>
+            
               <Header session={session}/>
               <main className="w-full relative  min-h-screen mx-auto">
                 {children}
               </main>
               <Footer/>
-            </SessionProvider>
+          
         </body>
       </html>
   

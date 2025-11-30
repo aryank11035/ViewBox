@@ -8,8 +8,11 @@ import { getMoviesByLanguage, getMoviesLanguages } from "../actions/home"
 import { getGenres } from "../actions/getGenres"
 import HomePageClient from "@/components/home/home-page"
 import { getAllOverratedVotes, getAllUnderratedVotes } from "../actions/votes"
+import { auth } from "@/auth"
 
 export default async function HomePage(){
+
+    const session = await auth()
 
     const shows = await getMovie() 
     const showPosters = await getRelatedMovies()
@@ -25,7 +28,7 @@ export default async function HomePage(){
     return(
         <section className="w-full  mx-auto min-h-screen ">  
 
-            <HomePageClient initialShows={shows} initialGenres={genres} languages={languages} isFavourites={favIds} underratedVotes={underratedVotes} overratedVotes={overratedVotes} showPosters={showPosters}/>
+            <HomePageClient initialShows={shows} initialGenres={genres} languages={languages} isFavourites={favIds} underratedVotes={underratedVotes} overratedVotes={overratedVotes} showPosters={showPosters} session={session}/>
    
         </section>
     )
