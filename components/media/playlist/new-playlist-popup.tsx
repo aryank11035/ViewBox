@@ -9,7 +9,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { X } from "lucide-react";
 import { useState } from "react";
-import { motion , AnimatePresence} from "framer-motion"
 import PopUpWrapper from "./popup-wrapper";
 
 interface ResponseProps {

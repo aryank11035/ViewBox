@@ -1,9 +1,9 @@
 'use client'
 
-import { easeIn, motion } from "framer-motion"
+import {  motion } from "framer-motion"
 import { ChevronDown } from 'lucide-react';
 import { useEffect, useState } from "react";
-export function Select({ onSelectChange }: any){
+export function Select({ onSelectChange }: { onSelectChange : (mediaType : string) => void  }){
 
     const [onClick , setOnClick] = useState(false)
     const [mediaType,setMediaType] = useState<'movie' | 'tv' >('movie')

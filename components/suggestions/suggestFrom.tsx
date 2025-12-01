@@ -1,9 +1,8 @@
 'use client'
 
-import { Movie } from "@/schema/type"
+import { Movie, Suggestion } from "@/schema/type"
 import { useEffect, useState } from "react"
 import HeaderSearchBar from "../header/search-bar"
-import { getMovieThroughSearch } from "@/app/actions/getMovie"
 import { MediaOnSearch } from "../header/mainHeader"
 import { getSearchData } from "@/lib/helpers"
 import { addToSugestions } from "@/app/actions/suggestions"
@@ -62,15 +61,17 @@ export function SuggestFrom(){
     
     const handleSubmit = async (e : React.FormEvent) => {
         e.preventDefault()
-        const suggestedMedia = {
-            id : clickedMedia?.id ,
-            name : clickedMedia?.original_name || clickedMedia?.title ,
-            poster : clickedMedia?.poster_path ,
-            backdrop : clickedMedia?.backdrop_path,
-            type : clickedMedia?.mediaType ,
-            release_date : clickedMedia?.first_air_date ? clickedMedia.first_air_date : clickedMedia?.release_date ,
+
+        
+        const suggestedMedia: Suggestion = {
+            id: clickedMedia!.id,
+            name: clickedMedia!.original_name ?? clickedMedia!.title ?? "Unknown", // fallback ensures string
+            poster: clickedMedia!.poster_path ?? "",
+            backdrop: clickedMedia!.backdrop_path ?? "",
+            type: clickedMedia!.mediaType,
+            release_date: clickedMedia!.first_air_date ?? clickedMedia!.release_date ?? "",
             reason
-        }
+        };
 
         const result = await addToSugestions(suggestedMedia)
         setResponse(result)

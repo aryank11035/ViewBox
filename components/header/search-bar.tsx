@@ -13,7 +13,7 @@ export interface HeaderSearchBarProps {
     searchString : string
 }
 
-export function shortCutSearch(key : string  , callback : () =>  void  ) {
+function shortCutSearch(key : string  , callback : () =>  void  ) {
     useEffect(() => {
         const handler = (e : KeyboardEvent) => {
             if(e.ctrlKey && e.key.toLowerCase() === 'k') {

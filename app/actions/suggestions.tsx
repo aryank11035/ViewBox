@@ -1,13 +1,13 @@
 'use server'
 
 import { auth } from "@/auth"
-import { getPosterAndBackDrop } from "@/lib/helpers"
 import { Movies, Suggestions, Users } from "@/lib/models"
 import { connectToMongoose } from "@/lib/mongoose"
-import { success } from "zod"
+import { Suggestion } from "@/schema/type"
 
 
-export async function addToSugestions(suggestedInfo : any ){
+
+export async function addToSugestions(suggestedInfo : Suggestion ){
    
 
     const session = await auth()
@@ -90,7 +90,7 @@ export async function addToSugestions(suggestedInfo : any ){
 
         return { success: true, message: "Suggestion added successfully!" };
     }catch(error){
-        console.error('')
+        console.error(error)
         return { success : false , error : 'failed to add media' }
     }
 
@@ -113,7 +113,7 @@ export async function getSuggestions(){
         ).populate({
             path : 'suggestions.suggestions_id',
             model : 'Suggestion'
-        }).lean() as { suggestions?: any[] } | null;
+        }).lean() as { suggestions?: Suggestion[] } | null;
 
 
      

@@ -35,6 +35,7 @@ export function SuggestionsCard({media} : any ){
                 <img
                     src={`https://image.tmdb.org/t/p/original${media.suggestions_id.backdrop}`}
                     className="absolute inset-0 object-cover w-full h-full "
+                    alt={media.suggestions_id.suggested_Name}
                 />
             </div>
             <div className="w-full flex-2 border-t border-[rgba(255,255,255,0.1)] p-2 space-y-1 bg-[#111111]/80 z-20 backdrop-blur-3xl">

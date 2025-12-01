@@ -1,7 +1,6 @@
 'use client' 
-import { motion , AnimatePresence} from "framer-motion"
-import { X } from "lucide-react"
-import React, { useState } from "react"
+import { motion} from "framer-motion"
+import React from "react"
 
 export default function PopUpWrapper({children , items_center =false } : { children : React.ReactNode , items_center : boolean}){
 

@@ -1,5 +1,6 @@
 import { SuggestionsCard } from "@/components/my-suggestions/suggestions-card"
 import { getSuggestions } from "../actions/suggestions"
+import { Suggestion } from "@/schema/type"
 
 export default async function MySuggestionsPage(){
 
@@ -25,7 +26,7 @@ export default async function MySuggestionsPage(){
                             className="max-w-[1340px] grid grid-cols-1 md:grid-cols-3  justify-items-center gap-4 mx-auto"
                         >
                                {
-                                      suggested.map(( media : any  , index: number) => 
+                                      suggested.map(( media : Suggestion  , index: number) => 
                                           <SuggestionsCard media={media} key={index}/>
                                       )
 

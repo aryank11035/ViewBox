@@ -1,10 +1,9 @@
 'use client'
 
 import { Movie } from "@/schema/type"
-import { Check, Sparkles } from "lucide-react"
+import { Sparkles } from "lucide-react"
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from "react"
-import PopUpWrapper from "./media/playlist/popup-wrapper"
 import { getInsights } from "@/app/actions/getInsights"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
@@ -82,7 +81,7 @@ export default function AIGenerateInsightsComp({allMediaData } : {allMediaData :
                         !loading ? (
                             <>
                             <div className="w-full flex flex-wrap justify-between items-center gap-2">
-                                <h1 className="text-4xl font-bold">Why it's worth watching</h1>
+                                <h1 className="text-4xl font-bold">{`Why it${`&apos;`}s worth watching`}</h1>
                                 <motion.button 
                                     onClick={() => setShowMessage(true)}
                                     className="text-sm bg-green-600 hover:text-green-600 hover:bg-white rounded-xs px-3 py-2 duration-200 hover:scale-98 active:scale-95 cursor-pointer flex items-center gap-2 w-full text-center justify-center md:w-fit group"
@@ -106,7 +105,7 @@ export default function AIGenerateInsightsComp({allMediaData } : {allMediaData :
                                             className="leading-7.5 tracking-tight text-xs space-y-1">
                                                 This movie stands out for its {movieGenres} elements compelling storytelling. 
                                                 With a {Number(allMediaData.vote_average.toFixed()) >= 6 ? 'strong' : ''} <span className="px-2 h-fit bg-neutral-900 rounded-xs whitespace-normal inline-block">{allMediaData.vote_average.toFixed(1)} IMDb rating</span> , 
-                                                it's clear that many viewers have found it engaging. The <span className="px-2 bg-neutral-900 rounded-xs whitespace-normal inline-block">{allMediaData.mediaType === 'movie' ? `film's` : `show's`} </span> exploration of its themes and 
+                                                {`it${`&apos;`}s`} clear that many viewers have found it engaging. The <span className="px-2 bg-neutral-900 rounded-xs whitespace-normal inline-block">{allMediaData.mediaType === 'movie' ? `film's` : `show's`} </span> exploration of its themes and 
                                                 the performances of its cast make it a noteworthy addition to the <span className="px-2  bg-neutral-900 rounded-xs whitespace-normal inline-block">{allMediaData.first_air_date ? allMediaData.first_air_date.split('-')[0]  : allMediaData.release_date?.split('-')[0]}</span> roster of releases.
                                         </motion.p> 
     

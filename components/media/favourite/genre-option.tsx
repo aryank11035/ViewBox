@@ -1,7 +1,6 @@
 'use client'
 
 import { useRouter, useSearchParams } from "next/navigation"
-import { useState, useTransition } from "react"
 
 
 interface genreOptionProps {
@@ -13,8 +12,6 @@ export default function GenreOption({allGenres , selectedGenre} : genreOptionPro
 
     const router = useRouter()
     const searchParams = useSearchParams()
-    const [isPending , startTransistion] = useTransition()
-
     const handleChange = (genre : string) => {
         const params = new URLSearchParams(searchParams.toString())
 

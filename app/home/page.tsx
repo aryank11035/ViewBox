@@ -1,10 +1,8 @@
 
-import { HomeSilderSection } from "@/components/home/homeSliderSection"
-import { getBackdrop } from "@/lib/helpers"
+
 import { getMovie, getRelatedMovies } from "../actions/getMovie"
-import { Movie } from "@/schema/type"
 import { getFavouritesIds } from "../actions/favourites"
-import { getMoviesByLanguage, getMoviesLanguages } from "../actions/home"
+import {  getMoviesLanguages } from "../actions/home"
 import { getGenres } from "../actions/getGenres"
 import HomePageClient from "@/components/home/home-page"
 import { getAllOverratedVotes, getAllUnderratedVotes } from "../actions/votes"
@@ -16,7 +14,7 @@ export default async function HomePage(){
 
     const shows = await getMovie() 
     const showPosters = await getRelatedMovies()
-    const languages = await getMoviesLanguages()
+    const languages = await getMoviesLanguages() as [{code: string , name : string }]
 
 
 

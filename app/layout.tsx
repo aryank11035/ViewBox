@@ -1,13 +1,11 @@
 
 import "./globals.css";
 import { Header } from "@/components/header/mainHeader";
-import { Space_Grotesk } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Footer } from "@/components/footer/mainFooter";
 import { IBM_Plex_Mono } from "next/font/google";
 import { auth } from "@/auth";
-import { SessionProvider } from "next-auth/react";
-import { getMovie } from "./actions/getMovie";
+
 
 const font = IBM_Plex_Mono({
     subsets : ['latin'],
@@ -21,7 +19,6 @@ export default async function RootLayout({
 }>) {
 
   const session = await auth()
-const yourMedia =await getMovie() 
   return (
   
       <html>

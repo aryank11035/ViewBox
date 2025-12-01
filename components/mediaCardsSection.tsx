@@ -1,9 +1,7 @@
 'use client'
-import { Star, X } from "lucide-react"
+import { X } from "lucide-react"
 import { ProgressiveBlur } from "./motion-primitives/progressive-blur"
 import { useState } from "react";
-import Link from "next/link";
-import { Button } from "./ui/button";
 import MediaCard from "./mediaCard";
 import { motion } from "framer-motion"
 import { Movie } from "@/schema/type";
@@ -11,8 +9,8 @@ import PopupWrapper from "./popup-wrapper";
 import { closeButtonVariant, mediaSectionVariants } from "./media/playlist/playlist-card/animation-variants";
 import { WhereToWatchButton } from "./media/favourite/fav-card";
 
-export function SliderMediaCardSection({mediaData, enable}: {mediaData: any, enable: boolean}) {
-    const dataFilter = mediaData.map((media: any) => ( 
+export function SliderMediaCardSection({mediaData, enable}: {mediaData: Movie[], enable: boolean}) {
+    const dataFilter = mediaData.map((media: Movie) => ( 
         <div key={media.id}>
             <HomePageMediaCard mediaData={media} enable={enable}/>
         </div>
@@ -151,7 +149,7 @@ const infoCardVariants = {
     }
 } as any
 
-export function HomePageMediaCard({mediaData, enable}: {mediaData: any, enable: boolean}) {
+export function HomePageMediaCard({mediaData}: {mediaData: any, enable: boolean}) {
     const [isHover, setIsHover] = useState(false);
     const [current, setCurrent] = useState<Movie | null>(null)
     const name = mediaData.title ? mediaData.title : mediaData.name

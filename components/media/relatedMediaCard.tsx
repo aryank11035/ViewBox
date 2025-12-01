@@ -1,7 +1,8 @@
+import { Movie } from "@/schema/type";
 import {  motion } from "framer-motion"
 import Link from "next/link";
 import { useEffect, useState } from "react";
-export function RelatedMedia({mediaData} : {mediaData : any}){
+export function RelatedMedia({mediaData} : {mediaData : Movie}){
 
     const [isMobile, setIsMobile] = useState(false);
     const [onHover,setOnHover] = useState(false)

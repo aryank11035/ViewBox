@@ -18,7 +18,7 @@ export default function LanguageSelect({languages , onLanguageSelect} : Language
         >   
              <option value="all">All Languages</option>
             {
-                languages.map((lang : any , index : number) => (
+                languages.map((lang : {code : string , name : string } , index : number) => (
                     <option value={lang.code} key={index}>
                         {lang.name}
                     </option>

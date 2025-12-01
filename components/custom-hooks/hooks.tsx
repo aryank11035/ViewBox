@@ -55,7 +55,7 @@ const PopUpContext = createContext<PopUpContextProps | undefined>(undefined)
 
 const PopUp = () => {
     
-    const { open , closePopup ,openPopup , description} = UsePopUp()
+    const { open , closePopup  , description} = UsePopUp()
     const [loading,setLoading] = useState(false)    
 
     return (

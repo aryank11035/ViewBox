@@ -8,7 +8,7 @@ import { FaHeart } from "react-icons/fa"
 import { Movie } from "@/schema/type"
 import Link from "next/link"
 import { CircularProgress } from "@mui/material"
-import { signIn, signOut, useSession } from "next-auth/react"
+import { signIn, signOut } from "next-auth/react"
 
 
 const containerVariants = {

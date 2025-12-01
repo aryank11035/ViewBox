@@ -1,12 +1,13 @@
-import { getMovie, getMovieWithId, getRelatedMovies } from "@/app/actions/getMovie"
+import { getMovieWithId, getRelatedMovies } from "@/app/actions/getMovie"
 import MediaPage from "@/components/media/MediaPage"
-import {  getMovieById, getMovieVideoById, getRelatedMedia, getShowData, getWheretoWatchById } from "@/lib/helpers"
+import {  getMovieById, getMovieVideoById, getShowData, getWheretoWatchById } from "@/lib/helpers"
 import { auth } from "@/auth"
 import { notFound } from "next/navigation"
 import { getAdminAcess } from "@/data/user"
-import { getFavMovieIdById, getFavouritesIds } from "@/app/actions/favourites"
+import { getFavMovieIdById } from "@/app/actions/favourites"
 import { getUserOverratedMoviesIdById, getUserUnderratedMoviesIdById } from "@/app/actions/votes"
 import { PopUpStatesProvider } from "@/components/custom-hooks/hooks"
+import { Movie } from "@/schema/type"
 
 type Params = {
     params : {
@@ -15,18 +16,31 @@ type Params = {
     }
 }
 
+export type VideoTralier = {
+     so_639_1: string,
+    iso_3166_1: string,
+    name: string ,
+    key: string ,
+    site: string ,
+    size: number ,
+    type: string ,
+    official: boolean
+    published_at: string ,
+    id: string 
+}
+
 export default async function ShowMediaPage({params} : Params) {
-    const { mediaType,id } = await params
+    const { mediaType,id } = await params as { mediaType : 'movie'| 'tv' , id : number  }
 
     if (!id || isNaN(Number(id))) {
         notFound();
     }
 
-    const session = await auth() as any | null
-    const trendingData = (await getShowData(mediaType)).slice(0,6)
-    const mediaData = await getMovieById(id,mediaType) as any
-    const mediaVideoData = await getMovieVideoById(mediaType,id) || []
-    const trailerVideo = mediaVideoData.find((video : any) => video.type ===  'Trailer')
+    const session = await auth()
+    const trendingData = (await getShowData(mediaType)).slice(0,6) as Movie[]
+    const mediaData = await getMovieById(id,mediaType) as Omit<Movie , '_id'| 'overrated' | 'underrated' >
+    const mediaVideoData = await getMovieVideoById(mediaType,id) || [] as VideoTralier[]
+    const trailerVideo = mediaVideoData.find((video : VideoTralier) => video.type ===  'Trailer')
     const videoKey =trailerVideo?.key || mediaVideoData[0]?.key || null
     const whereToWatch = await getWheretoWatchById(mediaType,id)
     

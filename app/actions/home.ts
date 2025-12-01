@@ -2,7 +2,6 @@
 
 import { Movies } from "@/lib/models"
 import { connectToMongoose } from "@/lib/mongoose"
-import { error } from "console"
 import { getMovie } from "./getMovie"
 import { Movie } from "@/schema/type"
 

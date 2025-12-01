@@ -3,11 +3,11 @@
 import { auth } from "@/auth"
 import { Playlists, Users } from "@/lib/models"
 import { connectToMongoose } from "@/lib/mongoose"
-import { error } from "node:console"
-import { success } from "zod"
+import {  Movie, PlaylistMovies } from "@/schema/type"
 
-export async function createNewPlaylist(playlist : any){
 
+export async function createNewPlaylist(playlist : { playlist_name : string , description ?: string , playlist_type : string  }){
+   
     const session = await auth()
     const userId = session?.user?.id
     const username = session?.user?.name
@@ -80,6 +80,7 @@ export async function getPlaylists(){
         const playlist_names = playlists.map(p => p.playlist_name)
         return playlist_names
     } catch (error) {
+        console.log(error)
         return []
     }
 }
@@ -98,9 +99,8 @@ export async function getAllPlaylists() {
 }
 
 
-export async function addToPlaylist(selectedPlaylist  : string , selectedMedia : any){
-    console.log('selected playlist : ' , selectedPlaylist)
-    console.log('selected media : ' , selectedMedia)
+export async function addToPlaylist(selectedPlaylist  : string , selectedMedia : PlaylistMovies){
+  
 
     try {
 
@@ -109,9 +109,10 @@ export async function addToPlaylist(selectedPlaylist  : string , selectedMedia :
         await connectToMongoose()
         const playlist = await Playlists.findOne({
             playlist_name : selectedPlaylist
-        })
+        }) 
+        console.log(playlist)
         if(!playlist) return {success : false , error : 'Playlist not found'}
-        const alreadyAdded = playlist.movies.some((movie : any) => movie.id === selectedMedia.id)
+        const alreadyAdded = playlist.movies.some((movie : Movie) => movie.id === selectedMedia.id)
         if(alreadyAdded)  return {success : false , error : 'Media already in playlist'}
         
         playlist.movies.push({
@@ -122,18 +123,19 @@ export async function addToPlaylist(selectedPlaylist  : string , selectedMedia :
             genres : selectedMedia.genres,
             name : selectedMedia.name,
             added_on: new Date()
-        });
+        }) as unknown as Omit<PlaylistMovies, '_id'>
 
         await playlist.save();
 
         return { success: true, message: `Media added to playlist ${selectedPlaylist}` };
 
     } catch (error) {
+        console.log(error)
         return { success: false, error: "Failed to add media" };
     }
 }
 
-export async function deletePlaylist(id : any) {
+export async function deletePlaylist(id : string) {
     const session = await auth()
     const userId =  session?.user?.id
 
@@ -151,6 +153,7 @@ export async function deletePlaylist(id : any) {
         
         return { success : false , error : 'playlist wasn`t  deleted' }
     }catch(error){
+        console.log(error)
         return {success : false , error : 'something happened'}
     }
 }   

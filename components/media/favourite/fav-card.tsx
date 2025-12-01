@@ -115,11 +115,9 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
     }
     
 
-    const handleClick = (media : any ) => {
+    const handleClick = (media :  Movie | null) => {
         setCurrent(media)
-        
-        console.log(media)
-    }
+    } 
 
 
 
@@ -148,7 +146,7 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                                             layoutId={`card-${media.poster_path}`}
                                             className="760:w-67 aspect-[2/3] md:mx-0 "
                                         >
-                                            <img src={ `https://image.tmdb.org/t/p/w500${current.poster_path}`} className="w-full h-full rounded-xs object-cover" />
+                                            <img src={ `https://image.tmdb.org/t/p/w500${current.poster_path}`} className="w-full h-full rounded-xs object-cover" alt={current.title ? current.title : current.name}/>
                                         </motion.div>
                                         <div
                                             className="flex flex-col gap-1 md:hidden "

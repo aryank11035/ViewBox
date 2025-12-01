@@ -3,7 +3,14 @@
 import { motion } from "framer-motion"
 import { useState } from "react"
 
-export function WhereToWatchIcons({iconData , mediaName} : {iconData : any , mediaName : string}){
+
+export type Icondata = {
+    logo_path : string ,
+    provider_name : string ,
+}
+
+
+export function WhereToWatchIcons({iconData , mediaName} : {iconData : Icondata , mediaName : string}){
 
     const [isHover,setIsHover] = useState(false)
     const where_to_watch_name = `www.${iconData.provider_name.replace(/[^a-zA-Z0-9]/g, '')}.com`
@@ -23,6 +30,7 @@ export function WhereToWatchIcons({iconData , mediaName} : {iconData : any , med
         >
             <img   src={`https://image.tmdb.org/t/p/w500${iconData.logo_path}`} 
                 className="w-9 h-9 object-contain rounded-xs"
+                alt={iconData.provider_name}
             />
             <motion.div     
                 className="h-fit w-fit flex items-center justify-center gap-2"

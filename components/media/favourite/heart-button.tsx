@@ -1,19 +1,15 @@
 'use client'
 
-import { addToFavourites, checkIsFavourite, getFavouritesIds, removeFromFavourites } from "@/app/actions/favourites"
+import { addToFavourites, removeFromFavourites } from "@/app/actions/favourites"
 import { motion } from "framer-motion"
 import { FaHeart } from "react-icons/fa"
-import { useSession } from "next-auth/react"
-import { containerVariants, UsePopUp, SignInPopUp } from "@/components/custom-hooks/hooks"
-import PopUpWrapper from "../../popup-wrapper"
-import { useState } from "react"
-import { Clapperboard, X } from "lucide-react"
-import { closeButtonVariant, mediaSectionVariants } from "../playlist/playlist-card/animation-variants"
+import { UsePopUp, SignInPopUp } from "@/components/custom-hooks/hooks"
+import { Movie } from "@/schema/type"
 
 
 
 interface HeartButtonProps {
-    mediaInfo : any; 
+    mediaInfo : Movie; 
     initialFavourite?: boolean;
     onFavoritesChange ?: (res: any , favourite : boolean) => void; 
     session : any 
@@ -25,8 +21,7 @@ interface HeartButtonProps {
 export function HeartButton({mediaInfo , initialFavourite , onFavoritesChange , session }  : HeartButtonProps){
 
     
-  
-    const [current,setCurrent] = useState(false)
+
     const { openPopup } = UsePopUp()
     const handleFavourites = async() => {
 

@@ -1,13 +1,10 @@
 'use server'
 import { auth } from "@/auth"
-import client from "@/lib/db"
 import { Movies } from "@/lib/models"
 import { connectToMongoose } from "@/lib/mongoose"
+import { Movie } from "@/schema/type"
 
-import { ObjectId } from "mongodb"
-import mongoose from "mongoose"
-
-export async function addMovie(mediaData : any){
+export async function addMovie(mediaData : Movie){
 
     const session = await auth()
     const username = session?.user?.name
@@ -21,7 +18,7 @@ export async function addMovie(mediaData : any){
         const existingMovie = await Movies.findOne({id : mediaData.id})
         if(!existingMovie){
             
-            const movie = await Movies.create(mediaData);
+            await Movies.create(mediaData);
             return ({success : true , media : mediaData})
         }
             

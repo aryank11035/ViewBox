@@ -2,13 +2,10 @@
 
 import { InfiniteSlider } from "../motion-primitives/infinite-slider"
 import { SliderMediaCardSection } from "../mediaCardsSection"
-
 import {  motion } from "framer-motion"
-import { useState } from "react"
-export default function UpdatedSection({mediaData } : {mediaData : any }){
-    const [activeDirection, setActiveDirection] = useState<"x" | "y" | null>(
-        null
-    )
+import { Movie } from "@/schema/type"
+
+export default function UpdatedSection({mediaData } : {mediaData : Movie[] }){
    
     return (
             <>
@@ -24,16 +21,7 @@ export default function UpdatedSection({mediaData } : {mediaData : any }){
                     >
                         <SliderMediaCardSection mediaData={mediaData} enable={false} />
                     </InfiniteSlider>
-                    {/* <ProgressiveBlur
-                        className='pointer-events-none absolute top-0 left-0 h-full w-[150px]'
-                        direction='left'
-                        blurIntensity={0.2}
-                    />
-                    <ProgressiveBlur
-                        className='pointer-events-none absolute top-0 right-0 h-full w-[100px]'
-                        direction='right'
-                        blurIntensity={0.2}
-                    /> */}
+                
                 </motion.div>
             </>
 

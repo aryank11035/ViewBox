@@ -32,11 +32,48 @@ export interface Movie {
   first_air_date?: string;
   genres: Genre[];
   mediaType: 'movie' | 'tv';
+  media_type : 'movie' | 'tv'
   overrated: number;
   underrated: number;
   added_by?: string;
   videokey?: string;
   suggested?: string;
   whereToWatch?: WhereToWatch;
+  runtime ?: number ,
   __v?: number;
+}
+
+export interface PlaylistMovies {
+  _id : string , 
+  id : number ,  
+  type : string  , 
+  name : string ,  
+  genres : Genre[] , 
+  img: string ,
+  added_on : Date ,
+  media_ref : string 
+}
+
+export interface Playlist {
+  _id : string  ,
+  playlist_name : string , 
+  description ?: string ,
+  playlist_type : string ,
+  created_by : string ,
+  created_by_name : string ,
+  playlist_id : string  ,
+  movies : PlaylistMovies[]
+  created_at : Date ,
+  __v ?: number 
+}
+
+
+export interface Suggestion {
+  id : number  ,
+  name : string  ,
+  poster : string ,
+  backdrop : string  ,
+  type : string ,
+  release_date : string ,
+  reason : string 
 }

@@ -220,6 +220,7 @@ export async function getVotes(vote ?: string){
        }
 
     } catch (error) {
+        console.log(error)
         return []
     }
 }
@@ -259,7 +260,7 @@ export async function getUnderratedMedia(){
 export async function getVotedMedia(vote ?: string){
     try {
         const votes = await getVotes(vote)
-        let votesArray = Array.from(votes)
+        const votesArray = Array.from(votes)
         const votedMedias = await Movies.find(
             {_id : {$in : votesArray}}
         ).lean()
@@ -284,8 +285,7 @@ export async function getVotedGenres() : Promise<string[]>{
         const votedMediaGenres = [
             'All Genres',
             ...Array.from(genreSet)
-        ] as  any
-
+        ] as  string []
         return votedMediaGenres
     }catch(error){
         console.log(error)

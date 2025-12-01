@@ -1,7 +1,7 @@
 'use client'
 import Link from "next/link";
 
-import { AnimatePresence , motion } from "motion/react";
+import {  motion } from "motion/react";
 
 import { FaHeart } from "react-icons/fa"
 import { ThumbsUp } from 'lucide-react';
@@ -108,7 +108,7 @@ const staticItemVariants = {
 
 
 interface LinkPopUpProps {
-    setShowLinkContainers : any 
+    setShowLinkContainers : React.Dispatch<React.SetStateAction<boolean>>
     showLinkContainers : boolean
     username : string
 }
@@ -117,7 +117,7 @@ interface LinkPopUpProps {
 export default function LinkPopUp({setShowLinkContainers , showLinkContainers , username} : LinkPopUpProps){
 
     if(!showLinkContainers || !username) return null
-    const [loading,setLoading] = useState(false)
+    const [loading,setLoading] = useState<boolean>(false)
   
     return (
         <motion.div 
@@ -181,7 +181,7 @@ export default function LinkPopUp({setShowLinkContainers , showLinkContainers , 
                 variants={staticItemVariants}
                 onClick={async () =>{
                     setLoading(true)
-                    const res = await signOut({ callbackUrl: '/' })
+                    await signOut({ callbackUrl: '/' })
                     setLoading(false)
                 }}
                 className="p-2 border-t border-[rgba(255,255,255,0.2)] py-4 hover:bg-white hover:text-green-600 duration-100 flex flex-row items-center gap-2 w-full cursor-pointer active:bg-white active:text-green-600">

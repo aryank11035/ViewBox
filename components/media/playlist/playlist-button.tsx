@@ -8,10 +8,8 @@ import { Input } from "@/components/ui/input";
 import { addToPlaylist, createNewPlaylist,  getPlaylists } from "@/app/actions/playlist";
 import { FormError } from "@/components/formError";
 import { FormSucess } from "@/components/formSucess";
-import { strict } from "node:assert";
 import PopUpWrapper from "./popup-wrapper";
 import { AnimatePresence } from "motion/react";
-import { useSession } from "next-auth/react";
 import { SignInPopUp, UsePopUp } from "@/components/custom-hooks/hooks";
 
 
@@ -43,8 +41,8 @@ export function PlaylistButton({playlistMediaInfo , session } : any){
         const playlistType = checkbox ? 'public' : 'private';
         const playlist = {
             playlist_name : playlistName,
-            playlist_type : playlistType
-        }
+            playlist_type : playlistType 
+        } 
         
         const res =  await createNewPlaylist(playlist) 
         const names = await getPlaylists(); 
@@ -73,7 +71,7 @@ export function PlaylistButton({playlistMediaInfo , session } : any){
             }
         }
         fetchPlaylists()
-    },[])
+    },[selectedPlaylist])
     
     const handlePlaylist = async (e : any) => {
         e.preventDefault()

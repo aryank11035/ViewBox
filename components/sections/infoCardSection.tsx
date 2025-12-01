@@ -55,7 +55,7 @@ export function InfoCardSection(){
              >
                 <div ><Users size={50}/></div>
                 <h1 className="text-xl font-bold">Vote & Shape The List</h1>
-                <p className="text-white/40">Help maintain the quality by upvoting hidden masterpieces and downvoting films that don't belong.</p>
+                <p className="text-white/40">Help maintain the quality by upvoting hidden masterpieces and downvoting films that {`don${`&apos;`}t`} belong.</p>
             </motion.div>
             <motion.div 
                 whileHover={{scale: 1.05}}
@@ -74,7 +74,7 @@ export function InfoCardSection(){
           <div className="  w-full mt-10">
                 <div className="w-[80%] mx-auto  h-full flex flex-col items-center justify-center gap-6">
                     <h1 className="text-3xl font-bold text-center">Ready to Discover Movies Worth Your Time?</h1>
-                    <p className="text-white/40 text-center">Join the club of film enthusiasts who've already found their next favorite underrated movie.</p>
+                    <p className="text-white/40 text-center">Join the club of film enthusiasts {`who${`&apos;`}ve`} already found their next favorite underrated movie.</p>
                     <HomeButton />
                 </div>
           </div>

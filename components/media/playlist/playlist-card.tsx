@@ -1,7 +1,7 @@
 'use client'
 
-import { Check, ChevronLeft, ChevronRight, Delete, Share2, Trash2, X } from "lucide-react";
-import { AnimatePresence, hover, motion } from "framer-motion"
+import { Check, Trash2, X  } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion"
 import { Eye } from 'lucide-react';
 import { EyeOff } from 'lucide-react';
 import { useEffect, useState } from "react";
@@ -10,8 +10,7 @@ import PopupWrapper from "@/components/popup-wrapper"
 import { ProgressiveBlur } from "@/components/motion-primitives/progressive-blur";
 import { Pen } from 'lucide-react';
 import { Input } from "@/components/ui/input";
-import { closeButtonVariant, containerVariants, deleteButtonVariants, extraButtonsSectionMobileVariants, extraButtonsSectionVariants, mediaSectionVariants, YesAndNoButtonMobileVaraiants, YesAndNoButtonVaraiants } from "./playlist-card/animation-variants";
-import { boolean } from "zod";
+import { closeButtonVariant, containerVariants, extraButtonsSectionMobileVariants, extraButtonsSectionVariants, mediaSectionVariants, YesAndNoButtonMobileVaraiants, YesAndNoButtonVaraiants } from "./playlist-card/animation-variants";
 import { editPlaylist } from "@/app/actions/playlist";
 import Link from "next/link";
 
@@ -94,7 +93,7 @@ export default function PlaylistCard({playlist , handleDeletePlaylist , handleUp
                             >
                                 <img
                                     src={`https://image.tmdb.org/t/p/w500${playlistMovies[0].img}.jpg`}
-                                    
+                                    alt={`https://image.tmdb.org/t/p/w50`}    
                                     className="w-full h-full rounded-xs flex-2 shadow-2xl shadow-black/50 object-cover"
                                     />
                             </motion.div>  
@@ -111,7 +110,7 @@ export default function PlaylistCard({playlist , handleDeletePlaylist , handleUp
                                 className=" h-40 w-25 md:w-30 md:h-50  z-30  absolute left-20 1435:left-18 rounded-xs bg-[#111111] translate-y-4 1435:translate-6">
                                 <img
                                     src={`https://image.tmdb.org/t/p/w500${playlistMovies[1].img}.jpg`}
-                                    
+                                    alt={`https://image.tmdb.org/t/p/w50`}
                                     className="w-full h-full rounded-xs flex-2 shadow-2xl shadow-black/50 object-cover"
                                     />
                             </motion.div>
@@ -127,7 +126,7 @@ export default function PlaylistCard({playlist , handleDeletePlaylist , handleUp
                                 className="h-40 w-25 z-30 md:w-30 md:h-50  absolute right-2  370:right-20 370:translate-y-2 420:right-25 760:right-20 1020:right-15 1435:left-36 1435:translate-4 rounded-xs bg-[#111111]">
                                 <img
                                     src={`https://image.tmdb.org/t/p/w500${playlistMovies[2].img}.jpg`}
-                                    
+                                    alt={`https://image.tmdb.org/t/p/w50`}
                                     className="w-full h-full rounded-xs flex-2 shadow-2xl shadow-black/50 object-cover"
                                 />
                             </motion.div>
@@ -143,7 +142,7 @@ export default function PlaylistCard({playlist , handleDeletePlaylist , handleUp
                                 className="h-40 w-25 z-30 md:w-30 md:h-50  absolute hidden 370:block right-2 1435:right-27 1435:translate-2 rounded-xs bg-[#111111]">
                             <img
                                 src={`https://image.tmdb.org/t/p/w500${playlistMovies[3].img}.jpg`}
-                                
+                                alt={`https://image.tmdb.org/t/p/w50`}
                                 className="w-full h-full rounded-xs flex-2 shadow-2xl shadow-black/50 object-cover"
                                 />
                             </motion.div>
@@ -159,7 +158,7 @@ export default function PlaylistCard({playlist , handleDeletePlaylist , handleUp
                                 className="h-40 w-25 z-30 md:w-30 md:h-50  absolute hidden 1435:block right-2 rounded-xs bg-[#111111]  ">
                                 <img
                                     src={`https://image.tmdb.org/t/p/w500${playlistMovies[4].img}.jpg`}
-                                    
+                                    alt={`https://image.tmdb.org/t/p/w50`}
                                     className="w-full h-full rounded-xs flex-2 shadow-2xl shadow-black/50 object-cover"
                                 />
                             </motion.div>      
@@ -176,7 +175,7 @@ export default function PlaylistCard({playlist , handleDeletePlaylist , handleUp
                                         className="h-40 w-25  md:w-30 md:h-50  absolute hidden " key={index}>
                                         <img
                                             src={`https://image.tmdb.org/t/p/w500${movies.img}.jpg`}
-                                            
+                                            alt={`https://image.tmdb.org/t/p/w50`}
                                             className="w-full h-full rounded-xs flex-2 shadow-2xl shadow-black/50 object-cover"
                                         />
                                     </motion.div>  
@@ -266,9 +265,6 @@ export const PlayListPopUp = ({ current , setCurrent , handleUpdatedPlaylist , h
     const [onHover,setOnHover] = useState<any|null>(null)
     const [clicked,setClicked] = useState<any|null>(null)
     const [clickedButton,setClickedButton] = useState<string>('')
-
-
-    const [nextStage,setNextStage] = useState<string | null>(null)
 
     const [selectedCards,setSelectedCards] = useState<Set<string>>(new Set())
     const [currentDescription,setCurrentDescription] = useState("no description");
@@ -513,7 +509,7 @@ export const PlayListPopUp = ({ current , setCurrent , handleUpdatedPlaylist , h
                                 (
                                     <div className="w-full h-full flex items-center justify-center flex-col gap-2 text-center p-2">
                                         <h1>This Playlist is empty</h1>
-                                        <p className="text-sm text-neutral-700">Add Movies or Shows to playlist by clicking 'Add to Playlist' </p>
+                                        <p className="text-sm text-neutral-700">Add Movies or Shows to playlist by clicking {`${ `&apos;`}Add to Playlist${ `&apos;`}`} </p>
                                         <Link href='/home' className="text-sm bg-green-600 hover:bg-white hover:text-green-600 duration-200 active:scale-98 p-2 rounded-xs cursor-pointer">
                                             Browse Movies or Shows
                                         </Link>
@@ -529,7 +525,7 @@ export const PlayListPopUp = ({ current , setCurrent , handleUpdatedPlaylist , h
                                                     <DeleteCard isSelected={selectedCards.has(movie._id)} handleSelectedcards={handleSelectedcards} media_id={movie._id} clickedButton={clickedButton}/>
                                                 
                                                     <img 
-                                                        src={ `https://image.tmdb.org/t/p/w500${movie.img}`} className="w-full h-full rounded-xs cursor-pointer"
+                                                        src={ `https://image.tmdb.org/t/p/w500${movie.img}`} className="w-full h-full rounded-xs cursor-pointer" alt={`https://image.tmdb.org/t/p/w50`}
                                                     />
                                                     <ProgressiveBlur 
                                                         className="pointer-events-none absolute bottom-0 left-0 h-[40%] w-full rounded-xs z-30"

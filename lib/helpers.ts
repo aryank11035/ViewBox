@@ -1,5 +1,7 @@
 'use server'
 
+import { VideoTralier } from "@/app/[mediaType]/[id]/[name]/page";
+import { Genre, Movie } from "@/schema/type";
 
 
 const options = {
@@ -9,8 +11,6 @@ const options = {
     Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_READ_ACCESS_TOKEN}`,
   },
 };
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
 
 
 export async function getShowData(mediaType : 'movie' | 'tv' =  'movie'){
@@ -23,10 +23,10 @@ export async function getShowData(mediaType : 'movie' | 'tv' =  'movie'){
     }
     const data = await res.json()
     // console.log(data)
-    return data.results.map((item : any) => ({
+    return data.results.map((item : Movie) => ({
       ...item,
       mediaType : mediaType,
-    })) as any []
+    })) as Movie []
 
   }catch(err){
     console.error(err)
@@ -48,7 +48,7 @@ export async function getMovieById(id: number,mediaType: 'movie' | 'tv' =  'movi
     }
     const data = await res.json();
    
-    return {
+    return ({
       id: data.id,
       title: data.title || data.name, 
       backdrop_path: data.backdrop_path,
@@ -62,15 +62,15 @@ export async function getMovieById(id: number,mediaType: 'movie' | 'tv' =  'movi
       release_date: data.release_date || data.first_air_date,
       original_title: data.original_title,
       overview: data.overview,
-      genres: data.genres.map((g: any) => ({ id: g.id, name: g.name })),
-      production_companies: data.production_companies.map((c: any) => ({
+      genres: data.genres.map((g: Genre) => ({ id: g.id, name: g.name })),
+      production_companies: data.production_companies.map((c: {id : number  , name : string , logo_path : string , origin_country : string }) => ({
         id: c.id,
         name: c.name,
         logo_path: c.logo_path,
         origin_country: c.origin_country,
       })),
       mediaType: mediaType
-    }; 
+    })  as Omit<Movie , '_id' | 'underrated' | 'overrated' | 'media_type'>
   } catch (err) {
     console.error(err);
   }
@@ -85,11 +85,11 @@ export async function getSearchData(query : string,mediaType : string ){
       return {message : 'No results found'}
     }
     const data = await res.json()
-    const mappedData = data.results.map((item : any) => ({
+    const mappedData = data.results.map((item : Movie) => ({
       ...item,
       mediaType : mediaType
     }))
-    const filteredData = mappedData.filter((item : any) => item.poster_path && item.backdrop_path && item.vote_average !== 0  && item.runtime !== 0)  
+    const filteredData = mappedData.filter((item : Movie) => item.poster_path && item.backdrop_path && item.vote_average !== 0  && item.runtime !== 0)  
     return filteredData
   } catch(err){
     console.error(err)
@@ -113,21 +113,6 @@ export async function getTrendingData(){
   }
 }
 
-export async function getImages(){
-  try{
-    const res = await fetch('https://api.themoviedb.org/3/trending/all/week',options)
-    if(!res.ok){
-      console.log('Error Fetching Data')
-      return {message : 'No trending movies or tv shows'}
-    }
-    const data = await res.json()
-    const imagesArray = data.results.map((item: any) => item.poster_path);
-    return imagesArray
-  }catch(err){
-    console.error(err)
-    return null
-  }
-}
 
 export async function getBackdrop(mediaType : 'movie' | 'tv' =  'movie'){
   try{
@@ -137,7 +122,7 @@ export async function getBackdrop(mediaType : 'movie' | 'tv' =  'movie'){
       return {message : 'No trending movies or tv shows'}
     }
     const data = await res.json()
-    const imagesArray = data.results.map((item: any) => item.backdrop_path);
+    const imagesArray = data.results.map((item: Movie) => item.backdrop_path);
     return imagesArray.slice(0,6)
   }catch(err){
     console.error(err)
@@ -155,7 +140,7 @@ export async function getMovieVideoById(mediaType: 'movie' | 'tv' =  'movie',id:
       return null;
     }
     const data = await res.json();
-    return data.results.filter((item : any) => (item.type.includes('Trailer') || item.type.includes('Clip')) && item.site.includes('YouTube'))
+    return data.results.filter((item : VideoTralier) => (item.type.includes('Trailer') || item.type.includes('Clip')) && item.site.includes('YouTube'))
     }catch(err){
       console.error(err)
       return null
@@ -174,8 +159,6 @@ export async function getWheretoWatchById(mediaType: 'movie' | 'tv' =  'movie',i
     }
     const data = await res.json();
     const whereToWatchSourceIN = data.results.IN
-
-    // if(whereToWatchSourceIN) return null
     
     const formattedData : Record<string , any> = {}
 
@@ -214,9 +197,9 @@ export async function getRelatedMedia(mediaType: 'movie' | 'tv' =  'movie',id: n
       return null;
     }
     const data = await res.json();
-    const filteredData = data.results.filter((item : any) => item.poster_path && item.backdrop_path && item.runtime !== 0)
+    const filteredData = data.results.filter((item : Movie) => item.poster_path && item.backdrop_path && item.runtime !== 0)
     const shuffled = filteredData.sort(() => 0.5 - Math.random());
-    return shuffled.slice(0,6).map((item : any) => ({...item , mediaType : mediaType}))
+    return shuffled.slice(0,6).map((item : Movie) => ({...item , mediaType : mediaType}))
     }catch(err){
       console.error(err)
       return null
@@ -236,11 +219,11 @@ export async function getSearchMedia(query : string , mediaType: 'movie' | 'tv' 
       return {message : 'No results found'}
     }
     const data = await res.json()
-    const mappedData = data.results.map((item : any) => ({
+    const mappedData = data.results.map((item : Movie) => ({
       ...item,
       mediaType : mediaType
     }))
-    const filteredData = mappedData.filter((item : any) => item.poster_path && item.backdrop_path && item.vote_average !== 0  && item.runtime !== 0)  
+    const filteredData = mappedData.filter((item : Movie) => item.poster_path && item.backdrop_path && item.vote_average !== 0  && item.runtime !== 0)  
     return filteredData
   } catch(err){
     console.error(err)

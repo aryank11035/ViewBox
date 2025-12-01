@@ -4,20 +4,18 @@
 import { useEffect, useState } from "react"
 import NoPlaylistComp from "./no-playlist-comp"
 import NewPlaylistPopup from "./new-playlist-popup"
-import { deletePlaylist, getAllPlaylists, getPlaylists } from "@/app/actions/playlist"
+import { deletePlaylist, getAllPlaylists } from "@/app/actions/playlist"
 import LoadingPlaylist from "./loading-playlist"
 import PlaylistCard from "./playlist-card"
 import {  AnimatePresence} from "framer-motion"
-import PopupWrapper from "@/components/popup-wrapper"
-import { PopUpStatesProvider, SignInPopUp, UsePopUp } from "@/components/custom-hooks/hooks"
-import { useSession } from "next-auth/react"
+import { SignInPopUp, UsePopUp } from "@/components/custom-hooks/hooks"
+
 
 export default function PlaylistComp({session} : {session : any }){
 
     
     const { openPopup } = UsePopUp()
     const [showMessage,setShowMessage] = useState(false)
-    const [playlistNames , setPlaylistNames] = useState<string[]>([])
     const [allPlaylists,setAllPlaylists] = useState<any []>([])
     const [isLoading,setIsLoading] = useState(true)
     

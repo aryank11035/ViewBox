@@ -1,10 +1,10 @@
 'use client'
 
-import { Session } from "inspector/promises";
+
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { HomeButton } from "./infoCardSection";
-export function LandingPage({session} : {session :any}){
+
+export function LandingPage(){
     return (
         <div className=" mx-auto w-fit  text-3xl md:text-6xl font-bold text-center flex i px-2 h-115 gap-5">
               <motion.div

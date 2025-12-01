@@ -1,10 +1,7 @@
 'use client'
 
 import {  updateOverrated, updateUnderrated } from "@/app/actions/votes"
-import {  useState } from "react"
 import { IoMdThumbsUp , IoMdThumbsDown } from "react-icons/io";
-import { motion } from 'framer-motion'
-import { useSession } from "next-auth/react";
 import { SignInPopUp, UsePopUp } from "@/components/custom-hooks/hooks";
 
 interface VotesCompProps {

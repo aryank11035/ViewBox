@@ -4,13 +4,9 @@
 
 import { useEffect, useState } from "react"
 import { addMovie } from "../../app/actions/addMovie"
-import { deleteMovie } from "../../app/actions/deleteMovie"
-import { Libre_Franklin } from "next/font/google"
-import { Sparkles } from 'lucide-react';
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { Frown, Plus } from 'lucide-react';
-import { ArrowLeft } from 'lucide-react';
 import YouTube from "react-youtube"
 import { Toaster } from "../ui/sonner"
 import { motion } from "framer-motion"
@@ -106,22 +102,22 @@ export default function MediaPage({allMediaData, mediaData  , mediaType  , video
         }
     }
 
-    async function removeMovie(){
-        try { 
-            const data = await deleteMovie(mediaData.id) 
+    // async function removeMovie(){
+    //     try { 
+    //         const data = await deleteMovie(mediaData.id) 
             
 
-            if(data?.success){
-                console.log('Movie removed Sucessfully')
-            }else{
-                console.log('Failed to delete movie')
-            }
+    //         if(data?.success){
+    //             console.log('Movie removed Sucessfully')
+    //         }else{
+    //             console.log('Failed to delete movie')
+    //         }
 
             
-        }catch(error){  
-            console.error('Failed to remove the movie',error)
-        }
-    }
+    //     }catch(error){  
+    //         console.error('Failed to remove the movie',error)
+    //     }
+    // }
 
     return (
         <>  

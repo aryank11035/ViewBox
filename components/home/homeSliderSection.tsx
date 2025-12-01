@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { Carousel, CarouselContent, CarouselIndicator, CarouselItem, CarouselNavigation, CarouselNavigationProps } from "../motion-primitives/carousel"
+import { Carousel, CarouselContent, CarouselItem, CarouselNavigation } from "../motion-primitives/carousel"
 import { AnimatePresence, motion } from 'framer-motion'
 import { Movie } from "@/schema/type";
 import { WhereToWatchButton } from "../media/favourite/fav-card";
@@ -111,6 +111,7 @@ export const CarouselItems = ({media , i , activeIndex , isFavourite , session} 
                         <img
                             src={`https://image.tmdb.org/t/p/original${media.backdrop_path}`}
                             className="absolute inset-0 object-cover w-full h-full "
+                            alt={media.title ? media.title : media.name}
                         />
 
                     </div>   

@@ -10,8 +10,8 @@ import { PopUpStatesProvider } from "../custom-hooks/hooks"
 
 interface HomePageProps {
     initialShows : Movie[],
-    languages : any ,
-    initialGenres : any ,
+    languages : [{code: string , name : string}] ,
+    initialGenres : string[] ,
     isFavourites : Set<string> ,
     underratedVotes : Set<string> ,
     overratedVotes : Set<string>
@@ -71,7 +71,7 @@ export default function HomePageClient({initialShows , languages , initialGenres
             onLanguageSelect(language)
         }
         setDisplayCount(shows.length < 10 ? shows.length : 10)
-    }, [language, onLanguageSelect])
+    }, [language, onLanguageSelect , shows.length])
 
     const visibleMovies = filteredMovies.slice(0, displayCount)
 

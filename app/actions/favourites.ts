@@ -6,23 +6,23 @@ import { connectToMongoose } from "@/lib/mongoose"
 import { Movie } from "@/schema/type"
 
 
-export async function addToFavourites(mediaInfo : any){
+export async function addToFavourites(mediaInfo : Movie){
 
     const session = await auth()
     const userId  = session?.user?.id
-    console.log(userId)
-    console.log(mediaInfo)
+    
+
     try{
         await connectToMongoose()
         const media = await Movies.findOne({
             id :  mediaInfo.id
         })
-        const isAdded = await Users.findByIdAndUpdate(
+        await Users.findByIdAndUpdate(
             userId,
             {$addToSet : { favourites : media._id }},
             {new : true}
         )
-        // console.log('added id' , mediaInfo._id )
+        
         return { success : true , added : 'added to Favourites'}
 
     }catch(error){
@@ -31,17 +31,17 @@ export async function addToFavourites(mediaInfo : any){
     }
 }
 
-export async function removeFromFavourites(mediaInfo : any){
+export async function removeFromFavourites(mediaInfo : Movie){
         const session = await auth()
         const userId  = session?.user?.id
         try{
             await connectToMongoose()
-            const remove = await Users.findByIdAndUpdate(
+            await Users.findByIdAndUpdate(
                 userId,
                 {$pull : { favourites :  mediaInfo._id}},
                 {new : true}
             )
-            // console.log('remove id' , mediaInfo._id )
+            
             return {success : true , removed : 'removed from favourites'}
         }catch(error){
             console.error(error);
@@ -87,12 +87,13 @@ export async function getFavourites(){
         return JSON.parse(JSON.stringify(userFavouriteMovies))
          
     }catch(error){
+        console.log(error)
         return []
     }
 }
 
 export async function getFavouritesIds(){
-    const favs = await getFavourites()
+    const favs = await getFavourites() as Movie[]
     const favIds = favs.map((fav : any ) => fav._id)
     // console.log(favIds)
     return new Set<string>(favIds) 
@@ -108,11 +109,12 @@ export async function getFavouritesGenres() : Promise<string[]> {
             'All Genres',
             ...new Set (
                 favouritesMovies.flatMap((movie : Movie) => movie.genres.map((genre : {name : string}) => genre.name ))
-            )
-        ] as any 
-
+            ) as Set<string>
+        ] as string []
+       
         return favUserGenres
    }catch(error){
+        console.log(error)
         return ['All Genres']
     }
 } 

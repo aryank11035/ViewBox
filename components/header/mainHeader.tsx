@@ -1,8 +1,7 @@
 'use client'
 import Link from "next/link";
-import { CircleUser } from "lucide-react";
 import { useEffect, useState } from "react";
-import { AnimatePresence , motion } from "motion/react";
+import { AnimatePresence  } from "motion/react";
 import { ListVideo } from 'lucide-react';
 import LinkPopUp from "./link-popup";
 import HeaderSearchBar from "./search-bar";

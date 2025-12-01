@@ -1,19 +1,16 @@
 'use client'
 
 import Link from "next/link"
-import { Star } from "lucide-react"
-
 import { ProgressiveBlur } from "./motion-primitives/progressive-blur";
 import { useState } from "react";
-import { motion, scale } from "motion/react";
-import { HeartButton } from "./media/favourite/heart-button";
-export default function MediaCard({mediaData , forHomepage = false } : {mediaData : any ,forHomepage ?: boolean } ){
+import { motion } from "motion/react";
+import { Movie } from "@/schema/type";
+export default function MediaCard({mediaData , forHomepage = false } : {mediaData : Movie ,forHomepage ?: boolean } ){
   
     const [isHover, setIsHover] = useState(false);
-    const [ onView, setOnView ] = useState(false)
     const [isActive, setIsActive] = useState(false);
     const name = mediaData.title ? mediaData.title : mediaData.name
-    const showOverlay = isHover || isActive;
+   
     return( 
         <>  
 

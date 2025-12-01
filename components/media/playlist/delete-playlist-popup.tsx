@@ -1,7 +1,6 @@
 'use client'
 
 import { X , Check } from "lucide-react"
-import PopUpWrapper from "./popup-wrapper"
 import { Button } from "@/components/ui/button"
 import { AnimatePresence, motion } from "framer-motion"
 export default function DeletePlaylist({handleDeleteMessage , playlist_name , deletePlaylist} : any){

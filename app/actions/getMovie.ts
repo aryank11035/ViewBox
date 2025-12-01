@@ -1,11 +1,10 @@
 'use server'
 
-import { auth } from "@/auth"
-import client from "@/lib/db"
-import { Movies } from "@/lib/models"
 
+import { Movies } from "@/lib/models"
 import { connectToMongoose } from "@/lib/mongoose"
 import { Movie } from "@/schema/type"
+
 
 
 
@@ -17,11 +16,11 @@ export async function getMovie(){
         const parsedMovies = JSON.parse(JSON.stringify(movies))
         
       
-        return parsedMovies.sort((a : any, b : any) => 
-            a.title.localeCompare(b.title)
+        return parsedMovies.sort((a : Movie, b : Movie) => 
+            a.title!.localeCompare(b.title!)
         )
     }catch(err){
-        console.error('Error fecthing User Data')
+        console.error('Error fecthing User Data' , err)
         return []
     }
     
@@ -34,7 +33,7 @@ export async function getMovieWithId(movieId : number) {
     try {
         await connectToMongoose()
         const movie = await Movies.findOne({ id :  Number(movieId)}).lean()
-        // console.log(movie)
+
         return JSON.parse(JSON.stringify(movie))
     }catch(error){
         console.log(error)
@@ -53,6 +52,7 @@ export async function getMovieThroughSearch(str : string ){
         
         return JSON.parse(JSON.stringify(movie))
     }catch(error){
+        console.log(error)
         return null
     }
 }

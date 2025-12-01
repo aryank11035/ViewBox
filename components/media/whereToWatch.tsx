@@ -1,8 +1,8 @@
 'use client'
 
-import { WhereToWatchIcons } from "./whereToWatchIcons"
+import {  WhereToWatchIcons } from "./whereToWatchIcons"
 
-export function WhereToWatch({whereToWatch , mediaName } : {whereToWatch : any , mediaName : string}){
+export function WhereToWatch({whereToWatch , mediaName } : {whereToWatch : any  , mediaName : string}){
 
     return(
         <div className="w-full ">
