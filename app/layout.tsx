@@ -23,6 +23,7 @@ export default async function RootLayout({
   
       <html>
         <head>
+          <link rel="icon" href="/whiteLogo.svg" type="image/x-icon"></link>
         <title>ViewBox</title>
       </head>
         <body className={cn(
