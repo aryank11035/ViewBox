@@ -81,7 +81,8 @@ export default function AIGenerateInsightsComp({allMediaData } : {allMediaData :
                         !loading ? (
                             <>
                             <div className="w-full flex flex-wrap justify-between items-center gap-2">
-                                <h1 className="text-4xl font-bold">{`Why it${`&apos;`}s worth watching`}</h1>
+                                <h1 className="text-4xl font-bold">Why it&apos;s worth watching</h1>
+
                                 <motion.button 
                                     onClick={() => setShowMessage(true)}
                                     className="text-sm bg-green-600 hover:text-green-600 hover:bg-white rounded-xs px-3 py-2 duration-200 hover:scale-98 active:scale-95 cursor-pointer flex items-center gap-2 w-full text-center justify-center md:w-fit group"
