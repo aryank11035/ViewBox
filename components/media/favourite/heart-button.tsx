@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 import { FaHeart } from "react-icons/fa"
 import { UsePopUp, SignInPopUp } from "@/components/custom-hooks/hooks"
 import { Movie } from "@/schema/type"
+import { useCallback } from "react"
 
 
 
@@ -23,7 +24,7 @@ export function HeartButton({mediaInfo , initialFavourite , onFavoritesChange , 
     
 
     const { openPopup } = UsePopUp()
-    const handleFavourites = async() => {
+    const handleFavourites = useCallback(async() => {
 
         if(!session) return openPopup('Sign in to add movies to your favourites')
             
@@ -37,7 +38,7 @@ export function HeartButton({mediaInfo , initialFavourite , onFavoritesChange , 
             onFavoritesChange?.(res ,true)
     
         }
-    }
+    },[])
 
     return (
         <>

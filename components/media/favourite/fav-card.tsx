@@ -2,7 +2,7 @@
 
 import { ProgressiveBlur } from "@/components/motion-primitives/progressive-blur"
 import { Movie } from "@/schema/type"
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { motion } from 'framer-motion'
 import { X } from "lucide-react"
 import { HeartButton } from "./heart-button"
@@ -12,6 +12,7 @@ import PopupWrapper from "@/components/popup-wrapper"
 import Link from "next/link"
 import VotesComp from "../votes/votes-comp"
 import { PopUpStatesProvider } from "@/components/custom-hooks/hooks"
+import React from "react"
 
 
 const useOutsideClick = (callback : () => void) => {
@@ -83,6 +84,8 @@ interface FavCardProps {
 }
 
 
+
+
 export default function FavCard({media , isFavourite , isOverrated , isUnderrated , session} : FavCardProps){
 
 
@@ -99,28 +102,62 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
     const [underratedNumber,setUnderratedNumber] = useState(media.underrated)
     const [favouritesResponse,setFavouriteResponse] = useState<handleFavouritesProps | undefined>(undefined)
     
-    const onFavoritesChange = (res : handleFavouritesProps , favourite : boolean) => {
+    const onFavoritesChange = useCallback((res : handleFavouritesProps , favourite : boolean) => {
         setInitialState(favourite)
         setFavouriteResponse(res)
-    }
 
-    const onOverrateVoteChange = ( vote : boolean , number : number) => {
+        const timer = setTimeout(() => setFavouriteResponse(undefined), 2000)
+        return () => clearTimeout(timer)
+    },[])
+
+    const onOverrateVoteChange = useCallback(( vote : boolean , number : number) => {
         setOverratedVote(vote)
         setOverratedNumber(number)
-    }
+    },[])
 
-    const onUnderateVoteChange  = ( vote : boolean ,number : number) => {
+    const onUnderateVoteChange  = useCallback(( vote : boolean ,number : number) => {
         setUnderratedVote(vote)
         setUnderratedNumber(number)
-    }
+    },[])
     
 
-    const handleClick = (media :  Movie | null) => {
+    const handleClick = useCallback((media :  Movie | null) => {
         setCurrent(media)
-    } 
+    },[])
+
+     useEffect(() => {
+        setInitialState(isFavourite)
+    }, [isFavourite])
+
+    useEffect(() => {
+        setOverratedVote(isOverrated)
+    }, [isOverrated])
+
+    useEffect(() => {
+        setUnderratedVote(isUnderrated)
+    }, [isUnderrated])
+
+     const heartButtonProps = useMemo(() => ({
+        mediaInfo: media,
+        initialFavourite: initialState,
+        onFavoritesChange,
+        session
+    }), [media, initialState, onFavoritesChange, session])
 
 
-
+    const votesProps = useMemo(() => ({
+        icon: true,
+        votes: {
+            id: media._id,
+            overrated: overratedNumber,
+            underrated: underratedNumber, 
+            overratedVoted: overratedVote,
+            underratedVoted: underratedVote 
+        },
+        onOverrateVoteChange,
+        onUnderateVoteChange,
+        session
+    }), [media._id, overratedNumber, underratedNumber, overratedVote, underratedVote, onOverrateVoteChange, onUnderateVoteChange, session])
     return(
 
 
@@ -159,7 +196,7 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                                             </div>
                                             <motion.div 
                                                 className=' rounded-xs'>
-                                                <HeartButton mediaInfo={media} initialFavourite={initialState} onFavoritesChange={onFavoritesChange} session={session}/>
+                                                <HeartButton {...heartButtonProps}/>
                                             </motion.div>
                                             <VotesComp 
                                             icon={true} 
@@ -259,7 +296,7 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                                 <motion.div 
                                     layoutId={`liked-${media._id}`} 
                                 >
-                                    <HeartButton mediaInfo={media} initialFavourite={initialState} onFavoritesChange={onFavoritesChange} session={session}/>
+                                    <HeartButton {...heartButtonProps}/>
                                 </motion.div>
 
                                 <VotesComp 
@@ -323,6 +360,7 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
 
     )
 }
+
 
 
 interface WhereToWatchButtonProps {

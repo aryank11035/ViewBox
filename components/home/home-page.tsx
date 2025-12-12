@@ -73,7 +73,11 @@ export default function HomePageClient({initialShows , languages , initialGenres
         setDisplayCount(shows.length < 10 ? shows.length : 10)
     }, [language, onLanguageSelect , shows.length])
 
-    const visibleMovies = filteredMovies.slice(0, displayCount)
+    const visibleMovies = useMemo(() => 
+        filteredMovies.slice(0, displayCount),
+        [filteredMovies, displayCount]
+    )
+
 
     return (
         <>
