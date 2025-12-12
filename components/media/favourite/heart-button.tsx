@@ -5,7 +5,8 @@ import { motion } from "framer-motion"
 import { FaHeart } from "react-icons/fa"
 import { UsePopUp, SignInPopUp } from "@/components/custom-hooks/hooks"
 import { Movie } from "@/schema/type"
-import { useCallback } from "react"
+import { useCallback, useState, useTransition } from "react"
+import { handleFavouritesProps } from "./fav-card"
 
 
 
@@ -24,21 +25,64 @@ export function HeartButton({mediaInfo , initialFavourite , onFavoritesChange , 
     
 
     const { openPopup } = UsePopUp()
-    const handleFavourites = useCallback(async() => {
+    const [isPending, startTransition] = useTransition()
+    const [isOptimistic, setIsOptimistic] = useState(false)
 
-        if(!session) return openPopup('Sign in to add movies to your favourites')
-            
-        if(initialFavourite) {
-            const res = await removeFromFavourites(mediaInfo)
-            onFavoritesChange?.(res ,false)
-      
-        } else{
-  
-            const res = await addToFavourites(mediaInfo)
-            onFavoritesChange?.(res ,true)
-    
+
+    const handleFavourites = useCallback(async () => {
+        if (!session) {
+            openPopup('Sign in to add movies to your favourites')
+            return
         }
-    },[mediaInfo , initialFavourite , onFavoritesChange , session , openPopup])
+
+        // Optimistic update - immediately update UI
+        const newFavState = !initialFavourite
+        setIsOptimistic(true)
+        
+        // Immediately call the callback with optimistic data
+        onFavoritesChange?.(
+            {
+                success: true,
+                [newFavState ? 'added' : 'removed']: mediaInfo.title || mediaInfo.name
+            },
+            newFavState
+        )
+
+        // Then sync with server in the background
+        startTransition(async () => {
+            try {
+                let res: handleFavouritesProps
+                
+                if (initialFavourite) {
+                    res = await removeFromFavourites(mediaInfo)
+                    // Only update if server response differs from optimistic update
+                    if (!res.success) {
+                        // Rollback on server error
+                        onFavoritesChange?.(res, true)
+                    }
+                } else {
+                    res = await addToFavourites(mediaInfo)
+                    // Only update if server response differs from optimistic update
+                    if (!res.success) {
+                        // Rollback on server error
+                        onFavoritesChange?.(res, false)
+                    }
+                }
+            } catch (error) {
+                // Rollback on error
+                console.error('Failed to update favourites:', error)
+                onFavoritesChange?.(
+                    {
+                        success: false,
+                        error: 'Failed to update. Please try again.'
+                    },
+                    !!initialFavourite // Revert to initial state
+                )
+            } finally {
+                setIsOptimistic(false)
+            }
+        })
+    }, [session, initialFavourite, mediaInfo, onFavoritesChange, openPopup])
 
     return (
         <>
