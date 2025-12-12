@@ -145,19 +145,19 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
     }), [media, initialState, onFavoritesChange, session])
 
 
-    const votesProps = useMemo(() => ({
-        icon: true,
-        votes: {
-            id: media._id,
-            overrated: overratedNumber,
-            underrated: underratedNumber, 
-            overratedVoted: overratedVote,
-            underratedVoted: underratedVote 
-        },
-        onOverrateVoteChange,
-        onUnderateVoteChange,
-        session
-    }), [media._id, overratedNumber, underratedNumber, overratedVote, underratedVote, onOverrateVoteChange, onUnderateVoteChange, session])
+    // const votesProps = useMemo(() => ({
+    //     icon: true,
+    //     votes: {
+    //         id: media._id,
+    //         overrated: overratedNumber,
+    //         underrated: underratedNumber, 
+    //         overratedVoted: overratedVote,
+    //         underratedVoted: underratedVote 
+    //     },
+    //     onOverrateVoteChange,
+    //     onUnderateVoteChange,
+    //     session
+    // }), [media._id, overratedNumber, underratedNumber, overratedVote, underratedVote, onOverrateVoteChange, onUnderateVoteChange, session])
     return(
 
 
