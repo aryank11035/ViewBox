@@ -86,173 +86,122 @@ interface FavCardProps {
 
 
 
-export default function FavCard({media , isFavourite , isOverrated , isUnderrated , session} : FavCardProps){
-
-
-
+const FavCard = React.memo( 
     
-    const [current , setCurrent] = useState<Movie | null>(null)
-
-    const ref = useOutsideClick(() => setCurrent(null))
-
-    const [initialState , setInitialState] = useState<boolean>(isFavourite)
-    const [overratedVote,setOverratedVote] = useState(isOverrated)
-    const [underratedVote,setUnderratedVote] = useState(isUnderrated)
-    const [overratedNumber,setOverratedNumber] = useState(media.overrated)
-    const [underratedNumber,setUnderratedNumber] = useState(media.underrated)
-    const [favouritesResponse,setFavouriteResponse] = useState<handleFavouritesProps | undefined>(undefined)
+    function FavCard({media , isFavourite , isOverrated , isUnderrated , session} : FavCardProps){
     
-    const onFavoritesChange = useCallback((res : handleFavouritesProps , favourite : boolean) => {
-        setInitialState(favourite)
-        setFavouriteResponse(res)
-
-        const timer = setTimeout(() => setFavouriteResponse(undefined), 2000)
-        return () => clearTimeout(timer)
-    },[])
-
-    const onOverrateVoteChange = useCallback(( vote : boolean , number : number) => {
-        setOverratedVote(vote)
-        setOverratedNumber(number)
-    },[])
-
-    const onUnderateVoteChange  = useCallback(( vote : boolean ,number : number) => {
-        setUnderratedVote(vote)
-        setUnderratedNumber(number)
-    },[])
     
-
-    const handleClick = useCallback((media :  Movie | null) => {
-        setCurrent(media)
-    },[])
-
-     useEffect(() => {
-        setInitialState(isFavourite)
-    }, [isFavourite])
-
-    useEffect(() => {
-        setOverratedVote(isOverrated)
-    }, [isOverrated])
-
-    useEffect(() => {
-        setUnderratedVote(isUnderrated)
-    }, [isUnderrated])
-
-     const heartButtonProps = useMemo(() => ({
-        mediaInfo: media,
-        initialFavourite: initialState,
-        onFavoritesChange,
-        session
-    }), [media, initialState, onFavoritesChange, session])
-
-
-    // const votesProps = useMemo(() => ({
-    //     icon: true,
-    //     votes: {
-    //         id: media._id,
-    //         overrated: overratedNumber,
-    //         underrated: underratedNumber, 
-    //         overratedVoted: overratedVote,
-    //         underratedVoted: underratedVote 
-    //     },
-    //     onOverrateVoteChange,
-    //     onUnderateVoteChange,
-    //     session
-    // }), [media._id, overratedNumber, underratedNumber, overratedVote, underratedVote, onOverrateVoteChange, onUnderateVoteChange, session])
-    return(
-
-
-        <>
-         <PopUpStatesProvider>
-            <PopupWrapper isOpen={!!current} onClose={() => setCurrent(null)}>
-            {
-                current && (          
-                    
-                                
-                                //pop up div
-                                 <motion.div 
-                                    variants={containerVariants}
-                                    initial='hidden'
-                                    animate='visible'
-                                    exit='hidden'
-                                    layoutId={`card-${media._id}`}
-                                    className=" bg-[#111111] z-20 rounded-xs flex gap-2 md:gap-4 md:w-180 flex-col md:flex-row md:h-[463px]  overflow-hidden border border-[rgba(255,255,255,0.1)]  w-full  mx-6 " 
-                                    ref={ref} 
-                                >
-                                    <div className="w-fit flex gap-2">
-                                        <motion.div 
-                                            layoutId={`card-${media.poster_path}`}
-                                            className="760:w-67 aspect-[2/3] md:mx-0 "
-                                        >
-                                            <img src={ `https://image.tmdb.org/t/p/w500${current.poster_path}`} className="w-full h-full rounded-xs object-cover" alt={current.title ? current.title : current.name}/>
-                                        </motion.div>
-                                        <div
-                                            className="flex flex-col gap-1 md:hidden "
-                                        >
-                                            <div className="w-full h-fit bg-neutral-800 rounded-xs flex justify-center p-2">
-                                                <motion.button onClick={() => setCurrent(null)} variants={closeButtonVariant} initial='hidden' animate='visible' exit='hidden' className="flex justify-end text-white/50 md:hidden  cursor-pointer w-fit h-fit"><X /></motion.button>
-                                            </div>
-                                            <div className="w-full h-full bg-neutral-900 rounded-xs">
-
-                                            </div>
-                                            <motion.div 
-                                                className=' rounded-xs'>
-                                                <HeartButton {...heartButtonProps}/>
-                                            </motion.div>
-                                            <VotesComp 
-                                            icon={true} 
-                                            votes={{
-                                                id : media._id ,
-                                                overrated : overratedNumber,
-                                                underrated : underratedNumber, 
-                                                overratedVoted : overratedVote ,
-                                                underratedVoted : underratedVote 
-                                            }}
-                                            page={false} 
-                                            onOverrateVoteChange={onOverrateVoteChange}
-                                            onUnderrateVoteChange={onUnderateVoteChange}
-                                            session={session}
-                                            />
-                                        </div>
-
-                                    </div>
-                                    <div
-                                        className="flex flex-col gap-2 " 
+    
+        
+        const [current , setCurrent] = useState<Movie | null>(null)
+    
+        const ref = useOutsideClick(() => setCurrent(null))
+    
+        const [initialState , setInitialState] = useState<boolean>(isFavourite)
+        const [overratedVote,setOverratedVote] = useState(isOverrated)
+        const [underratedVote,setUnderratedVote] = useState(isUnderrated)
+        const [overratedNumber,setOverratedNumber] = useState(media.overrated)
+        const [underratedNumber,setUnderratedNumber] = useState(media.underrated)
+        const [favouritesResponse,setFavouriteResponse] = useState<handleFavouritesProps | undefined>(undefined)
+        
+        const onFavoritesChange = useCallback((res : handleFavouritesProps , favourite : boolean) => {
+            setInitialState(favourite)
+            setFavouriteResponse(res)
+    
+            const timer = setTimeout(() => setFavouriteResponse(undefined), 2000)
+            return () => clearTimeout(timer)
+        },[])
+    
+        const onOverrateVoteChange = useCallback(( vote : boolean , number : number) => {
+            setOverratedVote(vote)
+            setOverratedNumber(number)
+        },[])
+    
+        const onUnderateVoteChange  = useCallback(( vote : boolean ,number : number) => {
+            setUnderratedVote(vote)
+            setUnderratedNumber(number)
+        },[])
+        
+    
+        const handleClick = useCallback((media :  Movie | null) => {
+            setCurrent(media)
+        },[])
+    
+         useEffect(() => {
+            setInitialState(isFavourite)
+        }, [isFavourite])
+    
+        useEffect(() => {
+            setOverratedVote(isOverrated)
+        }, [isOverrated])
+    
+        useEffect(() => {
+            setUnderratedVote(isUnderrated)
+        }, [isUnderrated])
+    
+         const heartButtonProps = useMemo(() => ({
+            mediaInfo: media,
+            initialFavourite: initialState,
+            onFavoritesChange,
+            session
+        }), [media, initialState, onFavoritesChange, session])
+    
+    
+        // const votesProps = useMemo(() => ({
+        //     icon: true,
+        //     votes: {
+        //         id: media._id,
+        //         overrated: overratedNumber,
+        //         underrated: underratedNumber, 
+        //         overratedVoted: overratedVote,
+        //         underratedVoted: underratedVote 
+        //     },
+        //     onOverrateVoteChange,
+        //     onUnderateVoteChange,
+        //     session
+        // }), [media._id, overratedNumber, underratedNumber, overratedVote, underratedVote, onOverrateVoteChange, onUnderateVoteChange, session])
+        return(
+    
+    
+            <>
+             <PopUpStatesProvider>
+                <PopupWrapper isOpen={!!current} onClose={() => setCurrent(null)}>
+                {
+                    current && (          
+                        
+                                    
+                                    //pop up div
+                                     <motion.div 
+                                        variants={containerVariants}
+                                        initial='hidden'
+                                        animate='visible'
+                                        exit='hidden'
+                                        layoutId={`card-${media._id}`}
+                                        className=" bg-[#111111] z-20 rounded-xs flex gap-2 md:gap-4 md:w-180 flex-col md:flex-row md:h-[463px]  overflow-hidden border border-[rgba(255,255,255,0.1)]  w-full  mx-6 " 
+                                        ref={ref} 
                                     >
-                                        <motion.div
-                                            layoutId={`card-${media.title}`}
-                                            className="text-2xl md:text-3xl tracking-tighter w-full flex justify-between ">
-                                                <p
-                                                >
-                                                
-                                                    {current.title}   
-                                                </p>
-                                                <motion.button onClick={() => handleClick(null)} variants={closeButtonVariant} initial='hidden' animate='visible' exit='hidden' className="md:flex justify-end text-white/50  hidden  cursor-pointer w-fit h-fit"><X /></motion.button>
-                                        </motion.div>
-
-                                        <p className="text-xs   text-white/30 font-medium">{current.release_date}</p>
-
-                                        <motion.div className='flex gap-2  items-center'>
-                                            <img 
-                                                src="/logo-imdb.svg" 
-                                                alt="IMDb Logo" 
-                                                className="w-10  h-auto" 
-                                            />
-                                            <h1 className="text-sm md:text-xl font-light">{media.vote_average ? `${media.vote_average.toFixed(1)}/10`  : 'NA'}</h1>
-                                        </motion.div>
-                                        <div className="flex gap-2">
+                                        <div className="w-fit flex gap-2">
                                             <motion.div 
-                                                layoutId={`liked-${media._id}`}
-                                                className=' rounded-xs hidden md:flex'>
-                                                <HeartButton mediaInfo={media} initialFavourite={initialState} onFavoritesChange={onFavoritesChange} session={session}/>
+                                                layoutId={`card-${media.poster_path}`}
+                                                className="760:w-67 aspect-[2/3] md:mx-0 "
+                                            >
+                                                <img src={ `https://image.tmdb.org/t/p/w500${current.poster_path}`} className="w-full h-full rounded-xs object-cover" alt={current.title ? current.title : current.name}/>
                                             </motion.div>
-
-
-                                            {/* Link */}
-                                            <WhereToWatchButton mediaType={media.mediaType} id={media.id} name={media?.title || media?.name}/>
-                                        </div>
-                                        <div className="hidden md:block">
-                                            <VotesComp 
-                                                icon={false} 
+                                            <div
+                                                className="flex flex-col gap-1 md:hidden "
+                                            >
+                                                <div className="w-full h-fit bg-neutral-800 rounded-xs flex justify-center p-2">
+                                                    <motion.button onClick={() => setCurrent(null)} variants={closeButtonVariant} initial='hidden' animate='visible' exit='hidden' className="flex justify-end text-white/50 md:hidden  cursor-pointer w-fit h-fit"><X /></motion.button>
+                                                </div>
+                                                <div className="w-full h-full bg-neutral-900 rounded-xs">
+    
+                                                </div>
+                                                <motion.div 
+                                                    className=' rounded-xs'>
+                                                    <HeartButton {...heartButtonProps}/>
+                                                </motion.div>
+                                                <VotesComp 
+                                                icon={true} 
                                                 votes={{
                                                     id : media._id ,
                                                     overrated : overratedNumber,
@@ -264,104 +213,165 @@ export default function FavCard({media , isFavourite , isOverrated , isUnderrate
                                                 onOverrateVoteChange={onOverrateVoteChange}
                                                 onUnderrateVoteChange={onUnderateVoteChange}
                                                 session={session}
-                                            />
+                                                />
+                                            </div>
+    
                                         </div>
-                                        <motion.div className="bg-white/30 rounded-xs text-xs flex-wrap w-fit p-2 font-medium space-y-1.5">
-                                        {
-                                            current.genres.map((genre : any,index : number) => (         
-                                                <span key={genre.id}>
-                                                    {genre.name}
-                                                    {index < current.genres.length - 1 && ', '}
-                                                </span>           
-                                            ))
-                                        }
-                                        </motion.div>
-                                        <p className="text-wrap text-xs font-medium text-white/30 overflow-auto pb-20 h-30 md:h-full mask-b-from-0.5">
-                                            {media.overview} 
-                                        </p>
-                                    </div>
-                                </motion.div>
-
-                )
-            }
-        </PopupWrapper>
-                    {/* card div */}
-                        <motion.div 
-                            layoutId={`card-${media._id}`}
-                            key={media._id}
-                            className="w-35 420:w-45 760:w-50 1435:w-[15.960rem] aspect-[2/3] relative rounded-xs backdrop-blur-2xl cursor-pointer mx-auto ">
-
-
-                            <div className="absolute top-1 right-1 z-40 flex flex-col gap-1">
-                                <motion.div 
-                                    layoutId={`liked-${media._id}`} 
-                                >
-                                    <HeartButton {...heartButtonProps}/>
-                                </motion.div>
-
-                                <VotesComp 
-                                    icon={true}
-                                    votes={{
-                                        id : media._id ,
-                                        overrated : overratedNumber,
-                                        underrated : underratedNumber, 
-                                        overratedVoted : overratedVote ,
-                                        underratedVoted : underratedVote 
-                                   }} 
-                                    onOverrateVoteChange={onOverrateVoteChange}
-                                    onUnderrateVoteChange={onUnderateVoteChange}
-                                    session={session}
-                                   />
-                            
-                            </div>
-
-
+                                        <div
+                                            className="flex flex-col gap-2 " 
+                                        >
+                                            <motion.div
+                                                layoutId={`card-${media.title}`}
+                                                className="text-2xl md:text-3xl tracking-tighter w-full flex justify-between ">
+                                                    <p
+                                                    >
+                                                    
+                                                        {current.title}   
+                                                    </p>
+                                                    <motion.button onClick={() => handleClick(null)} variants={closeButtonVariant} initial='hidden' animate='visible' exit='hidden' className="md:flex justify-end text-white/50  hidden  cursor-pointer w-fit h-fit"><X /></motion.button>
+                                            </motion.div>
+    
+                                            <p className="text-xs   text-white/30 font-medium">{current.release_date}</p>
+    
+                                            <motion.div className='flex gap-2  items-center'>
+                                                <img 
+                                                    src="/logo-imdb.svg" 
+                                                    alt="IMDb Logo" 
+                                                    className="w-10  h-auto" 
+                                                />
+                                                <h1 className="text-sm md:text-xl font-light">{media.vote_average ? `${media.vote_average.toFixed(1)}/10`  : 'NA'}</h1>
+                                            </motion.div>
+                                            <div className="flex gap-2">
+                                                <motion.div 
+                                                    layoutId={`liked-${media._id}`}
+                                                    className=' rounded-xs hidden md:flex'>
+                                                    <HeartButton mediaInfo={media} initialFavourite={initialState} onFavoritesChange={onFavoritesChange} session={session}/>
+                                                </motion.div>
+    
+    
+                                                {/* Link */}
+                                                <WhereToWatchButton mediaType={media.mediaType} id={media.id} name={media?.title || media?.name}/>
+                                            </div>
+                                            <div className="hidden md:block">
+                                                <VotesComp 
+                                                    icon={false} 
+                                                    votes={{
+                                                        id : media._id ,
+                                                        overrated : overratedNumber,
+                                                        underrated : underratedNumber, 
+                                                        overratedVoted : overratedVote ,
+                                                        underratedVoted : underratedVote 
+                                                    }}
+                                                    page={false} 
+                                                    onOverrateVoteChange={onOverrateVoteChange}
+                                                    onUnderrateVoteChange={onUnderateVoteChange}
+                                                    session={session}
+                                                />
+                                            </div>
+                                            <motion.div className="bg-white/30 rounded-xs text-xs flex-wrap w-fit p-2 font-medium space-y-1.5">
+                                            {
+                                                current.genres.map((genre : any,index : number) => (         
+                                                    <span key={genre.id}>
+                                                        {genre.name}
+                                                        {index < current.genres.length - 1 && ', '}
+                                                    </span>           
+                                                ))
+                                            }
+                                            </motion.div>
+                                            <p className="text-wrap text-xs font-medium text-white/30 overflow-auto pb-20 h-30 md:h-full mask-b-from-0.5">
+                                                {media.overview} 
+                                            </p>
+                                        </div>
+                                    </motion.div>
+    
+                    )
+                }
+            </PopupWrapper>
+                        {/* card div */}
                             <motion.div 
-                                layoutId={`card-${media.poster_path}`}
-                                className="absolute inset-0 rounded-xs  ">
-                                <motion.img 
-                                    
-                                    src={ `https://image.tmdb.org/t/p/w500${media.poster_path}`} className="w-full h-full rounded-xs cursor-pointer"
-                                />
-                            </motion.div>
-
-                            <ProgressiveBlur 
-                                className="pointer-events-none absolute bottom-0 left-0 h-[40%] w-full rounded-xs z-30"
-                                blurIntensity={3}
-                            />
-                            <AddedMssg added={favouritesResponse?.added} />
-                            <RemovedMssg removed={favouritesResponse?.removed} />
-
-                            <div className="absolute inset-0 z-20  hover:bg-black/30 duration-200 bg-black/30 md:bg-transparent"   onClick={() => handleClick(media)}>
-
-                            </div>
-                            <div 
-                                className="absolute bottom-0 p-4  space-y-2 w-full z-30 "
-                            >
-                                <motion.h1 
-                                    layoutId={`card-${media.title}`}
-                                    className=" 760:text-sm 1020:text-base text-xs font-bold text-left">
-                                        {media.title}
-                                </motion.h1>
-
-                                <div className='flex gap-2 '>
-                                    <img 
-                                        src="/logo-imdb.svg" 
-                                        alt="IMDb Logo" 
-                                        className="w-8 md:w-10  h-auto" 
-                                    />
-                                    <h1 className="text-sm md:text-xl font-light">{media.vote_average ? `${media.vote_average.toFixed(1)}/10`  : 'NA'}</h1>
+                                layoutId={`card-${media._id}`}
+                                key={media._id}
+                                className="w-35 420:w-45 760:w-50 1435:w-[15.960rem] aspect-[2/3] relative rounded-xs backdrop-blur-2xl cursor-pointer mx-auto ">
+    
+    
+                                <div className="absolute top-1 right-1 z-40 flex flex-col gap-1">
+                                    <motion.div 
+                                        layoutId={`liked-${media._id}`} 
+                                    >
+                                        <HeartButton {...heartButtonProps}/>
+                                    </motion.div>
+    
+                                    <VotesComp 
+                                        icon={true}
+                                        votes={{
+                                            id : media._id ,
+                                            overrated : overratedNumber,
+                                            underrated : underratedNumber, 
+                                            overratedVoted : overratedVote ,
+                                            underratedVoted : underratedVote 
+                                       }} 
+                                        onOverrateVoteChange={onOverrateVoteChange}
+                                        onUnderrateVoteChange={onUnderateVoteChange}
+                                        session={session}
+                                       />
+                                
                                 </div>
-                            </div>
-                        </motion.div>      
-        </PopUpStatesProvider>           
-                  
-       </>
+    
+    
+                                <motion.div 
+                                    layoutId={`card-${media.poster_path}`}
+                                    className="absolute inset-0 rounded-xs  ">
+                                    <motion.img 
+                                        
+                                        src={ `https://image.tmdb.org/t/p/w500${media.poster_path}`} className="w-full h-full rounded-xs cursor-pointer"
+                                    />
+                                </motion.div>
+    
+                                <ProgressiveBlur 
+                                    className="pointer-events-none absolute bottom-0 left-0 h-[40%] w-full rounded-xs z-30"
+                                    blurIntensity={3}
+                                />
+                                <AddedMssg added={favouritesResponse?.added} />
+                                <RemovedMssg removed={favouritesResponse?.removed} />
+    
+                                <div className="absolute inset-0 z-20  hover:bg-black/30 duration-200 bg-black/30 md:bg-transparent"   onClick={() => handleClick(media)}>
+    
+                                </div>
+                                <div 
+                                    className="absolute bottom-0 p-4  space-y-2 w-full z-30 "
+                                >
+                                    <motion.h1 
+                                        layoutId={`card-${media.title}`}
+                                        className=" 760:text-sm 1020:text-base text-xs font-bold text-left">
+                                            {media.title}
+                                    </motion.h1>
+    
+                                    <div className='flex gap-2 '>
+                                        <img 
+                                            src="/logo-imdb.svg" 
+                                            alt="IMDb Logo" 
+                                            className="w-8 md:w-10  h-auto" 
+                                        />
+                                        <h1 className="text-sm md:text-xl font-light">{media.vote_average ? `${media.vote_average.toFixed(1)}/10`  : 'NA'}</h1>
+                                    </div>
+                                </div>
+                            </motion.div>      
+            </PopUpStatesProvider>           
+                      
+           </>
+    
+        )
+    }
 
-    )
-}
-
-
+    ,(prevProps, nextProps) => {
+    
+        return prevProps.media._id === nextProps.media._id &&
+            prevProps.isFavourite === nextProps.isFavourite &&
+            prevProps.isOverrated === nextProps.isOverrated &&
+            prevProps.isUnderrated === nextProps.isUnderrated    
+    }
+)
+export default FavCard
 
 interface WhereToWatchButtonProps {
     mediaType : string , 
