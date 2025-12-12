@@ -38,7 +38,7 @@ export function HeartButton({mediaInfo , initialFavourite , onFavoritesChange , 
             onFavoritesChange?.(res ,true)
     
         }
-    },[mediaInfo , initialFavourite , onFavoritesChange , session])
+    },[mediaInfo , initialFavourite , onFavoritesChange , session , openPopup])
 
     return (
         <>
