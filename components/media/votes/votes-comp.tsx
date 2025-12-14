@@ -3,6 +3,7 @@
 import {  updateOverrated, updateUnderrated } from "@/app/actions/votes"
 import { IoMdThumbsUp , IoMdThumbsDown } from "react-icons/io";
 import { SignInPopUp, UsePopUp } from "@/components/custom-hooks/hooks";
+import { useCallback, useTransition } from "react";
 
 interface VotesCompProps {
     id : string ,
@@ -18,40 +19,84 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
     
     const { openPopup } = UsePopUp()
 
+    
+    const [isPendingOverrated , startTransitionOverrated] = useTransition()
+    const [isPendingUnderrated , startTransitionUnderrated] = useTransition()
 
-    const handleOverrated = async () =>  {
+    const handleOverrated = useCallback(async () =>  {
 
         if(!session) return openPopup('please sign in to vote')
 
-        if(votes.underratedVoted) {
-            const res = await updateUnderrated(votes.id)
-            if(res?.voted === false) {
-                onUnderrateVoteChange?.(res.voted , res.count)
+        const newOverrateState = !votes.overratedVoted
+        const overratedCount = newOverrateState ? votes.overrated + 1 : votes.overrated - 1
+
+        if(votes.underratedVoted){
+            onUnderrateVoteChange?.(false , votes.underrated -1 )
+        }
+
+        onOverrateVoteChange?.(newOverrateState , overratedCount)
+
+
+        startTransitionOverrated( async () => {
+            try {
+                if(votes.underratedVoted) {
+                    const res = await updateUnderrated(votes.id)
+                    if(res?.voted === false) {
+                        onUnderrateVoteChange?.(res.voted , res.count)
+                    }
+                }
+        
+                const result = await updateOverrated(votes.id)
+                if(result !== undefined) {
+                    onOverrateVoteChange?.(result.voted , result.count) 
+                }
+            } catch (error) {
+                console.error('Failed to update overrated vote:', error)
+                onOverrateVoteChange?.(votes.overratedVoted || false, votes.overrated)
+                if (votes.underratedVoted) {
+                    onUnderrateVoteChange?.(true, votes.underrated)
+                }
             }
-        }
+        })
 
-        const result = await updateOverrated(votes.id)
-        if(result !== undefined) {
-            onOverrateVoteChange?.(result.voted , result.count) 
-        }
-    }
+    },[session,onOverrateVoteChange,onUnderrateVoteChange,votes,openPopup])
 
-     const handleUnderrated = async () =>  {
+    const handleUnderrated = useCallback(async () =>  {
       
         if(!session) return openPopup('please sign in to vote')
 
-        if(votes.overratedVoted) {
-            const res = await updateOverrated(votes.id)
-            if(res?.voted === false) {
-                onOverrateVoteChange?.(res.voted , res.count)
-            }
+        const newUnderratedState = !votes.underratedVoted
+        const underratedCount = newUnderratedState ? votes.underrated + 1 : votes.underrated - 1
+
+        if(votes.overratedVoted){
+            onOverrateVoteChange?.(false , votes.overrated - 1)
         }
 
-        const result = await updateUnderrated(votes.id)
-        if(result !== undefined) {
-            onUnderrateVoteChange?.(result.voted ,result.count)  
-        }
-    }
+        onUnderrateVoteChange?.(newUnderratedState,underratedCount)
+
+        startTransitionUnderrated(async () => {
+            try{
+                if(votes.overratedVoted) {
+                    const res = await updateOverrated(votes.id)
+                    if(res?.voted === false) {
+                        onOverrateVoteChange?.(res.voted , res.count)
+                    }
+                }
+        
+                const result = await updateUnderrated(votes.id)
+                if(result !== undefined) {
+                    onUnderrateVoteChange?.(result.voted ,result.count)  
+                }
+            }catch(error){
+                console.error('failed to update underrated vote' , error)
+                onUnderrateVoteChange?.(votes.underratedVoted || false , votes.underrated)
+                if(votes.overratedVoted){
+                    onOverrateVoteChange?.(true,votes.overrated)
+                }
+            }
+        })
+
+    },[session,votes,openPopup,onOverrateVoteChange,onUnderrateVoteChange])
 
 
 

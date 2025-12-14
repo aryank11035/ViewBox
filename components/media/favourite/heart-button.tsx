@@ -22,8 +22,6 @@ interface HeartButtonProps {
 
 export function HeartButton({mediaInfo , initialFavourite , onFavoritesChange , session }  : HeartButtonProps){
 
-    
-
     const { openPopup } = UsePopUp()
     const [isPending, startTransition] = useTransition()
     const [isOptimistic, setIsOptimistic] = useState(false)
@@ -35,15 +33,15 @@ export function HeartButton({mediaInfo , initialFavourite , onFavoritesChange , 
             return
         }
 
-        // Optimistic update - immediately update UI
+        //update the ui instantly
         const newFavState = !initialFavourite
         setIsOptimistic(true)
         
-        // Immediately call the callback with optimistic data
         onFavoritesChange?.(
             {
                 success: true,
                 [newFavState ? 'added' : 'removed']: mediaInfo.title || mediaInfo.name
+        
             },
             newFavState
         )
