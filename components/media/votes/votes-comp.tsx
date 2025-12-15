@@ -3,7 +3,7 @@
 import {  updateOverrated, updateUnderrated } from "@/app/actions/votes"
 import { IoMdThumbsUp , IoMdThumbsDown } from "react-icons/io";
 import { SignInPopUp, UsePopUp } from "@/components/custom-hooks/hooks";
-import { useCallback, useTransition } from "react";
+import { useCallback , useRef, useTransition } from "react";
 
 interface VotesCompProps {
     id : string ,
@@ -23,9 +23,50 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
     const [isPendingOverrated , startTransitionOverrated] = useTransition()
     const [isPendingUnderrated , startTransitionUnderrated] = useTransition()
 
+    const lastServerStateRef = useRef({
+        overratedVoted: votes.overratedVoted,
+        underratedVoted: votes.underratedVoted,
+        overrated: votes.overrated,
+        underrated: votes.underrated
+    })
+
+    const overratedDebounceRef = useRef<NodeJS.Timeout | null>(null)
+    const underratedDebounceRef = useRef<NodeJS.Timeout | null>(null)
+
+    const overratedRequestRef = useRef<AbortController | null>(null)
+    const underratedRequestRef = useRef<AbortController | null>(null)
+    
+    const clickQueueRef = useRef<{type: 'overrated' | 'underrated', timestamp: number}[]>([])
+
     const handleOverrated = useCallback(async () =>  {
 
         if(!session) return openPopup('please sign in to vote')
+
+        // Prevent spam clicking - ignore clicks within 300ms
+        const now = Date.now()
+        const recentClicks = clickQueueRef.current.filter(
+            click => click.type === 'overrated' && now - click.timestamp < 300
+        )
+        
+        if (recentClicks.length > 0) {
+            console.log('Ignoring rapid click on overrated')
+            return
+        }
+
+        clickQueueRef.current.push({ type: 'overrated', timestamp: now })
+
+        clickQueueRef.current = clickQueueRef.current.filter(
+            click => now - click.timestamp < 1000
+        )
+
+        if (overratedRequestRef.current) {
+            overratedRequestRef.current.abort()
+        }
+        
+        // Clear debounce timer
+        if (overratedDebounceRef.current) {
+            clearTimeout(overratedDebounceRef.current)
+        }
 
         const newOverrateState = !votes.overratedVoted
         const overratedCount = newOverrateState ? votes.overrated + 1 : votes.overrated - 1
@@ -36,34 +77,85 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
 
         onOverrateVoteChange?.(newOverrateState , overratedCount)
 
+        const abortController = new AbortController()
+        overratedRequestRef.current = abortController
 
-        startTransitionOverrated( async () => {
-            try {
-                if(votes.underratedVoted) {
-                    const res = await updateUnderrated(votes.id)
-                    if(res?.voted === false) {
-                        onUnderrateVoteChange?.(res.voted , res.count)
+
+        overratedDebounceRef.current  = setTimeout(() => {
+
+            startTransitionOverrated( async () => {
+                try {
+                    // Check if this request was aborted
+                    if (abortController.signal.aborted) {
+                        console.log('Overrated request was cancelled')
+                        return
                     }
+                    if(votes.underratedVoted) {
+                        const res = await updateUnderrated(votes.id)
+                        if(res?.voted === false) {
+                            onUnderrateVoteChange?.(res.voted , res.count)
+                            lastServerStateRef.current.underratedVoted = res.voted
+                            lastServerStateRef.current.underrated = res.count
+                        }
+                    }
+            
+                    const result = await updateOverrated(votes.id)
+                    if(result !== undefined) {
+                        onOverrateVoteChange?.(result.voted , result.count) 
+                        lastServerStateRef.current.overratedVoted = result.voted
+                        lastServerStateRef.current.overrated = result.count
+                    }
+                } catch (error : any) {
+                    console.error('Failed to update overrated vote:', error)
+                    if (error.name === 'AbortError' || abortController.signal.aborted) {
+                            console.log('Request aborted, skipping rollback')
+                            return
+                    }
+    
+    
+                    onOverrateVoteChange?.(votes.overratedVoted || false, votes.overrated)
+                    if (votes.underratedVoted) {
+                       onUnderrateVoteChange?.(
+                                lastServerStateRef.current.underratedVoted || false,
+                                lastServerStateRef.current.underrated
+                            )
+                    }
+                }finally {
+                    overratedRequestRef.current = null
                 }
-        
-                const result = await updateOverrated(votes.id)
-                if(result !== undefined) {
-                    onOverrateVoteChange?.(result.voted , result.count) 
-                }
-            } catch (error) {
-                console.error('Failed to update overrated vote:', error)
-                onOverrateVoteChange?.(votes.overratedVoted || false, votes.overrated)
-                if (votes.underratedVoted) {
-                    onUnderrateVoteChange?.(true, votes.underrated)
-                }
-            }
-        })
+            })
+        },200)
+
 
     },[session,onOverrateVoteChange,onUnderrateVoteChange,votes,openPopup])
 
     const handleUnderrated = useCallback(async () =>  {
       
         if(!session) return openPopup('please sign in to vote')
+
+        const now = Date.now()
+        const recentClicks = clickQueueRef.current.filter(
+            click => click.type === 'underrated' && now - click.timestamp < 300
+        )
+        
+        if(recentClicks.length > 0) {
+            console.log('Ignoring rapid click on underrated')
+            return
+        }
+        
+        clickQueueRef.current.push({ type: 'underrated', timestamp: now })
+
+        clickQueueRef.current = clickQueueRef.current.filter(
+            click => now - click.timestamp < 1000
+        )
+
+        if(underratedRequestRef.current) {
+            underratedRequestRef.current.abort()
+        }
+
+        if(underratedDebounceRef.current) {
+            clearTimeout(underratedDebounceRef.current)
+        }
 
         const newUnderratedState = !votes.underratedVoted
         const underratedCount = newUnderratedState ? votes.underrated + 1 : votes.underrated - 1
@@ -74,31 +166,70 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
 
         onUnderrateVoteChange?.(newUnderratedState,underratedCount)
 
+        const abortController = new AbortController()
+        underratedRequestRef.current = abortController
+
+
         startTransitionUnderrated(async () => {
             try{
+                if(abortController.signal.aborted) {
+                        console.log('Underrated request was cancelled')
+                        return
+                }
+
                 if(votes.overratedVoted) {
                     const res = await updateOverrated(votes.id)
                     if(res?.voted === false) {
                         onOverrateVoteChange?.(res.voted , res.count)
+                        lastServerStateRef.current.overratedVoted = res.voted
+                        lastServerStateRef.current.overrated = res.count
                     }
                 }
         
                 const result = await updateUnderrated(votes.id)
                 if(result !== undefined) {
-                    onUnderrateVoteChange?.(result.voted ,result.count)  
+                    onUnderrateVoteChange?.(result.voted ,result.count) 
+                    lastServerStateRef.current.underratedVoted = result.voted
+                    lastServerStateRef.current.underrated = result.count 
                 }
-            }catch(error){
+            }catch(error : any){
+                if(error.name === 'AbortError' || abortController.signal.aborted) {
+                        console.log('Request aborted, skipping rollback')
+                        return
+                }
+
                 console.error('failed to update underrated vote' , error)
                 onUnderrateVoteChange?.(votes.underratedVoted || false , votes.underrated)
                 if(votes.overratedVoted){
-                    onOverrateVoteChange?.(true,votes.overrated)
+                    lastServerStateRef.current.overratedVoted || false,
+                    lastServerStateRef.current.overrated
                 }
+            }finally{
+                underratedRequestRef.current = null
             }
         })
 
     },[session,votes,openPopup,onOverrateVoteChange,onUnderrateVoteChange])
 
 
+    useCallback(() => {
+        return () => {
+            if (overratedDebounceRef.current) {
+                clearTimeout(overratedDebounceRef.current)
+            }
+            if (underratedDebounceRef.current) {
+                clearTimeout(underratedDebounceRef.current)
+            }
+            if (overratedRequestRef.current) {
+                overratedRequestRef.current.abort()
+            }
+            if (underratedRequestRef.current) {
+                underratedRequestRef.current.abort()
+            }
+        }
+    }, [])
+
+    
 
     return (
 
