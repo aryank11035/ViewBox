@@ -9,6 +9,8 @@ export default function MediaCard({mediaData , forHomepage = false } : {mediaDat
   
     const [isHover, setIsHover] = useState(false);
     const [isActive, setIsActive] = useState(false);
+
+    
     const name = mediaData.title ? mediaData.title : mediaData.name
    
     return( 
