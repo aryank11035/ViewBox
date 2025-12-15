@@ -4,6 +4,7 @@ import {  updateOverrated, updateUnderrated } from "@/app/actions/votes"
 import { IoMdThumbsUp , IoMdThumbsDown } from "react-icons/io";
 import { SignInPopUp, UsePopUp } from "@/components/custom-hooks/hooks";
 import { useCallback , useRef, useTransition } from "react";
+import { CircularProgress } from "@mui/material";
 
 interface VotesCompProps {
     id : string ,
@@ -23,50 +24,9 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
     const [isPendingOverrated , startTransitionOverrated] = useTransition()
     const [isPendingUnderrated , startTransitionUnderrated] = useTransition()
 
-    const lastServerStateRef = useRef({
-        overratedVoted: votes.overratedVoted,
-        underratedVoted: votes.underratedVoted,
-        overrated: votes.overrated,
-        underrated: votes.underrated
-    })
-
-    const overratedDebounceRef = useRef<NodeJS.Timeout | null>(null)
-    const underratedDebounceRef = useRef<NodeJS.Timeout | null>(null)
-
-    const overratedRequestRef = useRef<AbortController | null>(null)
-    const underratedRequestRef = useRef<AbortController | null>(null)
-    
-    const clickQueueRef = useRef<{type: 'overrated' | 'underrated', timestamp: number}[]>([])
-
     const handleOverrated = useCallback(async () =>  {
 
         if(!session) return openPopup('please sign in to vote')
-
-        // Prevent spam clicking - ignore clicks within 300ms
-        const now = Date.now()
-        const recentClicks = clickQueueRef.current.filter(
-            click => click.type === 'overrated' && now - click.timestamp < 300
-        )
-        
-        if (recentClicks.length > 0) {
-            console.log('Ignoring rapid click on overrated')
-            return
-        }
-
-        clickQueueRef.current.push({ type: 'overrated', timestamp: now })
-
-        clickQueueRef.current = clickQueueRef.current.filter(
-            click => now - click.timestamp < 1000
-        )
-
-        if (overratedRequestRef.current) {
-            overratedRequestRef.current.abort()
-        }
-        
-        // Clear debounce timer
-        if (overratedDebounceRef.current) {
-            clearTimeout(overratedDebounceRef.current)
-        }
 
         const newOverrateState = !votes.overratedVoted
         const overratedCount = newOverrateState ? votes.overrated + 1 : votes.overrated - 1
@@ -77,85 +37,35 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
 
         onOverrateVoteChange?.(newOverrateState , overratedCount)
 
-        const abortController = new AbortController()
-        overratedRequestRef.current = abortController
-
-
-        overratedDebounceRef.current  = setTimeout(() => {
-
             startTransitionOverrated( async () => {
                 try {
-                    // Check if this request was aborted
-                    if (abortController.signal.aborted) {
-                        console.log('Overrated request was cancelled')
-                        return
-                    }
+                    
                     if(votes.underratedVoted) {
                         const res = await updateUnderrated(votes.id)
                         if(res?.voted === false) {
                             onUnderrateVoteChange?.(res.voted , res.count)
-                            lastServerStateRef.current.underratedVoted = res.voted
-                            lastServerStateRef.current.underrated = res.count
                         }
                     }
             
                     const result = await updateOverrated(votes.id)
                     if(result !== undefined) {
                         onOverrateVoteChange?.(result.voted , result.count) 
-                        lastServerStateRef.current.overratedVoted = result.voted
-                        lastServerStateRef.current.overrated = result.count
                     }
                 } catch (error : any) {
-                    console.error('Failed to update overrated vote:', error)
-                    if (error.name === 'AbortError' || abortController.signal.aborted) {
-                            console.log('Request aborted, skipping rollback')
-                            return
-                    }
-    
-    
+
                     onOverrateVoteChange?.(votes.overratedVoted || false, votes.overrated)
                     if (votes.underratedVoted) {
-                       onUnderrateVoteChange?.(
-                                lastServerStateRef.current.underratedVoted || false,
-                                lastServerStateRef.current.underrated
-                            )
+                        onUnderrateVoteChange?.(true, votes.underrated)
                     }
-                }finally {
-                    overratedRequestRef.current = null
                 }
             })
-        },200)
-
-
+        
     },[session,onOverrateVoteChange,onUnderrateVoteChange,votes,openPopup])
 
     const handleUnderrated = useCallback(async () =>  {
       
         if(!session) return openPopup('please sign in to vote')
 
-        const now = Date.now()
-        const recentClicks = clickQueueRef.current.filter(
-            click => click.type === 'underrated' && now - click.timestamp < 300
-        )
-        
-        if(recentClicks.length > 0) {
-            console.log('Ignoring rapid click on underrated')
-            return
-        }
-        
-        clickQueueRef.current.push({ type: 'underrated', timestamp: now })
-
-        clickQueueRef.current = clickQueueRef.current.filter(
-            click => now - click.timestamp < 1000
-        )
-
-        if(underratedRequestRef.current) {
-            underratedRequestRef.current.abort()
-        }
-
-        if(underratedDebounceRef.current) {
-            clearTimeout(underratedDebounceRef.current)
-        }
 
         const newUnderratedState = !votes.underratedVoted
         const underratedCount = newUnderratedState ? votes.underrated + 1 : votes.underrated - 1
@@ -166,70 +76,34 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
 
         onUnderrateVoteChange?.(newUnderratedState,underratedCount)
 
-        const abortController = new AbortController()
-        underratedRequestRef.current = abortController
-
-
         startTransitionUnderrated(async () => {
             try{
-                if(abortController.signal.aborted) {
-                        console.log('Underrated request was cancelled')
-                        return
-                }
-
+                
                 if(votes.overratedVoted) {
                     const res = await updateOverrated(votes.id)
                     if(res?.voted === false) {
                         onOverrateVoteChange?.(res.voted , res.count)
-                        lastServerStateRef.current.overratedVoted = res.voted
-                        lastServerStateRef.current.overrated = res.count
                     }
                 }
         
                 const result = await updateUnderrated(votes.id)
                 if(result !== undefined) {
                     onUnderrateVoteChange?.(result.voted ,result.count) 
-                    lastServerStateRef.current.underratedVoted = result.voted
-                    lastServerStateRef.current.underrated = result.count 
                 }
             }catch(error : any){
-                if(error.name === 'AbortError' || abortController.signal.aborted) {
-                        console.log('Request aborted, skipping rollback')
-                        return
-                }
-
+        
                 console.error('failed to update underrated vote' , error)
                 onUnderrateVoteChange?.(votes.underratedVoted || false , votes.underrated)
                 if(votes.overratedVoted){
-                    lastServerStateRef.current.overratedVoted || false,
-                    lastServerStateRef.current.overrated
                 }
-            }finally{
-                underratedRequestRef.current = null
             }
         })
 
     },[session,votes,openPopup,onOverrateVoteChange,onUnderrateVoteChange])
 
 
-    useCallback(() => {
-        return () => {
-            if (overratedDebounceRef.current) {
-                clearTimeout(overratedDebounceRef.current)
-            }
-            if (underratedDebounceRef.current) {
-                clearTimeout(underratedDebounceRef.current)
-            }
-            if (overratedRequestRef.current) {
-                overratedRequestRef.current.abort()
-            }
-            if (underratedRequestRef.current) {
-                underratedRequestRef.current.abort()
-            }
-        }
-    }, [])
 
-    
+
 
     return (
 
@@ -245,9 +119,10 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
                     >
                         <button 
                             onClick={handleUnderrated}
+                            disabled={isPendingUnderrated || isPendingOverrated}
                             className={`text-xs flex gap-1 font-light ${votes.underratedVoted ? 'text-green-400' : 'text-white' } rounded-xs hover:bg-black/20 duration-200  p-1 mt-1 cursor-pointer flex items-center justify-center  w-full`}
                         >
-                            {votes.underrated}
+                            {isPendingUnderrated ? <CircularProgress/> : votes.underrated}
                             <span className="text-base mb-0.5">
                                 <IoMdThumbsUp />
                             </span>
@@ -261,9 +136,10 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
 
                         <button 
                             onClick={handleOverrated}
+                            disabled={isPendingUnderrated || isPendingOverrated}
                             className={`text-xs flex gap-1 font-light  ${votes.overratedVoted ? 'text-[#E11D48]' : 'text-white'}  rounded-xs hover:bg-black/20 duration-200 w-full p-1 mb-1 cursor-pointer flex items-center justify-center `}
                         >
-                                {votes.overrated} 
+                                {isPendingOverrated ? <CircularProgress/> : votes.overrated} 
                                 <span className="text-base mt-0.5">
                                     <IoMdThumbsDown />
                                 </span>
@@ -277,12 +153,13 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
                                 borderColor : votes.underratedVoted ? '#16A34A' : '#FFFFFF33'
                             }}  
                             onClick={handleUnderrated}
+                            disabled={isPendingUnderrated || isPendingOverrated}
                             className=" rounded-xs px-4 py-1.5 border border-[rgba(255,255,255,0.2)]  duration-100 cursor-pointer  active:scale-98 flex gap-2 items-center w-full md:w-fit group hover:scale-98 ">
                             <span className=" text-center flex items-center text-base group-hover:scale-120 duration-200">
                                 <IoMdThumbsUp />
                             </span>
                             Underrated 
-                            <span>{votes.underrated}</span>
+                            <span>{isPendingUnderrated ? <CircularProgress/> : votes.underrated}</span>
                         </button>
                         <button 
                             style={{
@@ -290,12 +167,13 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
                                 borderColor : votes.overratedVoted ? '#E11D48   ' : '#FFFFFF33'
                             }}
                             onClick={handleOverrated} 
+                            disabled={isPendingUnderrated || isPendingOverrated}
                             className=" rounded-xs px-4 py-1.5 border border-[rgba(255,255,255,0.2)] duration-100 cursor-pointer active:scale-98 flex gap-2 items-center w-full md:w-fit group hover:scale-98">
                             <span className=" text-center flex items-center text-base mt-1 group-hover:scale-120 duration-200">
                                 <IoMdThumbsDown />
                             </span>
                             Overrated 
-                            <span>{votes.overrated}</span>
+                            <span>{isPendingOverrated ? <CircularProgress/> : votes.overrated}</span>
                         </button>
                     </div>
                 )
