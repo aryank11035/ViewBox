@@ -3,7 +3,7 @@
 import {  updateOverrated, updateUnderrated } from "@/app/actions/votes"
 import { IoMdThumbsUp , IoMdThumbsDown } from "react-icons/io";
 import { SignInPopUp, UsePopUp } from "@/components/custom-hooks/hooks";
-import { useCallback , useRef, useTransition } from "react";
+import { useCallback , useTransition } from "react";
 import { CircularProgress } from "@mui/material";
 
 interface VotesCompProps {
@@ -122,7 +122,7 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
                             disabled={isPendingUnderrated || isPendingOverrated}
                             className={`text-xs flex gap-1 font-light ${votes.underratedVoted ? 'text-green-400' : 'text-white' } rounded-xs hover:bg-black/20 duration-200  p-1 mt-1 cursor-pointer flex items-center justify-center  w-full`}
                         >
-                            {isPendingUnderrated ? <CircularProgress/> : votes.underrated}
+                            {isPendingUnderrated ? <CircularProgress color="inherit" size={12}/> : votes.underrated}
                             <span className="text-base mb-0.5">
                                 <IoMdThumbsUp />
                             </span>
@@ -139,7 +139,7 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
                             disabled={isPendingUnderrated || isPendingOverrated}
                             className={`text-xs flex gap-1 font-light  ${votes.overratedVoted ? 'text-[#E11D48]' : 'text-white'}  rounded-xs hover:bg-black/20 duration-200 w-full p-1 mb-1 cursor-pointer flex items-center justify-center `}
                         >
-                                {isPendingOverrated ? <CircularProgress/> : votes.overrated} 
+                                {isPendingOverrated ? <CircularProgress color="inherit" size={12}/> : votes.overrated} 
                                 <span className="text-base mt-0.5">
                                     <IoMdThumbsDown />
                                 </span>
@@ -159,7 +159,7 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
                                 <IoMdThumbsUp />
                             </span>
                             Underrated 
-                            <span>{isPendingUnderrated ? <CircularProgress/> : votes.underrated}</span>
+                            <span>{isPendingUnderrated ? <CircularProgress color="inherit" size={12}/> : votes.underrated}</span>
                         </button>
                         <button 
                             style={{
@@ -173,7 +173,7 @@ export default function VotesComp({votes , onOverrateVoteChange , onUnderrateVot
                                 <IoMdThumbsDown />
                             </span>
                             Overrated 
-                            <span>{isPendingOverrated ? <CircularProgress/> : votes.overrated}</span>
+                            <span>{isPendingOverrated ? <CircularProgress color="inherit" size={12}/> : votes.overrated}</span>
                         </button>
                     </div>
                 )
