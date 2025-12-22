@@ -12,7 +12,7 @@ export async function getMovie(){
     try {
         
         await connectToMongoose()
-        const movies = await Movies.find({} ).limit(10).lean()
+        const movies = await Movies.find({} ).lean()
         const parsedMovies = JSON.parse(JSON.stringify(movies))
         
       
