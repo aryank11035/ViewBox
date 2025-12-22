@@ -42,7 +42,7 @@ export default function HomePageClient({initialShows , languages , initialGenres
     const [shows,setShows] = useState(initialShows)
     const [genres,setGenres] = useState(initialGenres)
     const [language,setLanguage] = useState('all')
-  
+    const languageCache = {} as Record<string, Movie[]>
     const [displayCount,setDisplayCount] = useState(9)
     const [activeGenre , setActiveGenre ] = useState('All')
 
@@ -60,6 +60,7 @@ export default function HomePageClient({initialShows , languages , initialGenres
         const selectedMovies = await getMoviesByLanguage(lang)
         const selectedGenres = getUniqueGenres(selectedMovies) 
         
+        languageCache[lang] = selectedMovies;
         setLanguage(lang)
         setShows(selectedMovies)
         setGenres(selectedGenres)

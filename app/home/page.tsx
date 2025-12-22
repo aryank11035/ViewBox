@@ -8,6 +8,9 @@ import HomePageClient from "@/components/home/home-page"
 import { getAllOverratedVotes, getAllUnderratedVotes } from "../actions/votes"
 import { auth } from "@/auth"
 
+export const revalidate = 300;
+
+
 export default async function HomePage(){
 
     const session = await auth()
