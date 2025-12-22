@@ -7,7 +7,8 @@ import { getGenres } from "../actions/getGenres"
 import HomePageClient from "@/components/home/home-page"
 import { getAllOverratedVotes, getAllUnderratedVotes } from "../actions/votes"
 import { auth } from "@/auth"
-
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton"
+import 'react-loading-skeleton/dist/skeleton.css'
 export const revalidate = 300;
 
 
@@ -30,7 +31,7 @@ export default async function HomePage(){
         <section className="w-full  mx-auto min-h-screen ">  
 
             <HomePageClient initialShows={shows} initialGenres={genres} languages={languages} isFavourites={favIds} underratedVotes={underratedVotes} overratedVotes={overratedVotes} showPosters={showPosters} session={session}/>
-   
+
         </section>
     )
 }   

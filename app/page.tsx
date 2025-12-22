@@ -1,13 +1,21 @@
+import fs from 'fs/promises';
+import path from 'path';
 
-import { getMovie } from "./actions/getMovie";
 import UpdatedSection from "@/components/sections/updatedSection";
 import { LandingPage } from "@/components/sections/landingPage";
 import { InfoCardSection } from "@/components/sections/infoCardSection";
 
+
+async function getMoviesFromJSON() {
+  const filePath = path.join(process.cwd(), 'topMovies.json');
+  const fileData = await fs.readFile(filePath, 'utf-8');
+  return JSON.parse(fileData);
+}
+
+
 export default async function Page() {
     
-  const yourMedia =await getMovie() 
-
+   const yourMedia = await getMoviesFromJSON();
   return (
 
       <>

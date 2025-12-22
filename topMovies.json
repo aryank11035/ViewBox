@@ -1,0 +1,514 @@
+[
+  {
+    "_id": "6918287edcceeeb57fd20d6f",
+    "id": 1197137,
+    "title": "Black Phone 2",
+    "original_language": "en",
+    "backdrop_path": "/6zKjoOOb3OZnZuiHtQZn4Kd69Gq.jpg",
+    "poster_path": "/xUWUODKPIilQoFUzjHM6wKJkP3Y.jpg",
+    "overview": "Four years after escaping The Grabber, Finney Blake is struggling with his life after captivity. When his sister Gwen begins receiving calls in her dreams from the black phone and seeing disturbing visions of three boys being stalked at a winter camp, the siblings become determined to solve the mystery and confront a killer who has grown more powerful in death and more significant to them than either could imagine.",
+    "vote_average": 7.159,
+    "release_date": "2025-10-15",
+    "genres": [
+      {
+        "id": 27,
+        "name": "Horror",
+        "_id": "6918287edcceeeb57fd20d70"
+      },
+      {
+        "id": 53,
+        "name": "Thriller",
+        "_id": "6918287edcceeeb57fd20d71"
+      }
+    ],
+    "mediaType": "movie",
+    "overrated": 1,
+    "underrated": 0,
+    "added_by": "Admin",
+    "videokey": "pWNucAcRoBY",
+    "whereToWatch": {
+      "clips": [
+        {
+          "logo_path": "/pTnn5JwWr4p3pG8H6VrpiQo7Vs0.jpg",
+          "provider_id": 192,
+          "provider_name": "YouTube",
+          "display_priority": 10,
+          "_id": "6918287edcceeeb57fd20d73"
+        }
+      ],
+      "_id": "6918287edcceeeb57fd20d72",
+      "flatrate": [],
+      "rent": [],
+      "buy": []
+    },
+    "__v": 0
+  },
+  {
+    "_id": "69186db8b4349de01fca7286",
+    "id": 550,
+    "title": "Fight Club",
+    "original_language": "en",
+    "backdrop_path": "/5TiwfWEaPSwD20uwXjCTUqpQX70.jpg",
+    "poster_path": "/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg",
+    "overview": "A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground \"fight clubs\" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.",
+    "vote_average": 8.438,
+    "release_date": "1999-10-15",
+    "genres": [
+      {
+        "id": 18,
+        "name": "Drama",
+        "_id": "69186db8b4349de01fca7287"
+      },
+      {
+        "id": 53,
+        "name": "Thriller",
+        "_id": "69186db8b4349de01fca7288"
+      }
+    ],
+    "mediaType": "movie",
+    "overrated": 0,
+    "underrated": 1,
+    "added_by": "Admin",
+    "videokey": "dfeUzm6KF4g",
+    "whereToWatch": {
+      "flatrate": [
+        {
+          "logo_path": "/kVqjgpcwvDJOhCupjcLzwwtOp52.jpg",
+          "provider_id": 2336,
+          "provider_name": "JioHotstar",
+          "display_priority": 5,
+          "_id": "69186db8b4349de01fca728a"
+        }
+      ],
+      "buy": [
+        {
+          "logo_path": "/8z7rC8uIDaTM91X0ZfkRf04ydj2.jpg",
+          "provider_id": 3,
+          "provider_name": "Google Play Movies",
+          "display_priority": 7,
+          "_id": "69186db8b4349de01fca728b"
+        },
+        {
+          "logo_path": "/pTnn5JwWr4p3pG8H6VrpiQo7Vs0.jpg",
+          "provider_id": 192,
+          "provider_name": "YouTube",
+          "display_priority": 10,
+          "_id": "69186db8b4349de01fca728c"
+        }
+      ],
+      "_id": "69186db8b4349de01fca7289",
+      "rent": [],
+      "clips": []
+    },
+    "__v": 0
+  },
+  {
+    "_id": "69182886dcceeeb57fd20d7e",
+    "id": 1416,
+    "title": "Grey's Anatomy",
+    "original_language": "en",
+    "backdrop_path": "/jP0Rhj9OTPDAwQlHQwOLFDdeE8t.jpg",
+    "poster_path": "/hjJkrLXhWvGHpLeLBDFznpBTY1S.jpg",
+    "overview": "Follows the personal and professional lives of a group of doctors at Seattle’s Grey Sloan Memorial Hospital.",
+    "vote_average": 8.213,
+    "release_date": "2005-03-27",
+    "genres": [
+      {
+        "id": 18,
+        "name": "Drama",
+        "_id": "69182886dcceeeb57fd20d7f"
+      }
+    ],
+    "mediaType": "tv",
+    "overrated": 0,
+    "underrated": 1,
+    "added_by": "Admin",
+    "videokey": "qbkEtYz9acA",
+    "whereToWatch": {
+      "flatrate": [
+        {
+          "logo_path": "/kVqjgpcwvDJOhCupjcLzwwtOp52.jpg",
+          "provider_id": 2336,
+          "provider_name": "JioHotstar",
+          "display_priority": 5,
+          "_id": "69182886dcceeeb57fd20d81"
+        },
+        {
+          "logo_path": "/9YJY5OwsIPMoX3xC3TdtZVbKBpE.jpg",
+          "provider_id": 614,
+          "provider_name": "VI movies and tv",
+          "display_priority": 35,
+          "_id": "69182886dcceeeb57fd20d82"
+        }
+      ],
+      "_id": "69182886dcceeeb57fd20d80",
+      "rent": [],
+      "buy": [],
+      "clips": []
+    },
+    "__v": 0
+  },
+  {
+    "_id": "6918288ddcceeeb57fd20d8d",
+    "id": 200875,
+    "title": "IT: Welcome to Derry",
+    "original_language": "en",
+    "backdrop_path": "/2fOKVDoc2O3eZmBZesWPuE5kgPN.jpg",
+    "poster_path": "/nyy3BITeIjviv6PFIXtqvc8i6xi.jpg",
+    "overview": "In 1962, a couple with their son move to Derry, Maine just as a young boy disappears. With their arrival, very bad things begin to happen in the town.",
+    "vote_average": 7.891,
+    "release_date": "2025-10-26",
+    "genres": [
+      {
+        "id": 18,
+        "name": "Drama",
+        "_id": "6918288ddcceeeb57fd20d8e"
+      },
+      {
+        "id": 9648,
+        "name": "Mystery",
+        "_id": "6918288ddcceeeb57fd20d8f"
+      }
+    ],
+    "mediaType": "tv",
+    "overrated": 0,
+    "underrated": 0,
+    "added_by": "Admin",
+    "videokey": "u4JE2AyqDII",
+    "whereToWatch": {
+      "flatrate": [
+        {
+          "logo_path": "/kVqjgpcwvDJOhCupjcLzwwtOp52.jpg",
+          "provider_id": 2336,
+          "provider_name": "JioHotstar",
+          "display_priority": 5,
+          "_id": "6918288ddcceeeb57fd20d91"
+        }
+      ],
+      "_id": "6918288ddcceeeb57fd20d90",
+      "rent": [],
+      "buy": [],
+      "clips": []
+    },
+    "__v": 0
+  },
+  {
+    "_id": "69182835dcceeeb57fd20d2d",
+    "id": 2734,
+    "title": "Law & Order: Special Victims Unit",
+    "original_language": "en",
+    "backdrop_path": "/obtdxPgmfykYwVnvuYXC5f2xKlQ.jpg",
+    "poster_path": "/iofokHZoUB4Qhik4PflvJl8TT6a.jpg",
+    "overview": "In the criminal justice system, sexually-based offenses are considered especially heinous. In New York City, the dedicated detectives who investigate these vicious felonies are members of an elite squad known as the Special Victims Unit. These are their stories.",
+    "vote_average": 7.937,
+    "release_date": "1999-09-20",
+    "genres": [
+      {
+        "id": 80,
+        "name": "Crime",
+        "_id": "69182835dcceeeb57fd20d2e"
+      },
+      {
+        "id": 18,
+        "name": "Drama",
+        "_id": "69182835dcceeeb57fd20d2f"
+      },
+      {
+        "id": 9648,
+        "name": "Mystery",
+        "_id": "69182835dcceeeb57fd20d30"
+      }
+    ],
+    "mediaType": "tv",
+    "overrated": 0,
+    "underrated": 1,
+    "added_by": "Admin",
+    "videokey": null,
+    "whereToWatch": {
+      "flatrate": [
+        {
+          "logo_path": "/kVqjgpcwvDJOhCupjcLzwwtOp52.jpg",
+          "provider_id": 2336,
+          "provider_name": "JioHotstar",
+          "display_priority": 5,
+          "_id": "69182835dcceeeb57fd20d32"
+        },
+        {
+          "logo_path": "/9YJY5OwsIPMoX3xC3TdtZVbKBpE.jpg",
+          "provider_id": 614,
+          "provider_name": "VI movies and tv",
+          "display_priority": 35,
+          "_id": "69182835dcceeeb57fd20d33"
+        }
+      ],
+      "_id": "69182835dcceeeb57fd20d31",
+      "rent": [],
+      "buy": [],
+      "clips": []
+    },
+    "__v": 0
+  },
+  {
+    "_id": "69185d93d2bc22bd77adaf63",
+    "id": 861451,
+    "title": "Martin",
+    "original_language": "kn",
+    "backdrop_path": "/42xAe6kVeTjml9Tww6vRoWa5tay.jpg",
+    "poster_path": "/bYe2ZjUhb4Kje0BpWE6kN34u2hv.jpg",
+    "overview": "Martin revolves around Lt. Brigadier Arjun Saxena, whose journey takes him from Pakistan to India to discover his real identity and fight against black market dealers, who are involved with terrorists to orchestrate massive attacks in the country.",
+    "vote_average": 3.978,
+    "release_date": "2024-10-11",
+    "genres": [
+      {
+        "id": 28,
+        "name": "Action",
+        "_id": "69185d93d2bc22bd77adaf64"
+      },
+      {
+        "id": 18,
+        "name": "Drama",
+        "_id": "69185d93d2bc22bd77adaf65"
+      },
+      {
+        "id": 53,
+        "name": "Thriller",
+        "_id": "69185d93d2bc22bd77adaf66"
+      }
+    ],
+    "mediaType": "movie",
+    "overrated": 1,
+    "underrated": 0,
+    "added_by": "Admin",
+    "videokey": null,
+    "whereToWatch": {
+      "flatrate": [
+        {
+          "logo_path": "/pvske1MyAoymrs5bguRfVqYiM9a.jpg",
+          "provider_id": 119,
+          "provider_name": "Amazon Prime Video",
+          "display_priority": 1,
+          "_id": "69185d93d2bc22bd77adaf68"
+        },
+        {
+          "logo_path": "/8WerMI8XcZXqPpkHTZNtzMzousF.jpg",
+          "provider_id": 532,
+          "provider_name": "aha",
+          "display_priority": 24,
+          "_id": "69185d93d2bc22bd77adaf69"
+        },
+        {
+          "logo_path": "/8aBqoNeGGr0oSA85iopgNZUOTOc.jpg",
+          "provider_id": 2100,
+          "provider_name": "Amazon Prime Video with Ads",
+          "display_priority": 73,
+          "_id": "69185d93d2bc22bd77adaf6a"
+        }
+      ],
+      "_id": "69185d93d2bc22bd77adaf67",
+      "rent": [],
+      "buy": [],
+      "clips": []
+    },
+    "__v": 0
+  },
+  {
+    "_id": "69182878dcceeeb57fd20d5e",
+    "id": 42556,
+    "title": "Mysterious Girlfriend X",
+    "original_language": "ja",
+    "backdrop_path": "/egcyuPn5SK0nUfAZbhGtL4yoFol.jpg",
+    "poster_path": "/xyYqsl7iG1bC8NEaeEVbkB34mhJ.jpg",
+    "overview": "Akira is a normal high school boy, but he nevertheless impulsively licks some drool left by the mysterious transfer student Mikoto. The next day he falls asleep with an inexplicable fever. After five days Mikoto suddenly comes to visit, and makes him consume her drool. The fever instantly vanishes, and Mikoto explains that he's suffering from \"love sickness.\" She can transmit emotions through her drool, and the two of them are now bound together.",
+    "vote_average": 6.548,
+    "release_date": "2012-04-08",
+    "genres": [
+      {
+        "id": 16,
+        "name": "Animation",
+        "_id": "69182878dcceeeb57fd20d5f"
+      },
+      {
+        "id": 18,
+        "name": "Drama",
+        "_id": "69182878dcceeeb57fd20d60"
+      },
+      {
+        "id": 35,
+        "name": "Comedy",
+        "_id": "69182878dcceeeb57fd20d61"
+      },
+      {
+        "id": 10765,
+        "name": "Sci-Fi & Fantasy",
+        "_id": "69182878dcceeeb57fd20d62"
+      }
+    ],
+    "mediaType": "tv",
+    "overrated": 0,
+    "underrated": 1,
+    "added_by": "Admin",
+    "videokey": "dItE4ySbFhU",
+    "whereToWatch": {
+      "clips": [
+        {
+          "logo_path": "/pTnn5JwWr4p3pG8H6VrpiQo7Vs0.jpg",
+          "provider_id": 192,
+          "provider_name": "YouTube",
+          "display_priority": 10,
+          "_id": "69182878dcceeeb57fd20d64"
+        }
+      ],
+      "_id": "69182878dcceeeb57fd20d63",
+      "flatrate": [],
+      "rent": [],
+      "buy": []
+    },
+    "__v": 0
+  },
+  {
+    "_id": "69182844dcceeeb57fd20d3e",
+    "id": 225171,
+    "title": "Pluribus",
+    "original_language": "en",
+    "backdrop_path": "/ulm1ex4JFYJByyaPyqTr47MFyEQ.jpg",
+    "poster_path": "/nrM2xFUfKJJEmZzd5d7kohT2G0C.jpg",
+    "overview": "The most miserable person on Earth must save the world from happiness.",
+    "vote_average": 8.75,
+    "release_date": "2025-11-06",
+    "genres": [
+      {
+        "id": 18,
+        "name": "Drama",
+        "_id": "69182844dcceeeb57fd20d3f"
+      },
+      {
+        "id": 10765,
+        "name": "Sci-Fi & Fantasy",
+        "_id": "69182844dcceeeb57fd20d40"
+      }
+    ],
+    "mediaType": "tv",
+    "overrated": 0,
+    "underrated": 1,
+    "added_by": "Admin",
+    "videokey": "a6lzvWby9UE",
+    "whereToWatch": {
+      "flatrate": [
+        {
+          "logo_path": "/mcbz1LgtErU9p4UdbZ0rG6RTWHX.jpg",
+          "provider_id": 350,
+          "provider_name": "Apple TV",
+          "display_priority": 2,
+          "_id": "69182844dcceeeb57fd20d42"
+        },
+        {
+          "logo_path": "/mHrYMgnZIp6lgW2aXg7ix9zGOnA.jpg",
+          "provider_id": 2243,
+          "provider_name": "Apple TV Amazon Channel",
+          "display_priority": 68,
+          "_id": "69182844dcceeeb57fd20d43"
+        }
+      ],
+      "_id": "69182844dcceeeb57fd20d41",
+      "rent": [],
+      "buy": [],
+      "clips": []
+    },
+    "__v": 0
+  },
+  {
+    "_id": "691828c6dcceeeb57fd20d9e",
+    "id": 34307,
+    "title": "Shameless",
+    "original_language": "en",
+    "backdrop_path": "/5s9XHTB9SLPdg3mNU6BlSLnZ9Qq.jpg",
+    "poster_path": "/ifo31fMWLmyOVpdak9K0kY4jldQ.jpg",
+    "overview": "Chicagoan Frank Gallagher is the proud single dad of six smart, industrious, independent kids, who without him would be... perhaps better off. When Frank's not at the bar spending what little money they have, he's passed out on the floor. But the kids have found ways to grow up in spite of him. They may not be like any family you know, but they make no apologies for being exactly who they are.",
+    "vote_average": 8.2,
+    "release_date": "2011-01-09",
+    "genres": [
+      {
+        "id": 18,
+        "name": "Drama",
+        "_id": "691828c6dcceeeb57fd20d9f"
+      },
+      {
+        "id": 35,
+        "name": "Comedy",
+        "_id": "691828c6dcceeeb57fd20da0"
+      }
+    ],
+    "mediaType": "tv",
+    "overrated": 0,
+    "underrated": 1,
+    "added_by": "Admin",
+    "videokey": "9tvkYS5cA58",
+    "whereToWatch": {
+      "flatrate": [
+        {
+          "logo_path": "/pbpMk2JmcoNnQwx5JGpXngfoWtp.jpg",
+          "provider_id": 8,
+          "provider_name": "Netflix",
+          "display_priority": 0,
+          "_id": "691828c6dcceeeb57fd20da2"
+        }
+      ],
+      "_id": "691828c6dcceeeb57fd20da1",
+      "rent": [],
+      "buy": [],
+      "clips": []
+    },
+    "__v": 0
+  },
+  {
+    "_id": "6918284adcceeeb57fd20d4e",
+    "id": 755898,
+    "title": "War of the Worlds",
+    "original_language": "en",
+    "backdrop_path": "/iZLqwEwUViJdSkGVjePGhxYzbDb.jpg",
+    "poster_path": "/yvirUYrva23IudARHn3mMGVxWqM.jpg",
+    "overview": "Will Radford is a top analyst for Homeland Security who tracks potential threats through a mass surveillance program, until one day an attack by an unknown entity leads him to question whether the government is hiding something from him... and from the rest of the world.",
+    "vote_average": 4.3,
+    "release_date": "2025-07-29",
+    "genres": [
+      {
+        "id": 878,
+        "name": "Science Fiction",
+        "_id": "6918284adcceeeb57fd20d4f"
+      },
+      {
+        "id": 53,
+        "name": "Thriller",
+        "_id": "6918284adcceeeb57fd20d50"
+      }
+    ],
+    "mediaType": "movie",
+    "overrated": 1,
+    "underrated": 0,
+    "added_by": "Admin",
+    "videokey": "d9erkpdh5o0",
+    "whereToWatch": {
+      "flatrate": [
+        {
+          "logo_path": "/pvske1MyAoymrs5bguRfVqYiM9a.jpg",
+          "provider_id": 119,
+          "provider_name": "Amazon Prime Video",
+          "display_priority": 1,
+          "_id": "6918284adcceeeb57fd20d52"
+        },
+        {
+          "logo_path": "/8aBqoNeGGr0oSA85iopgNZUOTOc.jpg",
+          "provider_id": 2100,
+          "provider_name": "Amazon Prime Video with Ads",
+          "display_priority": 73,
+          "_id": "6918284adcceeeb57fd20d53"
+        }
+      ],
+      "_id": "6918284adcceeeb57fd20d51",
+      "rent": [],
+      "buy": [],
+      "clips": []
+    },
+    "__v": 0
+  }
+]
