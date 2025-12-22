@@ -4,28 +4,33 @@
 import { Movies } from "@/lib/models"
 import { connectToMongoose } from "@/lib/mongoose"
 import { Movie } from "@/schema/type"
+import { unstable_cache } from 'next/cache'
 
 
 
 
-export async function getMovie(){
+export const getMovie = unstable_cache(
+  async () => {
     try {
-        
-        await connectToMongoose()
-        const movies = await Movies.find({} ).lean()
-        const parsedMovies = JSON.parse(JSON.stringify(movies))
-        
-      
-        return parsedMovies.sort((a : Movie, b : Movie) => 
-            a.title!.localeCompare(b.title!)
-        )
-    }catch(err){
-        console.error('Error fecthing User Data' , err)
-        return []
-    }
-    
-}
+      await connectToMongoose()
 
+      const movies = await Movies.find({}).lean()
+      const parsedMovies = JSON.parse(JSON.stringify(movies))
+
+      return parsedMovies.sort((a: Movie, b: Movie) =>
+        a.title!.localeCompare(b.title!)
+      )
+    } catch (err) {
+      console.error('Error fetching Movie Data', err)
+      return []
+    }
+  },
+  ['movies-list'], // cache key
+  {
+    revalidate: 60 * 10, // ⏱️ revalidate every 10 minutes
+    tags: ['movies']
+  }
+)
 
 
 export async function getMovieWithId(movieId : number) {
