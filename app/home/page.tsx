@@ -13,11 +13,11 @@ export default async function HomePage(){
     const session = await auth()
 
 
-    const [shows , showPosters , languages , genres ] =  await Promise.all([
+    const [shows , showPosters , languages , genres] =  await Promise.all([
         getMovie(),
         getRelatedMovies(),
         getMoviesLanguages(),
-        getGenres()
+        getGenres(),
     ])
 
    
@@ -25,7 +25,7 @@ export default async function HomePage(){
     return(
         <section className="w-full  mx-auto min-h-screen ">  
 
-            <HomePageClient initialShows={shows} initialGenres={genres} languages={languages} showPosters={showPosters} session={session}/>
+            <HomePageClient initialShows={shows} initialGenres={genres} languages={languages} showPosters={showPosters} session={session} />
 
         </section>
     )

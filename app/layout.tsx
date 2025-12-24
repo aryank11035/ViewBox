@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Footer } from "@/components/footer/mainFooter";
 import { IBM_Plex_Mono } from "next/font/google";
 import { auth } from "@/auth";
+import { UserDataProvider } from "./context/user-data-provider";
 
 
 const font = IBM_Plex_Mono({
@@ -31,12 +32,13 @@ export default async function RootLayout({
           font.className
           )}>
             
+            <UserDataProvider>
               <Header session={session}/>
               <main className="w-full relative  min-h-screen mx-auto">
                 {children}
               </main>
               <Footer/>
-          
+            </UserDataProvider>
         </body>
       </html>
   

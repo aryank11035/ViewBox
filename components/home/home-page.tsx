@@ -9,6 +9,7 @@ import FavCard from "../media/favourite/fav-card"
 import { PopUpStatesProvider } from "../custom-hooks/hooks"
 import { getFavouritesIds } from "@/app/actions/favourites"
 import { getAllOverratedVotes, getAllUnderratedVotes } from "@/app/actions/votes"
+import { useUserData } from "@/app/context/user-data-provider"
 
 interface HomePageProps {
     initialShows : Movie[],
@@ -45,30 +46,16 @@ export default function HomePageClient({initialShows , languages , initialGenres
     const [displayCount,setDisplayCount] = useState(9)
     const [activeGenre , setActiveGenre ] = useState('All')
 
-    const [favourites,setFavourites] = useState<Set<string>>(new Set())
-    const [underratedVotes , setUnderratedVotes] = useState<Set<string>>(new Set())
-    const [overratedVotes , setOverratedVotes] = useState<Set<string>>(new Set())
+
+    const { favourites , underrated , overrated } = useUserData()
+
 
     const filteredMovies = useMemo( () => 
         getMovieByGenre(activeGenre, shows),
         [activeGenre, shows]
     )
   
-    useEffect(() => {
-        const showUserSelection  = async () => {
-            const [favIds , underrated , overrated ] = await Promise.all([
-                getFavouritesIds(),
-                getAllUnderratedVotes(),
-                getAllOverratedVotes()
-            ])
 
-            setFavourites(favIds)
-            setUnderratedVotes(underrated)
-            setOverratedVotes(overrated)
-        }
-
-        showUserSelection()
-    },[])
 
     useEffect(() => {
         setDisplayCount(Math.min(10, filteredMovies.length))
@@ -135,9 +122,9 @@ export default function HomePageClient({initialShows , languages , initialGenres
                                 <FavCard 
                                     media={show}
                                     key={show._id}
-                                    isFavourite={favourites.has(show._id)}
-                                    isOverrated={overratedVotes.has(show._id)}
-                                    isUnderrated={underratedVotes.has(show._id)}
+                                    isFavourite={favourites.has(show._id) }
+                                    isOverrated={overrated.has(show._id)}
+                                    isUnderrated={underrated.has(show._id)}
                                     session={session}
                                 />
                             ))
