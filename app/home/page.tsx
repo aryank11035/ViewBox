@@ -6,8 +6,6 @@ import { getGenres } from "../actions/getGenres"
 import HomePageClient from "@/components/home/home-page"
 import { auth } from "@/auth"
 export const revalidate = 300;
-
-
 export default async function HomePage(){
 
     const session = await auth()
@@ -28,5 +26,6 @@ export default async function HomePage(){
             <HomePageClient initialShows={shows} initialGenres={genres} languages={languages} showPosters={showPosters} session={session} />
 
         </section>
+
     )
 }   

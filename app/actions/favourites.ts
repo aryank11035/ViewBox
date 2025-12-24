@@ -4,6 +4,7 @@ import { auth } from "@/auth"
 import { Movies, Users } from "@/lib/models"
 import { connectToMongoose } from "@/lib/mongoose"
 import { Movie } from "@/schema/type"
+import { unstable_cache } from "next/cache"
 
 
 export async function addToFavourites(mediaInfo : Movie){
@@ -66,6 +67,32 @@ export async function checkIsFavourite(_id : string){
     }
 }
 
+export const getCachedFavourites = unstable_cache(
+    async (userId : string) => {
+        try{
+        await connectToMongoose()
+
+        const userFavourites = await Users.findById(
+            userId ,
+            { favourites : 1 , _id : 0 } 
+        )
+        if(!userFavourites.favourites) return []
+
+        const favouriteIds = userFavourites.favourites
+        const userFavouriteMovies = await Movies.find(  
+            { _id : { $in : favouriteIds }}  
+        ).lean()
+        return JSON.parse(JSON.stringify(userFavouriteMovies))
+         
+        }catch(error){
+            console.log(error)
+            return []
+        }
+    },
+    ['user-favourites'],
+    {revalidate : 60 * 10 }
+)
+
 
 export async function getFavourites(){
     const session =  await auth()
@@ -92,14 +119,49 @@ export async function getFavourites(){
     }
 }
 
+
+export const getCachedFavouritesIds = unstable_cache(
+    async (userId : string) => {
+        const favs = await getCachedFavourites(userId) as Movie[]
+        const favIds = favs.map((fav : any ) => fav._id)
+        console.log(favIds)
+        return new Set<string>(favIds) 
+
+    },
+    ['user-favourite-ids'],
+    {revalidate : 60 * 10}
+)
+
 export async function getFavouritesIds(){
     const favs = await getFavourites() as Movie[]
-    const favIds = favs.map((fav : any ) => fav._id)
-    // console.log(favIds)
+        const favIds = favs.map((fav : any ) => fav._id)
+        // console.log(favIds)
     return new Set<string>(favIds) 
 
 }
 
+
+export const getCachedGenres = unstable_cache(
+    async (userId : string) => {
+        try {
+                const favouritesMovies = await getCachedFavourites(userId)
+
+                const favUserGenres = [
+                    'All Genres',
+                    ...new Set (
+                        favouritesMovies.flatMap((movie : Movie) => movie.genres.map((genre : {name : string}) => genre.name ))
+                    ) as Set<string>
+                ] as string []
+            
+                return favUserGenres
+        }catch(error){
+                console.log(error)
+                return ['All Genres']
+        }
+    },
+    ['user-favourite-genres'],
+    {revalidate : 60*10 }
+)
 
 export async function getFavouritesGenres() : Promise<string[]> {
    try {

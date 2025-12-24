@@ -8,6 +8,7 @@ import { motion } from 'framer-motion'
 import VoteOption from "../votes/vote-option"
 import { HomeButton } from "@/components/sections/infoCardSection"
 import { PopUpStatesProvider } from "@/components/custom-hooks/hooks"
+import { useSession } from "next-auth/react"
 interface favMediaProps {
     favMovies : Movie[] , 
     isFavouriteSet :   Set<string> , 
@@ -18,7 +19,6 @@ interface favMediaProps {
     selectedGenre : string ,
     allGenres : string [],
     showVote ? : boolean ,
-    session : any 
 }
 
 
@@ -43,10 +43,10 @@ const childVariants = {
   }
 } as any;
 
-export default function FavCardsPage({favMovies , sortBy , selectedGenre , allGenres , isFavouriteSet ,isOverratedSet ,isUnderratedSet , showVote = false    , voted , session } : favMediaProps){
+export default function FavCardsPage({favMovies , sortBy , selectedGenre , allGenres , isFavouriteSet ,isOverratedSet ,isUnderratedSet , showVote = false    , voted  } : favMediaProps){
 
 
-
+    const { data : session } = useSession()
 
 
 

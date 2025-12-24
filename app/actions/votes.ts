@@ -4,6 +4,7 @@ import { auth } from "@/auth"
 import { Movies, Users } from "@/lib/models"
 import { connectToMongoose } from "@/lib/mongoose"
 import { Movie } from "@/schema/type"
+import { unstable_cache } from "next/cache"
 
 
 export async function updateOverrated(mediaId : string) {
@@ -117,6 +118,23 @@ export async function updateUnderrated(mediaId : string) {
         console.log(error)
     }
 }
+
+export const getAllCachedOverratedVotes = unstable_cache(
+    async (userId : string) => {
+         await connectToMongoose()
+    const  userVotes = await Users.findById(
+        userId , 
+        { overrated : 1  , _id : 0}
+    ).lean()
+
+    const votes = JSON.parse(JSON.stringify(userVotes))
+    const setVotes = new Set<string>(votes?.overrated || [])
+
+    return setVotes
+    }
+)
+
+
 
 export async function getAllOverratedVotes(){
     const session = await auth()

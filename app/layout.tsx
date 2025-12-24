@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer/mainFooter";
 import { IBM_Plex_Mono } from "next/font/google";
 import { auth } from "@/auth";
 import { UserDataProvider } from "./context/user-data-provider";
+import { SessionProvider } from "next-auth/react";
 
 
 const font = IBM_Plex_Mono({
@@ -31,14 +32,16 @@ export default async function RootLayout({
           "bg-[#111111]  text-white min-h-screen selection:bg-white selection:text-green-600 tracking-normal  ",
           font.className
           )}>
-            
-            <UserDataProvider>
-              <Header session={session}/>
-              <main className="w-full relative  min-h-screen mx-auto">
-                {children}
-              </main>
-              <Footer/>
-            </UserDataProvider>
+
+            <SessionProvider session={session} >
+              <UserDataProvider>
+                <Header session={session}/>
+                <main className="w-full relative  min-h-screen mx-auto">
+                  {children}
+                </main>
+                <Footer/>
+              </UserDataProvider>
+            </SessionProvider>
         </body>
       </html>
   

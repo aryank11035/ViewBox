@@ -1,5 +1,5 @@
 
-import { getFavourites, getFavouritesGenres, getFavouritesIds } from "../actions/favourites"    
+import { getCachedFavourites, getCachedFavouritesIds, getCachedGenres, getFavourites, getFavouritesGenres, getFavouritesIds } from "../actions/favourites"    
 import { Movie } from "@/schema/type"
 import { getAllOverratedVotes, getAllUnderratedVotes } from "../actions/votes"
 import FavCardsPage from "@/components/media/favourite/fav-card-page"
@@ -34,16 +34,20 @@ export function sortMovies(movies: Movie[], sortBy: string) : Movie[] {
 
 
 export default async function FavouritesPage({searchParams} : favPageProps){
+    
+    const session = await auth()
+    const userId = session!.user.id
+
     const params = await searchParams
     const selectedGenre = params.genre || 'All Genres'
     const sortBy = params.sortBy || 'title'
 
-    const favMovies = await getFavourites()
-    const favGenres = await getFavouritesGenres()
+    const favMovies = await getCachedFavourites(userId)
+    const favGenres = await getCachedGenres(userId)
     const favIds = await getFavouritesIds()
     const overratedVotes = await getAllOverratedVotes()
     const underratedVotes = await getAllUnderratedVotes()
-    const session = await auth()
+
 
     let filteredMovies  : Movie[] = !selectedGenre || selectedGenre  === 'All Genres' 
         ? favMovies 
@@ -57,7 +61,7 @@ export default async function FavouritesPage({searchParams} : favPageProps){
     return (
          <section className="max-w-full pt-20 mx-auto bg-[#111111] backdrop-blur-2xl text-xl font-bold  min-h-screen   ">
             <div className="max-w-[1450px] min-h-screen mx-auto border-l border-r border-white/10 bg-black/30  relative ">
-                <FavCardsPage favMovies={filteredMovies} sortBy={sortBy} selectedGenre={selectedGenre} allGenres={favGenres} isFavouriteSet={favIds} isUnderratedSet={underratedVotes} isOverratedSet={overratedVotes} session={session}/>
+                <FavCardsPage favMovies={filteredMovies} sortBy={sortBy} selectedGenre={selectedGenre} allGenres={favGenres} isFavouriteSet={favIds} isUnderratedSet={underratedVotes} isOverratedSet={overratedVotes} />
             </div>
         </section >
 
