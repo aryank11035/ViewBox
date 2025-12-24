@@ -5,6 +5,12 @@ import { connectToMongoose } from "@/lib/mongoose"
 import { getMovie } from "./getMovie"
 import { Movie } from "@/schema/type"
 
+export type Language = {
+  code : string , 
+  name : string 
+}
+
+
 export async function getMoviesLanguages() {
   try {
     await connectToMongoose();
@@ -20,11 +26,11 @@ export async function getMoviesLanguages() {
     }));
 
    
-    return fullNames;
+    return fullNames as Language[];
 
   } catch (error) {
     console.log(error);
-    return [];
+    return [] ;
   }
 }
 
@@ -38,6 +44,6 @@ export async function getMoviesByLanguage(lang : string   ) {
 
     const filteredMovies = movies.filter((movie : Movie) => movie.original_language === lang) 
     
-    return filteredMovies
+    return filteredMovies 
 }
 

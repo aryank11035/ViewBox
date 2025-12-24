@@ -4,17 +4,16 @@ import { Movie } from "@/schema/type"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { HomeSilderSection } from "./homeSliderSection"
 import LanguageSelect from "./language-option"
-import {  getMoviesByLanguage } from "@/app/actions/home"
+import {  getMoviesByLanguage, Language } from "@/app/actions/home"
 import FavCard from "../media/favourite/fav-card"
 import { PopUpStatesProvider } from "../custom-hooks/hooks"
+import { getFavouritesIds } from "@/app/actions/favourites"
+import { getAllOverratedVotes, getAllUnderratedVotes } from "@/app/actions/votes"
 
 interface HomePageProps {
     initialShows : Movie[],
-    languages : [{code: string , name : string}] ,
+    languages :  Language[],
     initialGenres : string[] ,
-    isFavourites : Set<string> ,
-    underratedVotes : Set<string> ,
-    overratedVotes : Set<string>
     showPosters : Movie[]
     session : any 
 }
@@ -37,7 +36,7 @@ function getMovieByGenre(genre: string, movies: Movie[]): Movie[] {
     )
 }
 
-export default function HomePageClient({initialShows , languages , initialGenres , isFavourites , underratedVotes ,overratedVotes ,showPosters , session} : HomePageProps){
+export default function HomePageClient({initialShows , languages , initialGenres ,showPosters , session} : HomePageProps){
 
     const [shows,setShows] = useState(initialShows)
     const [genres,setGenres] = useState(initialGenres)
@@ -46,11 +45,31 @@ export default function HomePageClient({initialShows , languages , initialGenres
     const [displayCount,setDisplayCount] = useState(9)
     const [activeGenre , setActiveGenre ] = useState('All')
 
+    const [favourites,setFavourites] = useState<Set<string>>(new Set())
+    const [underratedVotes , setUnderratedVotes] = useState<Set<string>>(new Set())
+    const [overratedVotes , setOverratedVotes] = useState<Set<string>>(new Set())
+
     const filteredMovies = useMemo( () => 
         getMovieByGenre(activeGenre, shows),
         [activeGenre, shows]
     )
   
+    useEffect(() => {
+        const showUserSelection  = async () => {
+            const [favIds , underrated , overrated ] = await Promise.all([
+                getFavouritesIds(),
+                getAllUnderratedVotes(),
+                getAllOverratedVotes()
+            ])
+
+            setFavourites(favIds)
+            setUnderratedVotes(underrated)
+            setOverratedVotes(overrated)
+        }
+
+        showUserSelection()
+    },[])
+
     useEffect(() => {
         setDisplayCount(Math.min(10, filteredMovies.length))
     }, [activeGenre, filteredMovies.length])
@@ -84,7 +103,7 @@ export default function HomePageClient({initialShows , languages , initialGenres
         <>
 
         <PopUpStatesProvider>
-            <HomeSilderSection medias={showPosters} isFavourites={isFavourites} session={session}/>
+            <HomeSilderSection medias={showPosters} isFavourites={favourites} session={session}/>
             
                 <div className="border-b w-full border-[rgba(255,255,255,0.1)]">
 
@@ -116,7 +135,7 @@ export default function HomePageClient({initialShows , languages , initialGenres
                                 <FavCard 
                                     media={show}
                                     key={show._id}
-                                    isFavourite={isFavourites.has(show._id)}
+                                    isFavourite={favourites.has(show._id)}
                                     isOverrated={overratedVotes.has(show._id)}
                                     isUnderrated={underratedVotes.has(show._id)}
                                     session={session}

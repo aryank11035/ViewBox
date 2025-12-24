@@ -1,14 +1,10 @@
 
 
 import { getMovie, getRelatedMovies } from "../actions/getMovie"
-import { getFavouritesIds } from "../actions/favourites"
 import {  getMoviesLanguages } from "../actions/home"
 import { getGenres } from "../actions/getGenres"
 import HomePageClient from "@/components/home/home-page"
-import { getAllOverratedVotes, getAllUnderratedVotes } from "../actions/votes"
 import { auth } from "@/auth"
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton"
-import 'react-loading-skeleton/dist/skeleton.css'
 export const revalidate = 300;
 
 
@@ -16,21 +12,20 @@ export default async function HomePage(){
 
     const session = await auth()
 
-    const shows = await getMovie() 
-    const showPosters = await getRelatedMovies()
-    const languages = await getMoviesLanguages() as [{code: string , name : string }]
 
+    const [shows , showPosters , languages , genres ] =  await Promise.all([
+        getMovie(),
+        getRelatedMovies(),
+        getMoviesLanguages(),
+        getGenres()
+    ])
 
-
-    const favIds = await getFavouritesIds()
-    const underratedVotes = await getAllUnderratedVotes()
-    const overratedVotes = await getAllOverratedVotes()
-    const genres = await getGenres()
-    
+   
+ 
     return(
         <section className="w-full  mx-auto min-h-screen ">  
 
-            <HomePageClient initialShows={shows} initialGenres={genres} languages={languages} isFavourites={favIds} underratedVotes={underratedVotes} overratedVotes={overratedVotes} showPosters={showPosters} session={session}/>
+            <HomePageClient initialShows={shows} initialGenres={genres} languages={languages} showPosters={showPosters} session={session}/>
 
         </section>
     )
