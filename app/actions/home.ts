@@ -4,6 +4,7 @@ import { Movies } from "@/lib/models"
 import { connectToMongoose } from "@/lib/mongoose"
 import { getMovie } from "./getMovie"
 import { Movie } from "@/schema/type"
+import { unstable_cache } from "next/cache"
 
 export type Language = {
   code : string , 
@@ -11,28 +12,33 @@ export type Language = {
 }
 
 
-export async function getMoviesLanguages() {
-  try {
-    await connectToMongoose();
+export  const  getMoviesLanguages = unstable_cache(
+  async  () => {
+    try {
+      await connectToMongoose();
 
-    const codes = await Movies.distinct("original_language");
+      const codes = await Movies.distinct("original_language");
 
-  
-    const languageNames = new Intl.DisplayNames(['en'], { type: 'language' });
+    
+      const languageNames = new Intl.DisplayNames(['en'], { type: 'language' });
 
-    const fullNames = codes.map(code => ({
-      code,
-      name: languageNames.of(code) ?? code
-    }));
+      const fullNames = codes.map(code => ({
+        code,
+        name: languageNames.of(code) ?? code
+      }));
 
-   
-    return fullNames as Language[];
+    
+      return fullNames as Language[];
 
-  } catch (error) {
-    console.log(error);
-    return [] ;
-  }
-}
+    } catch (error) {
+      console.log(error);
+      return [] ;
+    }
+  },
+  ['languages'],
+  {revalidate : 60 * 10 } 
+
+)
 
 
 

@@ -1,6 +1,6 @@
 'use client'
 import { createContext, ReactNode, useContext, useEffect, useState } from "react"
-import { getFavourites, getFavouritesIds } from "../actions/favourites"
+import {  getFavouritesIds } from "../actions/favourites"
 import { getAllOverratedVotes, getAllUnderratedVotes } from "../actions/votes"
 
  

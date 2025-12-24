@@ -28,7 +28,6 @@ export const getMovie = unstable_cache(
   ['movies-list'], // cache key
   {
     revalidate: 60 * 10, // ⏱️ revalidate every 10 minutes
-    tags: ['movies']
   }
 )
 
@@ -61,7 +60,8 @@ export async function getMovieThroughSearch(str : string ){
         return null
     }
 }
-export async function getRelatedMovies() {
+export const getRelatedMovies = unstable_cache(
+  async () =>  {
     try {
         await connectToMongoose();
 
@@ -74,4 +74,8 @@ export async function getRelatedMovies() {
         console.error(error);
         return [];
     }
-}
+  },
+  ['related-movies'],
+  {revalidate : 60 * 10}
+
+)
