@@ -11,14 +11,16 @@ export default async function HomePage(){
     const session = await auth()
 
 
-    const [shows , showPosters , languages , genres] =  await Promise.all([
+    const [shows , languages , genres] =  await Promise.all([
         getMovie(),
-        getRelatedMovies(),
         getMoviesLanguages(),
         getGenres(),
     ])
 
+
+    const showPosters = shows.sort(() => 0.5 * Math.random()).slice(0,6)
    
+    console.log(showPosters)
  
     return(
         <section className="w-full  mx-auto min-h-screen ">  
