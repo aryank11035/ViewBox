@@ -1,5 +1,5 @@
 
-import { getCachedFavourites, getCachedFavouritesIds, getCachedGenres, getFavourites, getFavouritesGenres, getFavouritesIds } from "../actions/favourites"    
+import { getCachedFavourites, getCachedGenres, getFavouritesIds } from "../actions/favourites"    
 import { Movie } from "@/schema/type"
 import { getAllOverratedVotes, getAllUnderratedVotes } from "../actions/votes"
 import FavCardsPage from "@/components/media/favourite/fav-card-page"

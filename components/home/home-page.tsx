@@ -7,8 +7,6 @@ import LanguageSelect from "./language-option"
 import {  getMoviesByLanguage, Language } from "@/app/actions/home"
 import FavCard from "../media/favourite/fav-card"
 import { PopUpStatesProvider } from "../custom-hooks/hooks"
-import { getFavouritesIds } from "@/app/actions/favourites"
-import { getAllOverratedVotes, getAllUnderratedVotes } from "@/app/actions/votes"
 import { useUserData } from "@/app/context/user-data-provider"
 
 interface HomePageProps {

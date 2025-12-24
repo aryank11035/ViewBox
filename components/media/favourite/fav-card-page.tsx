@@ -19,6 +19,7 @@ interface favMediaProps {
     selectedGenre : string ,
     allGenres : string [],
     showVote ? : boolean ,
+    session ? : any
 }
 
 
